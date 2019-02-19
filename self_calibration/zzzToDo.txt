@@ -1,0 +1,10 @@
+
+Rethink naming for process, triggers etc...
+
+Make the code easy to alter by isolating values that should be altered
+- Produce some sort of documentation...?
+
+Think about how to handle errors in serial connection
+- Handhsakes?
+
+Remove subprocess class and just make process objects within one larger process object for each inidvidual 'trigger'?
