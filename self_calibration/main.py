@@ -16,7 +16,3 @@ while True:
 
     for i in Calibrate.output:
         write_serial(i)
-
-
-    
-

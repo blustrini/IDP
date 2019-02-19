@@ -1,5 +1,9 @@
 '''
 The task the is currently being performed. This will be the most high-level class, so the task must be high-level
+
+N.B. This Task is defined specifically to perform a Calibration task.
+
+Task object should be rewritten generally and class inheritance can be used to perform different tasks.
 '''
 
 class Task():
@@ -11,7 +15,6 @@ class Task():
         '''
         #current state
         self.state = 0
-        self.Actions = Robot_Actions()
 
         stages = [0]
 
