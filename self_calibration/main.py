@@ -12,7 +12,13 @@ Calibrate = Task()
 #main loop
 while True:
     serial_in = read_serial()
-    Calibrate.triggers[serial_in]()
+
+    #feed line into task object
+    try:
+    	Calibrate.triggers[serial_in]()
+    #catch error if no line has been read
+    except KeyError:
+    	pass
 
     for i in Calibrate.output:
         write_serial(i)

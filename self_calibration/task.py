@@ -5,6 +5,7 @@ N.B. This Task is defined specifically to perform a Calibration task.
 
 Task object should be rewritten generally and class inheritance can be used to perform different tasks.
 '''
+from actions import *
 
 class Task():
     def __init__(self):
@@ -15,6 +16,9 @@ class Task():
         '''
         #current state
         self.state = 0
+
+        #modifiable function holding possible actions associated with the task
+        self.Actions = Actions()
 
         stages = [0]
 

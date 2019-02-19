@@ -42,4 +42,3 @@ def write_serial(msg):
         print('Error: Couldn\'t write line to serial')
 
 establish_serial(find_usb_port())
-print(find_usb_port())
