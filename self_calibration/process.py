@@ -16,16 +16,25 @@ class Process():
         stages = [0]
 
         #subprocesses
-        self.Switch_front = Subprocess(self,stages)
-        self.Switch_back = Subprocess(self,stages)
+        self.switch_front = #dictionary
+        self.switch_back = #dictionary
 
         #all possible actions mapped to the corresponding arduino outputs
         self.triggers = {
-        b'switch_front': self.Switch_front,
-        b'switch_back': self.Switch_back}
+        b'switch_front': self.switch_front,
+        b'switch_back': self.switch_back}
 
         #output
         self.output = []
+
+
+
+
+-----------------------
+
+        Process.triggers[read_serial][Process.state]()
+
+
 
 
 
