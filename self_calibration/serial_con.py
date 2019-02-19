@@ -10,10 +10,9 @@ ports = glob.glob('/dev/tty.*')
 
 #finds usb port
 for port_test in ports:
-	if 'usb' in port_test:
+	if 'usbmodem' in port_test:
 		port = port_test
 		break
-
 
 #create serial connection to board
 try:
@@ -24,7 +23,6 @@ except NameError:
 except OSError:
 	raise OSError('Couldn\'t connect to port')
 
-
 def read_serial():
     #read serial output from board
     try:
@@ -33,8 +31,7 @@ def read_serial():
         print('Error: Couldn\'t read line from serial')
 
 def write_serial(msg):
-	try:
-    	board.write(msg)
+    try:
+        board.write(msg)
     except:
-    	print('Error: Couldn\'t write line to serial')
-
+        print('Error: Couldn\'t write line to serial')
