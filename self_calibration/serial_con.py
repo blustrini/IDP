@@ -3,7 +3,6 @@ Establishes serial connection to the arduino
 '''
 import glob
 import serial
-from subprocess import *
 
 def find_usb_port():
     #gets list of ports

@@ -3,18 +3,18 @@ The main loop of the program
 '''
 #import modules
 from serial_con import *
-from process import *
+from task import *
 
 #initialise progress object
-Process = Process()
+Calibrate = Task()
 
 
 #main loop
 while True:
     serial_in = read_serial()
-    Process.triggers[serial_in]()
+    Calibrate.triggers[serial_in]()
 
-    for i in Process.output:
+    for i in Calibrate.output:
         write_serial(i)
 
 
