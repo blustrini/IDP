@@ -11,10 +11,13 @@ class Process():
         #stages: idle, align_back, goto_front, goto_back, calibration_test
         #current state
         self.state = 0
+        self.Actions = Robot_Actions()
+
+        stages = [0]
 
         #subprocesses
-        self.Switch_front = Subprocess()
-        self.Switch_back = Subprocess()
+        self.Switch_front = Subprocess(self,stages)
+        self.Switch_back = Subprocess(self,stages)
 
         #all possible actions mapped to the corresponding arduino outputs
         self.triggers = {
