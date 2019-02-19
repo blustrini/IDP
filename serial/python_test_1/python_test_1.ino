@@ -9,7 +9,7 @@ void setup() {
 // the loop function runs over and over again forever
 void loop() {
   
-  if (Serial.read()==1){
+  if (Serial.read()=="led_on"){
     
     digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
     delay(100);                       // wait for a second
