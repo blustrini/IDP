@@ -7,5 +7,5 @@ left/right is taken w.r.t. view from back of robot
 drive forwards = move_forwards
 drive back = move_back
 turn left = move_left
-turn right = mov_right
+turn right = move_right
 stop = move_stop
