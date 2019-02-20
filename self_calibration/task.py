@@ -52,17 +52,6 @@ class Task():
         self.output = []
 
 
-'''
-The end goal is to be able to call the following from the main loop:
-- Task.triggers[read_serial][Task.state]()
-
-i.e. identify what the arduino has said, and interpret the trigger in the context of the current task being performed
-
-Currently, the output is saved in an attribute of the main Task class
-'''
-
-
-
 
 
 

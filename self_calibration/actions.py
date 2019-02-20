@@ -5,7 +5,7 @@ class Actions():
 		self.actions = dict
 
 
-	def assemble_func(self,data):
+	def get_instructions(self,data):
 		#create function
 		list = []
 		for i in data[0]:
