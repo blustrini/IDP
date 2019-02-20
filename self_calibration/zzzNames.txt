@@ -9,6 +9,7 @@ MOTOR INSTRUCTIONS
 drive forwards = move_forwards
 drive back = move_back
 turn left = move_left
+<<<<<<< HEAD
 turn right = mov_right
 stop = move_stop
 
@@ -16,3 +17,7 @@ GENERAL INSTRUCTIONS
 
 halt everything = loop_stop
 resume = loop_resume
+=======
+turn right = move_right
+stop = move_stop
+>>>>>>> 6a1dc1605e7870ad2e451ddb0a890decdfd75e13
