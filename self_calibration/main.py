@@ -14,38 +14,38 @@ print('board')
 #initialise progress object
 #Calibrate = Task()
 
-n = 10
-
-i = -1
+# code to test serial input buffer working
+# n = 10
+# i = -1
 #main loop
-while True:
-	i = i+1
-	i = i%10
+# while True:
+# 	i = i+1
+# 	i = i%10
 
-	if i != 0:
-	    serial_in = read_next_line(board)
-	    print('line: {}'.format(serial_in))
+# 	if i != 0:
+# 	    serial_in = read_next_line(board)
+# 	    print('line: {}'.format(serial_in))
 
-	else:
-		print('buffer size: {}'.format(board.inWaiting()))
-		serial_in = read_latest_line(board)
-		for j in serial_in[1]:
-			print('line: {}'.format(j))
+# 	else:
+# 		print('buffer size: {}'.format(board.inWaiting()))
+# 		serial_in = read_latest_line(board)
+# 		for j in serial_in[1]:
+# 			print('line: {}'.format(j))
 
 	
 
-'''
-#feed line into task object
-try:
-	instructions = Calibrate.Actions.get_instructions(Calibrate.triggers[serial_in][Calibrate.state])
-#catch error if no line has been read
-except KeyError:
-	instructions = []
+while True:
+	#feed line into task object
+	try:
+		instructions = Calibrate.Actions.get_instructions(Calibrate.triggers[serial_in][Calibrate.state])
+	#catch error if no line has been read
+	except KeyError:
+		instructions = []
 
-#write all instructions to serial
-for i in instructions:
-    write_serial(i)
-'''
+	#write all instructions to serial, DATA STRUCTURE NEEDS RETHINKING!
+	for i in instructions:
+	    write_serial(i)
+
 '''
 Think about timing here, especailly in the write_serial loop. Perhaps some handshaking is required, etc...
 Furthermore, serial_in could be modified to return a list of the most important triggers from the serial since the last reset of the loop

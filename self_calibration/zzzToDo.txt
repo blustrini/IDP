@@ -28,6 +28,8 @@ Write the self-calibration algorithm using the dimensions of the arena. (Maybe e
 - Maybe trigger upon changing state, and write change state method in Task object
 	that performs actions based on state change!
 
+Implement instruction write onto the serial
+
 When buffer is too large, search through the buffer for most important functions
 
 Eventually, rewrite the main processor objects to be able to be applied for any task
