@@ -9,7 +9,7 @@ Make the code easy to alter by isolating values that should be altered
 - Produce some sort of documentation...?
 
 ----------------------------
-ARDUINO IMPLEMENTATION
+ARDUINO IMPLEMENTATION - RAY
 ----------------------------
 
 Write arduino functions for various instructions from python to arduino (convert instruction like turn left to motor controls).
@@ -17,14 +17,18 @@ Write arduino functions for various instructions from python to arduino (convert
 Think about how to handle buffer getting too large
 - Temporarily stop Arduino loop, let python catch up
 
+Learn how to write goddamn strings in c++ (have fun Ray lmao)
+
 ----------------------------
-MAIN PYTHON PROCESS
+MAIN PYTHON PROCESS - BERNARDO
 ----------------------------
 
 Write the self-calibration algorithm using the dimensions of the arena. (Maybe expect a user input or something)
 - One problem is how to trigger additional functions through dictionary process.
 - Maybe trigger upon changing state, and write change state method in Task object
 	that performs actions based on state change!
+
+When buffer is too large, search through the buffer for most important functions
 
 ----------------------------
 DEPRECATED
