@@ -28,7 +28,8 @@ while True:
 
 	else:
 		serial_in = read_latest_line(board)
-		print(serial_in[1])
+		for i in serial_in[1]:
+			
 
 	
 
