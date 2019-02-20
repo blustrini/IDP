@@ -17,14 +17,31 @@ class Task():
         #current state
         self.state = 0
 
+        action_dict = {
+        'f' : b'move_forwards',
+        'b' : b'move_back',
+        's' : b'move_stop'
+        }
+
         #modifiable function holding possible actions associated with the task
-        self.Actions = Actions()
+        self.Actions = Actions(self,action_dict)
 
         stages = [0]
 
         #dictionaries represent reaction to trigger based on current state
-        self.switch_front = {}#dictionary
-        self.switch_back = {}#dictionary
+        self.switch_front = {
+        0 : (('b'),1),          #move backward, goto state 1
+        1 : ((),1),             #ignore, stay in state 1
+        2 : (('s','b'),3),      #stop, then move backward, goto state 3
+        3 : ((),3),             #ignore, stay in state 3
+        4 : (('s'),0) }         #stop, goto idle
+
+        self.switch_back = {
+        0 : (('b'),1),          #move backward, goto state 1
+        1 : (('s','f'),2),      #stop, move forward, goto state 2
+        2 : ((),2),             #ignore, stay in state 2
+        3 : (('s','f'),4),      #stop, move forward, goto state 4
+        4 : ((),4) }            #ignore, stay in state 4
 
         #all possible actions mapped to the corresponding arduino outputs
         self.triggers = {
