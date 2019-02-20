@@ -5,7 +5,6 @@ N.B. This Task is defined specifically to perform a Calibration task.
 
 Task object should be rewritten generally and class inheritance can be used to perform different tasks.
 '''
-from actions import *
 import time
 
 class Task():
