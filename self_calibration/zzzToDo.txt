@@ -30,8 +30,11 @@ Write the self-calibration algorithm using the dimensions of the arena. (Maybe e
 
 When buffer is too large, search through the buffer for most important functions
 
+Eventually, rewrite the main processor objects to be able to be applied for any task
+	upon initialisation by passing dictionaries into it
+
 ----------------------------
-DEPRECATED
+MIGHT BE USEFUL LATER
 ----------------------------
 
 {How to handle interrupts from python? (research)} (not rly useful) (try, catch)
