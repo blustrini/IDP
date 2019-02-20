@@ -5,8 +5,6 @@ ToDo List
 STYLE CHOICES
 ----------------------------
 
-Rethink naming for process, triggers etc...
-
 Make the code easy to alter by isolating values that should be altered
 - Produce some sort of documentation...?
 
@@ -16,20 +14,21 @@ ARDUINO IMPLEMENTATION
 
 Write arduino functions for various instructions from python to arduino (convert instruction like turn left to motor controls).
 
-Think about how to handle errors in serial connection
-- Handhsakes?
-
-Remove port dependency of serial connection
+Think about how to handle buffer getting too large
+- Temporarily stop Arduino loop, let python catch up
 
 ----------------------------
 MAIN PYTHON PROCESS
 ----------------------------
 
-Remove subprocess class and just make process objects within one larger process object for each inidvidual 'trigger'?
-
 Write the self-calibration algorithm using the dimensions of the arena. (Maybe expect a user input or something)
+- One problem is how to trigger additional functions through dictionary process.
+- Maybe trigger upon changing state, and write change state method in Task object
+	that performs actions based on state change!
 
-Write 'subprocesses for each expected trigger from arduino, depending on the stage
+----------------------------
+DEPRECATED
+----------------------------
 
-How to handle interrupts from python? (research)
+{How to handle interrupts from python? (research)} (not rly useful) (try, catch)
 
