@@ -13,8 +13,7 @@ class Actions():
 
 		#set state
 		self.Master.state = data[1]
-
-
+		
 		#return list
 		return list
 
