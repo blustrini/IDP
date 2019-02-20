@@ -24,11 +24,14 @@ while True:
 
 	if i != 0:
 	    serial_in = read_next_line(board)
+	    print('line: {}'.format(serial_in))
 
 	else:
 		serial_in = read_latest_line(board)
+		for i in serial_in[1]:
+			
 
-	print('line: {}'.format(serial_in))
+	
 
 '''
 #feed line into task object

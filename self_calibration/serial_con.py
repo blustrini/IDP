@@ -39,9 +39,13 @@ def read_next_line(board):
 
 def read_latest_line(board):
     latest = board.readline()
-    while board.inWaiting() > 0:
+    discarded = [latest]
+    i = 0
+    while board.inWaiting() > 0 and i < 100000:
+        i+= 1
         latest = board.readline()
-    return latest
+        discarded.append(latest)
+    return (latest,discarded)
 
 def write_serial(msg):
     try:
