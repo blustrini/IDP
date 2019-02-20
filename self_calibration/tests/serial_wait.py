@@ -1,8 +1,7 @@
-'''
-Establishes serial connection to the arduino
-'''
+
 import glob
 import serial
+import time
 
 def find_usb_port():
     #gets list of ports
@@ -28,23 +27,34 @@ def establish_serial(port):
         return 0
     return board
 
-def read_next_line(board):
+def read_serial(board):
     #read serial output from board
     try:
         line = board.readline()
+        print(line.decode())
         return(line)
     except:
         print('Failed')
        # print('Error: Couldn\'t read line from serial')
-
-def read_latest_line(board):
-    latest = board.readline()
-    while board.inWaiting() > 0:
-        latest = board.readline()
-    return latest
 
 def write_serial(msg):
     try:
         board.write(msg)
     except:
         print('Error: Couldn\'t write line to serial')
+
+board = establish_serial(find_usb_port())
+
+
+def getLatestStatus(board):
+    status = board.readline()
+    while board.inWaiting() > 0:
+        status = board.readline()
+    return status
+
+while True:
+    line = board.readline()
+    print(line)
+    line2 = getLatestStatus(board)
+    print(line2)
+
