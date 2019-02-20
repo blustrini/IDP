@@ -12,7 +12,8 @@ Make the code easy to alter by isolating values that should be altered
 ARDUINO IMPLEMENTATION - RAY
 ----------------------------
 
-Write arduino functions for various instructions from python to arduino (convert instruction like turn left to motor controls).
+Write arduino functions for various instructions from python to arduino 
+	(convert instruction like turn left to motor controls).
 
 Think about how to handle buffer getting too large
 - Temporarily stop Arduino loop, let python catch up
@@ -20,6 +21,9 @@ Think about how to handle buffer getting too large
 Learn how to write goddamn strings in c++ (have fun Ray lmao)
 
 Rewrite arduino instructions to be as small as possible (memory-wise) to decrease communication time
+
+Change naming conventions for Arduino output onto serial to make it easy to filter 
+	out certain data (e.g. a certain prefix for ultrasound sensors so they can be quickly removed from buffer)
 
 ----------------------------
 MAIN PYTHON PROCESS - BERNARDO

@@ -1,5 +1,10 @@
 '''
 Establishes serial connection to the arduino
+
+Possible changed:
+The data structure/function naming for retrieving ht ebuffer can be improved
+- Think about how it will be calle din main function
+-- Also, it will probably need to be searchable
 '''
 import glob
 import serial
