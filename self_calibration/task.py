@@ -6,6 +6,7 @@ N.B. This Task is defined specifically to perform a Calibration task.
 Task object should be rewritten generally and class inheritance can be used to perform different tasks.
 '''
 from actions import *
+import time
 
 class Task():
     def __init__(self):
@@ -22,11 +23,6 @@ class Task():
         'b' : b'move_back',
         's' : b'move_stop'
         }
-
-        #modifiable function holding possible actions associated with the task
-        self.Actions = Actions(self,action_dict)
-
-        stages = [0]
 
         #dictionaries represent reaction to trigger based on current state
         self.switch_front = {
@@ -48,10 +44,33 @@ class Task():
         b'switch_front': self.switch_front,
         b'switch_back': self.switch_back}
 
+        #all processes to be carried out on state switches
+        self.processes = {
+        #maps state switch to process
+        }
+
         #output
         self.output = []
 
+    #get list of instructions, in the given order
+    def get_instructions(self,data):
+        #initialise list
+        list = []
+        #get instructions corresponding to each item in list
+        for i in data[0]:
+            list.append(self.action_dict[i])
+        #change state
+        self.change_state(data[1])
+        #return list of instructions ready for writing on serial
+        return list
 
+    #change state and perform any functions associated with change of state
+    def change_state(self,next_state):
+        '''
+        need to add a dictionary that maps state switch to required processing functions
+        '''
+        #update state
+        self.state = next_state
 
 
 

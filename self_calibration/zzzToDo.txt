@@ -19,6 +19,8 @@ Think about how to handle buffer getting too large
 
 Learn how to write goddamn strings in c++ (have fun Ray lmao)
 
+Rewrite arduino instructions to be as small as possible (memory-wise) to decrease communication time
+
 ----------------------------
 MAIN PYTHON PROCESS - BERNARDO
 ----------------------------

@@ -37,7 +37,7 @@ print('board')
 while True:
 	#feed line into task object
 	try:
-		instructions = Calibrate.Actions.get_instructions(Calibrate.triggers[serial_in][Calibrate.state])
+		instructions = Calibrate.get_instructions(Calibrate.triggers[serial_in][Calibrate.state])
 	#catch error if no line has been read
 	except KeyError:
 		instructions = []
