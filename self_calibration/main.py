@@ -19,7 +19,7 @@ n = 10
 i = -1
 #main loop
 while True:
-	i += 1
+	i = i+1
 	i = i%10
 
 	if i != 0:
@@ -27,9 +27,10 @@ while True:
 	    print('line: {}'.format(serial_in))
 
 	else:
+		print('buffer size: {}'.format(board.inWaiting()))
 		serial_in = read_latest_line(board)
-		for i in serial_in[1]:
-			
+		for j in serial_in[1]:
+			print('line: {}'.format(j))
 
 	
 
