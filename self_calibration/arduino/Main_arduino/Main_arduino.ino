@@ -12,6 +12,12 @@ int delayTime = 10000;
 //Switch interrupt pin
 const byte switchFrontPin = 2;
 const byte switchBackPin = 3;
+
+//TESTTT low and high pins
+int low = 4;
+int high = 5;
+int low = 6;
+int high = 7;
                      
 //Motor functions
 void MoveForward() {
