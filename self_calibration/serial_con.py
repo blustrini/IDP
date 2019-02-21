@@ -34,14 +34,17 @@ def establish_serial(port):
         return 0
     return board
 
-def read_next_line(board,decode=False):
+def read_next_line(board,decode=False,strip=True):
     #read serial output from board
     try:
         line = board.readline()
         if not decode:
             return(line)
         else:
-            return(line.decode())
+            if not strip:
+                return(line.decode())
+            else:
+                return(line.decode().rstrip('\r\n'))
     except:
         print('Failed')
        # print('Error: Couldn\'t read line from serial')

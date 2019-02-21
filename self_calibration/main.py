@@ -35,8 +35,7 @@ Calibrate = Task()
     
 
 while True:
-    serial_in = read_next_line(board,decode=True)
-    serial_in = serial_in.rstrip("\r\n")
+    serial_in = read_next_line(board,decode=True,strip=True)
     print(serial_in)
     #feed line into task object
     try:
@@ -66,6 +65,8 @@ while True:
     for i in Calibrate.output:
         write_serial(i,board)
         Calibrate.output.remove(i)
+
+    serial_in = ''
 
 '''
 Think about timing here, especailly in the write_serial loop. Perhaps some handshaking is required, etc...
