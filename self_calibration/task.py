@@ -51,6 +51,24 @@ class Task():
         #output
         self.output = []
 
+        #processing actions
+        self.processes = {
+        '12' : (self.start_timer),
+        '23' : (self.end_timer,self.start_timer),
+        '34' : (self.end_timer,...),#calc calibration
+        '40' : (self.print_calibration_data)
+        }
+
+        #processing functions -----------------------
+
+        #initialise time saving attributes
+        self.time = 0
+        self.time_list = []
+        #initialise calibration value
+        self.calibrated_value = 1
+
+
+
     #get list of instructions, in the given order
     def get_instructions(self,data):
         #initialise list
@@ -65,12 +83,29 @@ class Task():
 
     #change state and perform any functions associated with change of state
     def change_state(self,next_state):
-        '''
-        need to add a dictionary that maps state switch to required processing functions
-        '''
+        #create the key for the processes dictionary
+        key = str(self.state)+str(next_state)
+        #call the relevant processes
+        for i in self.processes[key]:
+            i.()
         #update state
         self.state = next_state
 
+        return 1
+
+    def start_timer(self):
+        self.time = time.time()
+        return 1
+
+    def end_timer(self):
+        end_time = time.time()
+        self.time_list.append(end_time-self.time)
+        self.time = 0
+        return 1
+
+    def print_calibration_data(self):
+        print(self.calibration_value)
+        return 1
 
 
     
