@@ -45,8 +45,8 @@ class Task():
 
         #all possible actions mapped to the corresponding arduino outputs
         self.triggers = {
-        b'sf': self.switch_front,
-        b'sb': self.switch_back}
+        b"sf\\r\\n": self.switch_front,
+        b'sb\\r\\n': self.switch_back}
 
         #all processes to be carried out on state switches
         self.processes = {

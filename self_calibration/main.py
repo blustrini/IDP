@@ -36,14 +36,17 @@ Calibrate = Task()
 
 while True:
 	serial_in = read_next_line(board)
+	print(serial_in)
 	#feed line into task object
 	try:
+		#adds responses to arduino interrupts to output
 		Calibrate.get_instructions(Calibrate.triggers[serial_in][Calibrate.state])
 	#catch error if no line has been read
 	except KeyError:
-		pass
-
+		print('error')
+	#adds output of processin gonto output
 	Calibrate.update()
+
 	#write all instructions to serial, DATA STRUCTURE NEEDS RETHINKING!
 	for i in Calibrate.output:
 	    write_serial(i)
