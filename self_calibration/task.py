@@ -55,7 +55,7 @@ class Task():
         self.processes = {
         '12' : (self.start_timer),
         '23' : (self.end_timer,self.start_timer),
-        '34' : (self.end_timer,...),#calc calibration
+        '34' : (self.end_timer,self.calibrate),#calc calibration
         '40' : (self.print_calibration_data)
         }
 

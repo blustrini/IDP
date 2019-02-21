@@ -44,7 +44,7 @@ while True:
 		arduino_instructions = []
 
 	#write all instructions to serial, DATA STRUCTURE NEEDS RETHINKING!
-	for i in instructions:
+	for i in arduino_instructions:
 	    write_serial(i)
 
 '''
