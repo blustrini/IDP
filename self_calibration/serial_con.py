@@ -42,7 +42,7 @@ def read_next_line(board):
         print('Failed')
        # print('Error: Couldn\'t read line from serial')
 
-def read_latest_line(board):
+def flush_buffer(board):
     latest = board.readline()
     discarded = [latest]
     i = 0

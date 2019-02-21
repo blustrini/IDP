@@ -18,9 +18,9 @@ class Task():
         self.state = 0
 
         action_dict = {
-        'f' : b'move_forwards',
-        'b' : b'move_back',
-        's' : b'move_stop'
+        'f' : 1,
+        'b' : 2,
+        's' : 5
         }
 
         #dictionaries represent reaction to trigger based on current state
@@ -40,8 +40,8 @@ class Task():
 
         #all possible actions mapped to the corresponding arduino outputs
         self.triggers = {
-        b'switch_front': self.switch_front,
-        b'switch_back': self.switch_back}
+        b'sf': self.switch_front,
+        b'sb': self.switch_back}
 
         #all processes to be carried out on state switches
         self.processes = {

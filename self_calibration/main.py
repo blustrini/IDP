@@ -12,7 +12,7 @@ board = establish_serial(find_usb_port())
 print('board')
 
 #initialise progress object
-#Calibrate = Task()
+Calibrate = Task()
 
 # code to test serial input buffer working
 # n = 10
@@ -28,19 +28,20 @@ print('board')
 
 # 	else:
 # 		print('buffer size: {}'.format(board.inWaiting()))
-# 		serial_in = read_latest_line(board)
+# 		serial_in = flush_buffer(board)
 # 		for j in serial_in[1]:
 # 			print('line: {}'.format(j))
 
 	
 
 while True:
+	serial_in = read_next_line(board)
 	#feed line into task object
 	try:
-		instructions = Calibrate.get_instructions(Calibrate.triggers[serial_in][Calibrate.state])
+		arduino_instructions = Calibrate.get_instructions(Calibrate.triggers[serial_in][Calibrate.state])
 	#catch error if no line has been read
 	except KeyError:
-		instructions = []
+		arduino_instructions = []
 
 	#write all instructions to serial, DATA STRUCTURE NEEDS RETHINKING!
 	for i in instructions:
