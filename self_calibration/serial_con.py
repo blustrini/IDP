@@ -8,6 +8,7 @@ The data structure/function naming for retrieving ht ebuffer can be improved
 '''
 import glob
 import serial
+import struct
 
 def find_usb_port():
     #gets list of ports
@@ -15,15 +16,15 @@ def find_usb_port():
 
     #finds usb port
     for port_test in ports:
-    	if 'usb' in port_test:
-    		return port_test
+        if 'usb' in port_test:
+            return port_test
     
     return 0
 
 def establish_serial(port):
     #create serial connection to board
     try:
-    	board = serial.Serial(port,9600)
+        board = serial.Serial(port,9600)
     #raise error if no usb port is found
     except ValueError:
         print('ValueError: No USB port found')
@@ -37,10 +38,10 @@ def read_next_line(board,decode=False):
     #read serial output from board
     try:
         line = board.readline()
-        if !decode:
-        	return(line)
+        if not decode:
+            return(line)
         else:
-        	return(line.decode())
+            return(line.decode())
     except:
         print('Failed')
        # print('Error: Couldn\'t read line from serial')
@@ -55,8 +56,12 @@ def flush_buffer(board):
         discarded.append(latest)
     return (latest,discarded)
 
-def write_serial(msg):
+def write_serial(msg,board):
+    print(msg)
+    msg2 = struct.pack('>B',msg)
+    print(msg2)
     try:
         board.write(msg)
+        board.write(msg2)
     except:
         print('Error: Couldn\'t write line to serial')

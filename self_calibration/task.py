@@ -22,7 +22,7 @@ class Task():
         #current state
         self.state = 0
 
-        action_dict = {
+        self.action_dict = {
         'f' : 1,
         'b' : 2,
         's' : 5
@@ -45,8 +45,8 @@ class Task():
 
         #all possible actions mapped to the corresponding arduino outputs
         self.triggers = {
-        b"sf\\r\\n": self.switch_front,
-        b'sb\\r\\n': self.switch_back}
+        'sf': self.switch_front,
+        'sb': self.switch_back}
 
         #all processes to be carried out on state switches
         self.processes = {
@@ -61,7 +61,8 @@ class Task():
         '12' : (self.start_timer),
         '23' : (self.end_timer,self.start_timer),
         '34' : (self.end_timer,self.calibrate,self.test_calibrate),#calc calibration
-        '40' : (self.print_calibration_data)
+        '40' : (self.print_calibration_data),
+        '22' : (self.drive) #test, remove this
         }
 
         #processing functions -----------------------
@@ -96,11 +97,18 @@ class Task():
         #create the key for the processes dictionary
         key = str(self.state)+str(next_state)
         #call the relevant processes
-        for i in self.processes[key]:
-        	print('{} found in processes dict'.format(i))
-            i()
-        #update state
-        print('state changed {}:{}'.format(self.state,next_state))
+        try:
+            for function in self.processes[key]:
+                print('{} found in processes dict'.format(function))
+                function()
+            #update state
+            print('state changed {}:{}'.format(self.state,next_state))
+        except TypeError:
+            func = self.processes[key]
+            print('{} found in processes dict'.format(func))
+            func()
+        except KeyError:
+            print('{} not in process dict'.format(key))
         self.state = next_state
 
         return 1
@@ -153,6 +161,8 @@ class Task():
                     self.output.append(func)
                 self.clock_list.remove(item)
 
+    def drive(self):
+        self.output.append(1)
         
             
 

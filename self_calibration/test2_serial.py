@@ -1,5 +1,4 @@
 import serial
-from subprocess import *
 import matplotlib.pyplot as plt
 import time
 import glob
@@ -13,10 +12,10 @@ def find_usb_port():
     for port_test in ports:
     	if 'usb' in port_test:
     		return port_test
-    
+    print('no port found')
     return 0
 
-def establish_serial(port):
+def establish_serial(port,board):
     #create serial connection to board
     try:
     	board = serial.Serial(port,9600)
@@ -28,6 +27,8 @@ def establish_serial(port):
         print('OSError: Couldn\'t connect to port')
         return 0
     return 1
+
+board = serial.Serial(find_usb_port(),9600)
 
 while True:
     board.write(b'led_on')
