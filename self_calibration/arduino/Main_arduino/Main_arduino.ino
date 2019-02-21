@@ -79,22 +79,20 @@ void loop() {
 
   //Switch statement
   switch(serialInput) {
-   case '0':
+   case '1':
      MoveForward();
      break;
-   case '1':
+   case '2':
      MoveBackward();
      break;
-   case '2':
+   case '3':
      HardLeft();
      break;
-   case '3':
+   case '4':
      HardRight();
      break;
-   case '4':
+   case '5':
      MoveStop();
      break;
-     
-   //default : //Optional
 }
 }
