@@ -15,6 +15,9 @@ class Task():
                   0         1          2           3            4
         states: idle, align_back, goto_front, goto_back, calibration_test
         '''
+        #initialise output
+        self.output = []
+        #initialise dimension object
         self.Dim = Dim()
         #current state
         self.state = 0
@@ -37,7 +40,7 @@ class Task():
         0 : (('b'),1),          #move backward, goto state 1
         1 : (('s','f'),2),      #stop, move forward, goto state 2
         2 : ((),2),             #ignore, stay in state 2
-        3 : (('s','f'),4),      #stop, move forward, goto state 4
+        3 : (('s'),4),      #stop, move forward, goto state 4
         4 : ((),4) }            #ignore, stay in state 4
 
         #all possible actions mapped to the corresponding arduino outputs
@@ -57,7 +60,7 @@ class Task():
         self.processes = {
         '12' : (self.start_timer),
         '23' : (self.end_timer,self.start_timer),
-        '34' : (self.end_timer,self.calibrate),#calc calibration
+        '34' : (self.end_timer,self.calibrate,self.test_calibrate),#calc calibration
         '40' : (self.print_calibration_data)
         }
 
@@ -68,6 +71,9 @@ class Task():
         self.time_list = []
         #initialise calibration value
         self.calibrated_speed = 1
+
+        #initialise clock_list
+        self.clock_list = [(start_time,amount_need_to_wait,func)]
 
 
 
@@ -81,7 +87,7 @@ class Task():
         #change state
         self.change_state(data[1])
         #return list of instructions ready for writing on serial
-        return list
+        self.output += list
 
     #change state and perform any functions associated with change of state
     def change_state(self,next_state):
@@ -91,29 +97,59 @@ class Task():
         for i in self.processes[key]:
             i()
         #update state
+        print('state changed {}:{}'.format(self.state,next_state))
         self.state = next_state
 
         return 1
 
+    #start a timer
     def start_timer(self):
+        print('timer start')
         self.time = time.time()
         return 1
 
+    #end timer
     def end_timer(self):
         end_time = time.time()
         self.time_list.append(end_time-self.time)
         self.time = 0
+        print('timer end')
         return 1
 
+    #print calibration data
     def print_calibration_data(self):
         print(self.calibrated_speed)
         return 1
     
+    #use timing data to calibrate
     def calibrate(self):
+        print('calibration started')
         av_time = sum(self.time_list)/len(self.time_list)
         speed = (self.Dim.arena_length - self.Dim.robot_length) / av_time
         self.calibrated_speed = speed
+        print('calibration ended')
         return 1
+
+    def test_calibrate(self):
+        #start,wait,func
+        self.output.append(self.action_dict['f'])
+        print('testing calibration, going forward 40')
+        time1 = time.time()
+        wait = 40*self.calibrated_speed
+        func = self.action_dict['s']
+        tuple = (time1,wait,func)
+        self.clock_list.append(tuple)
+        return 1
+
+
+    def update(self):
+        time1 = time.time()
+        for item in self.clock_list:
+            if time-item[0] >= item[1]:
+                for func in item[2]:
+                    self.output.append(func)
+                self.clock_list.remove(item)
+
         
             
 

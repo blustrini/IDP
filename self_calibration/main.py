@@ -38,14 +38,19 @@ while True:
 	serial_in = read_next_line(board)
 	#feed line into task object
 	try:
-		arduino_instructions = Calibrate.get_instructions(Calibrate.triggers[serial_in][Calibrate.state])
+		Calibrate.get_instructions(Calibrate.triggers[serial_in][Calibrate.state])
 	#catch error if no line has been read
 	except KeyError:
-		arduino_instructions = []
+		pass
 
+	Calibrate.update()
 	#write all instructions to serial, DATA STRUCTURE NEEDS RETHINKING!
-	for i in arduino_instructions:
+	for i in Calibrate.output:
 	    write_serial(i)
+	    Calibrate.output.remove(i)
+
+
+	Task.update()
 
 '''
 Think about timing here, especailly in the write_serial loop. Perhaps some handshaking is required, etc...
