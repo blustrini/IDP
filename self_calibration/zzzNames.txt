@@ -6,11 +6,11 @@ left/right is taken w.r.t. view from back of robot
 
 MOTOR INSTRUCTIONS
 
-drive forwards = 0
-drive back = 1
-turn left = 2
-turn right = 3
-stop = 4
+drive forwards = 1
+drive back = 2
+turn left = 3
+turn right = 4
+stop = 5
 
 GENERAL INSTRUCTIONS
 
