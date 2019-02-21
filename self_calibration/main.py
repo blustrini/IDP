@@ -35,15 +35,29 @@ Calibrate = Task()
 	
 
 while True:
-	serial_in = read_next_line(board)
+	serial_in = read_next_line(board,decode=True)
 	print(serial_in)
 	#feed line into task object
+	try:
+		key1 = Calibrate.triggers[serial_in]
+	except KeyError:
+		print('Key: \'{}\' not found in triggers dict'.format(serial_in))
+
+	try:
+		var1 = key1[Calibrate.state]
+	except KeyError:
+		print('Key: \'{}\' not found in triggers dict'.format(Calibrate.state))
+
+	Calibrate.get_instructions(var1)
+
+	'''
 	try:
 		#adds responses to arduino interrupts to output
 		Calibrate.get_instructions(Calibrate.triggers[serial_in][Calibrate.state])
 	#catch error if no line has been read
 	except KeyError:
-		print('error')
+		print('No Key found')
+	'''
 	#adds output of processin gonto output
 	Calibrate.update()
 

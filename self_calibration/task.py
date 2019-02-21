@@ -80,10 +80,12 @@ class Task():
     #get list of instructions, in the given order
     def get_instructions(self,data):
         #initialise list
+        print('begin getting instructions')
         list = []
         #get instructions corresponding to each item in list
         for i in data[0]:
             list.append(self.action_dict[i])
+            print('key {} found in action dict'.format(i))
         #change state
         self.change_state(data[1])
         #return list of instructions ready for writing on serial
@@ -95,6 +97,7 @@ class Task():
         key = str(self.state)+str(next_state)
         #call the relevant processes
         for i in self.processes[key]:
+        	print('{} found in processes dict'.format(i))
             i()
         #update state
         print('state changed {}:{}'.format(self.state,next_state))
