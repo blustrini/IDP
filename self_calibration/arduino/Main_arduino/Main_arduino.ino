@@ -18,7 +18,10 @@ int low1 = 4;
 int high1 = 5;
 int low2 = 6;
 int high2 = 7;
-                     
+
+//Debounce time
+int debounceTime = 300;
+
 //Motor functions
 void MoveForward() {
   myMotor1->setSpeed(motorSpeedFast);
@@ -55,11 +58,17 @@ void MoveStop() {
 
 //Serial output functions
 void switchFrontSerial() {
-  Serial.println("sf");
+  delay(debounceTime);
+  if (digitalRead(switchFrontPin) == HIGH){
+    Serial.write("sf");
+  }
 }
 
 void switchBackSerial() {
-  Serial.println("sb");
+  delay(debounceTime);
+  if (digitalRead(switchBackPin) == HIGH){
+    Serial.write("sb");
+  }
 }
 
 void setup() {
@@ -92,8 +101,6 @@ void loop() {
   
   //Read serial
   int serialInput = Serial.read();
-
-  Serial.println("sb");
 
   //Switch statement
   switch(serialInput) {
