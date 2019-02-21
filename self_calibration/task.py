@@ -106,6 +106,9 @@ class Task():
     def print_calibration_data(self):
         print(self.calibration_value)
         return 1
+    
+    def calibrate(self):
+        
 
 
     
