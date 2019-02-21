@@ -1,6 +1,6 @@
-int buttonPin = 7;
-int low = 8;
-int high = 9;
+int buttonPin = 2;
+int low = 4;
+int high = 5;
 
 void setup() {
   pinMode(high, OUTPUT);
