@@ -73,7 +73,7 @@ class Task():
         self.calibrated_speed = 1
 
         #initialise clock_list
-        self.clock_list = [(start_time,amount_need_to_wait,func)]
+        self.clock_list = []
 
 
 

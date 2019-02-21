@@ -14,10 +14,10 @@ const byte switchFrontPin = 2;
 const byte switchBackPin = 3;
 
 //TESTTT low and high pins
-int low = 4;
-int high = 5;
-int low = 6;
-int high = 7;
+int low1 = 4;
+int high1 = 5;
+int low2 = 6;
+int high2 = 7;
                      
 //Motor functions
 void MoveForward() {
@@ -69,6 +69,16 @@ void setup() {
   Serial.begin(9600);
   delay(1000);
 
+  //low high pins
+  pinMode(high1, OUTPUT);
+  pinMode(low1, OUTPUT);
+  pinMode(high2, OUTPUT);
+  pinMode(low2, OUTPUT);
+  digitalWrite(low2,LOW);
+  digitalWrite(high2, HIGH);
+  digitalWrite(low1,LOW);
+  digitalWrite(high1, HIGH);
+  
   //Attach Front and Back switch interrupt pins
   pinMode(switchFrontPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(switchFrontPin), switchFrontSerial, RISING);
@@ -82,6 +92,8 @@ void loop() {
   
   //Read serial
   int serialInput = Serial.read();
+
+  Serial.println("sb");
 
   //Switch statement
   switch(serialInput) {

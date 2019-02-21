@@ -49,9 +49,6 @@ while True:
 	    write_serial(i)
 	    Calibrate.output.remove(i)
 
-
-	Task.update()
-
 '''
 Think about timing here, especailly in the write_serial loop. Perhaps some handshaking is required, etc...
 Furthermore, serial_in could be modified to return a list of the most important triggers from the serial since the last reset of the loop
