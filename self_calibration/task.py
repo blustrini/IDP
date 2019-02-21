@@ -6,6 +6,7 @@ N.B. This Task is defined specifically to perform a Calibration task.
 Task object should be rewritten generally and class inheritance can be used to perform different tasks.
 '''
 import time
+from dim import *
 
 class Task():
     def __init__(self):
@@ -14,6 +15,7 @@ class Task():
                   0         1          2           3            4
         states: idle, align_back, goto_front, goto_back, calibration_test
         '''
+        self.Dim = Dim()
         #current state
         self.state = 0
 
@@ -65,7 +67,7 @@ class Task():
         self.time = 0
         self.time_list = []
         #initialise calibration value
-        self.calibrated_value = 1
+        self.calibrated_speed = 1
 
 
 
@@ -87,7 +89,7 @@ class Task():
         key = str(self.state)+str(next_state)
         #call the relevant processes
         for i in self.processes[key]:
-            i.()
+            i()
         #update state
         self.state = next_state
 
@@ -104,11 +106,16 @@ class Task():
         return 1
 
     def print_calibration_data(self):
-        print(self.calibration_value)
+        print(self.calibrated_speed)
         return 1
     
     def calibrate(self):
+        av_time = sum(self.time_list)/len(self.time_list)
+        speed = (self.Dim.arena_length - self.Dim.robot_length) / av_time
+        self.calibrated_speed = speed
+        return 1
         
+            
 
 
     
