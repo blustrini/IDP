@@ -9,72 +9,90 @@ int motorSpeedFast = 255;
 int motorSpeedSlow = 180;
 int delayTime = 10000;
 
-//Switch pins
-int switchPinFront = 7;
-int switchPinBack = 3;
-
+//Switch interrupt pin
+const byte switchFrontPin = 2;
+const byte switchBackPin = 3;
+                     
 //Motor functions
-void runForward() {
+void MoveForward() {
   myMotor1->setSpeed(motorSpeedFast);
   myMotor1->run(FORWARD);
   myMotor2->setSpeed(motorSpeedFast);
   myMotor2->run(FORWARD);
 }
 
-void runBackward() {
+void MoveBackward() {
   myMotor1->setSpeed(motorSpeedFast);
   myMotor1->run(BACKWARD);
   myMotor2->setSpeed(motorSpeedFast);
   myMotor2->run(BACKWARD);
 }
 
-void hardLeft() {
+void HardLeft() {
   myMotor1->setSpeed(motorSpeedFast);
   myMotor1->run(FORWARD);
   myMotor2->setSpeed(motorSpeedFast);
   myMotor2->run(BACKWARD);
 }
 
-void hardRight() {
+void HardRight() {
   myMotor1->setSpeed(motorSpeedFast);
   myMotor1->run(BACKWARD);
   myMotor2->setSpeed(motorSpeedFast);
   myMotor2->run(FORWARD);
 }
 
-void moveStop() {
+void MoveStop() {
   myMotor1->setSpeed(0);
   myMotor2->setSpeed(0);
 }
 
+//Serial output functions
+void switchFrontSerial() {
+  Serial.println("sf");
+}
+
+void switchBackSerial() {
+  Serial.println("sb");
+}
+
 void setup() {
   // put your setup code here, to run once:
+
+  //Set up serial port
   Serial.begin(9600);
   delay(1000);
+
+  //Attach Front and Back switch interrupt pins
+  pinMode(switchFrontPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(switchFrontPin), switchFrontSerial, RISING);
+  pinMode(switchBackPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(switchBackPin), switchBackSerial, RISING);
+  
 }
 
 void loop() {
   //Write serial based on sensor output
   
   //Read serial
-  String serialInput = Serial.read();
+  int serialInput = Serial.read();
 
   //Switch statement
   switch(serialInput) {
-   case 'move_forwards:
-     runForward();
+   case '0':
+     MoveForward();
      break;
-   case 'move_back':
-     runBackward();
+   case '1':
+     MoveBackward();
      break;
-   case 'move_left':
-     hardLeft();
+   case '2':
+     HardLeft();
      break;
-   case 'move_right':
-     hardRight();
+   case '3':
+     HardRight();
      break;
-   case 'move_stop':
-     moveStop();
+   case '4':
+     MoveStop();
      break;
      
    //default : //Optional
