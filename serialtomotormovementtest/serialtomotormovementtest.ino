@@ -11,23 +11,41 @@ void MoveForward() {
   myMotor1->setSpeed(motorSpeedFast);
   myMotor1->run(FORWARD);
   myMotor2->setSpeed(motorSpeedFast);
+  myMotor2->run(BACKWARD);
+}
+
+void MoveBackward() {
+  myMotor1->setSpeed(motorSpeedFast);
+  myMotor1->run(BACKWARD);
+  myMotor2->setSpeed(motorSpeedFast);
   myMotor2->run(FORWARD);
 }
 
 void setup() {
   // put your setup code here, to run once:
   //Set up serial port
+  AFMS.begin();
+  //MoveForward();
   Serial.begin(9600);
-  delay(1000);
+  delay(4000);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   //Read serial
-  int serialInput = Serial.read();
-
+  byte serialInput = Serial.read();
+  //Serial.println(serialInput);
+  if (serialInput == 255){
+    //Serial.println(serialInput);
+    //MoveForward();
+  }
   if (serialInput == 1){
+    Serial.println(serialInput);
     MoveForward();
+  }
+  else if (serialInput == 2){
+    Serial.println(serialInput);
+    MoveBackward();
   }
   
 }

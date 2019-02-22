@@ -20,7 +20,7 @@ static unsigned long lastInterruptTime = 0;
 void switchFrontSerial() {
   unsigned long interruptTime = millis();
   if (interruptTime - lastInterruptTime > debounceTime){
-    Serial.write("sf");
+    Serial.println(3);
   }
   lastInterruptTime = interruptTime;
 }
@@ -28,7 +28,7 @@ void switchFrontSerial() {
 void switchBackSerial() {
   unsigned long interruptTime = millis();
   if (interruptTime - lastInterruptTime > debounceTime){
-    Serial.write("sb");
+    Serial.println(4);
   }
   lastInterruptTime = interruptTime;
 }

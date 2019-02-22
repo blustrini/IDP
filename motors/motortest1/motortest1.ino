@@ -49,13 +49,13 @@ void setup() {
 
 void loop() {
   //if switch front is pressed, move backwards
-  if (digitalRead(switchPinFront) == HIGH){
-    runBackward();
-  }
+  //if (digitalRead(switchPinFront) == HIGH){
+    //runBackward();
+  //}
   //if switch back switch is pressed, move forward
-  if (digitalRead(switchPinBack) == HIGH){
-    runForward();
-  }
-
+  //if (digitalRead(switchPinBack) == HIGH){
+    //runForward();
+  //}
+  
 
 }

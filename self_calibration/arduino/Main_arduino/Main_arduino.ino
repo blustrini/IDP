@@ -20,7 +20,7 @@ int low2 = 6;
 int high2 = 7;
 
 //Debounce time
-int debounceTime = 300;
+int debounceTime = 1000;
 //Last interrupt
 static unsigned long lastInterruptTime = 0;
 
@@ -29,14 +29,14 @@ void MoveForward() {
   myMotor1->setSpeed(motorSpeedFast);
   myMotor1->run(FORWARD);
   myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(FORWARD);
+  myMotor2->run(BACKWARD);
 }
 
 void MoveBackward() {
   myMotor1->setSpeed(motorSpeedFast);
   myMotor1->run(BACKWARD);
   myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(BACKWARD);
+  myMotor2->run(FORWARD);
 }
 
 void HardLeft() {
@@ -62,7 +62,7 @@ void MoveStop() {
 void switchFrontSerial() {
   unsigned long interruptTime = millis();
   if (interruptTime - lastInterruptTime > debounceTime){
-    Serial.write("sf");
+    Serial.println(3);
   }
   lastInterruptTime = interruptTime;
 }
@@ -70,7 +70,7 @@ void switchFrontSerial() {
 void switchBackSerial() {
   unsigned long interruptTime = millis();
   if (interruptTime - lastInterruptTime > debounceTime){
-    Serial.write("sb");
+    Serial.println(4);
   }
   lastInterruptTime = interruptTime;
 }
@@ -78,9 +78,12 @@ void switchBackSerial() {
 void setup() {
   // put your setup code here, to run once:
 
+  //Begin Motors
+  AFMS.begin();
+  
   //Set up serial port
   Serial.begin(9600);
-  delay(1000);
+  //delay(1000);
 
   //low high pins
   pinMode(high1, OUTPUT);
@@ -104,24 +107,30 @@ void loop() {
   //Write serial based on sensor output
   
   //Read serial
-  int serialInput = Serial.read();
+  byte serialInput = Serial.read();
 
   //Switch statement
+  const byte a = 1;
+  const byte b = 2;
+  const byte c = 5;
+  
   switch(serialInput) {
-   case '1':
+   case a:
      MoveForward();
      break;
-   case '2':
+   case b:
      MoveBackward();
      break;
-   case '3':
-     HardLeft();
-     break;
-   case '4':
-     HardRight();
-     break;
-   case '5':
+   case c:
      MoveStop();
      break;
+     /*
+   case 4:
+     HardRight();
+     break;
+   case c:
+     MoveStop();
+     break;
+     */
 }
 }
