@@ -21,6 +21,8 @@ int high2 = 7;
 
 //Debounce time
 int debounceTime = 300;
+//Last interrupt
+static unsigned long lastInterruptTime = 0;
 
 //Motor functions
 void MoveForward() {
@@ -58,17 +60,19 @@ void MoveStop() {
 
 //Serial output functions
 void switchFrontSerial() {
-  delay(debounceTime);
-  if (digitalRead(switchFrontPin) == HIGH){
+  unsigned long interruptTime = millis();
+  if (interruptTime - lastInterruptTime > debounceTime){
     Serial.write("sf");
   }
+  lastInterruptTime = interruptTime;
 }
 
 void switchBackSerial() {
-  delay(debounceTime);
-  if (digitalRead(switchBackPin) == HIGH){
+  unsigned long interruptTime = millis();
+  if (interruptTime - lastInterruptTime > debounceTime){
     Serial.write("sb");
   }
+  lastInterruptTime = interruptTime;
 }
 
 void setup() {

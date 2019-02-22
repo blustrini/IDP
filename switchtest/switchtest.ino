@@ -14,7 +14,7 @@ void setup() {
   digitalWrite(high2, HIGH);
   digitalWrite(low1,LOW);
   digitalWrite(high1, HIGH);
-  pinMode(buttonPin1, INPUT);
+  pinMode(buttonPin1, INPUT); 
   pinMode(buttonPin2, INPUT);
   pinMode(LED_BUILTIN, OUTPUT);
 }
