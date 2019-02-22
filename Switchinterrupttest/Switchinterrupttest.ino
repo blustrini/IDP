@@ -13,6 +13,9 @@ int debounceTime = 300;
 //Last interrupt
 static unsigned long lastInterruptTime = 0;
 
+//Button state
+//bool buttonState = true;
+
 //Serial output functions
 void switchFrontSerial() {
   unsigned long interruptTime = millis();
