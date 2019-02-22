@@ -36,19 +36,26 @@ Calibrate = Task()
 
 while True:
     serial_in = read_next_line(board,decode=True,strip=True)
-    print(serial_in)
+    if serial_in != None:
+        print(serial_in)
     #feed line into task object
     try:
         key1 = Calibrate.triggers[serial_in]
-    except KeyError:
-        print('Key: {} not found in triggers dict'.format(serial_in))
+    except:
+        #print('Key: {} not found in triggers dict'.format(serial_in))
+        pass
 
     try:
         var1 = key1[Calibrate.state]
-    except KeyError:
-        print('Key: \'{}\' not found in triggers dict'.format(Calibrate.state))
+    except:
+        #print('Key: \'{}\' not found in triggers dict'.format(Calibrate.state))
+        pass
 
-    Calibrate.get_instructions(var1)
+    try:
+        Calibrate.get_instructions(var1)
+    except:
+        #print('var1 probably not defined')
+        pass
 
     '''
     try:
@@ -62,9 +69,12 @@ while True:
     Calibrate.update()
 
     #write all instructions to serial, DATA STRUCTURE NEEDS RETHINKING!
+    #print(Calibrate.output)
     for i in Calibrate.output:
         write_serial(i,board)
-        Calibrate.output.remove(i)
+
+    Calibrate.output = []
+    var1,key1 = None,None
 
     serial_in = ''
 

@@ -23,9 +23,9 @@ class Task():
         self.state = 0
 
         self.action_dict = {
-        'f' : 1,
-        'b' : 2,
-        's' : 5
+        'f' : b'\x01',
+        'b' : b'\x02',
+        's' : b'\x05'
         }
 
         #dictionaries represent reaction to trigger based on current state
@@ -45,8 +45,8 @@ class Task():
 
         #all possible actions mapped to the corresponding arduino outputs
         self.triggers = {
-        'sf': self.switch_front,
-        'sb': self.switch_back}
+        '3' : self.switch_front,
+        '4' : self.switch_back}
 
         #all processes to be carried out on state switches
         self.processes = {
@@ -81,7 +81,7 @@ class Task():
     #get list of instructions, in the given order
     def get_instructions(self,data):
         #initialise list
-        print('begin getting instructions')
+        #print('begin getting instructions')
         list = []
         #get instructions corresponding to each item in list
         for i in data[0]:
@@ -102,14 +102,15 @@ class Task():
                 print('{} found in processes dict'.format(function))
                 function()
             #update state
-            print('state changed {}:{}'.format(self.state,next_state))
         except TypeError:
             func = self.processes[key]
-            print('{} found in processes dict'.format(func))
             func()
         except KeyError:
-            print('{} not in process dict'.format(key))
+            pass
+            #print('{} not in process dict'.format(key))
+        print('state changed {}:{}'.format(self.state,next_state))            
         self.state = next_state
+
 
         return 1
 
@@ -136,9 +137,10 @@ class Task():
     def calibrate(self):
         print('calibration started')
         av_time = sum(self.time_list)/len(self.time_list)
+        print(av_time)
         speed = (self.Dim.arena_length - self.Dim.robot_length) / av_time
         self.calibrated_speed = speed
-        print('calibration ended')
+        print('calibration ended, result: {}'.format(speed))
         return 1
 
     def test_calibrate(self):
@@ -156,7 +158,7 @@ class Task():
     def update(self):
         time1 = time.time()
         for item in self.clock_list:
-            if time-item[0] >= item[1]:
+            if time1-item[0] >= item[1]:
                 for func in item[2]:
                     self.output.append(func)
                 self.clock_list.remove(item)

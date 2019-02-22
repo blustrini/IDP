@@ -36,18 +36,24 @@ def establish_serial(port):
 
 def read_next_line(board,decode=False,strip=True):
     #read serial output from board
-    try:
-        line = board.readline()
-        if not decode:
-            return(line)
-        else:
-            if not strip:
-                return(line.decode())
+    if board.inWaiting() > 0:
+        try:
+            line = board.readline()
+            if not decode:
+                return(line)
             else:
-                return(line.decode().rstrip('\r\n'))
-    except:
-        print('Failed')
-       # print('Error: Couldn\'t read line from serial')
+                if not strip:
+                    return(line.decode())
+                else:
+                    return(line.decode().rstrip('\r\n'))
+        except:
+            print('Failed')
+            #print('Error: Couldn\'t read line from serial')
+
+    else:
+        pass
+        #print('no line on serial')
+
 
 def flush_buffer(board):
     latest = board.readline()
@@ -60,11 +66,11 @@ def flush_buffer(board):
     return (latest,discarded)
 
 def write_serial(msg,board):
-    print(msg)
-    msg2 = struct.pack('>B',msg)
-    print(msg2)
+    #print('writing {} to arduino'.format(msg))
+    #msg2 = struct.pack('>B',msg)
+    #print(msg2)
     try:
         board.write(msg)
-        board.write(msg2)
+        #board.write(msg2)
     except:
         print('Error: Couldn\'t write line to serial')
