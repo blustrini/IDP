@@ -10,41 +10,33 @@ from dim import *
 
 class Task():
     def __init__(self,Dim):
-        '''
-        flowchart
-                  0         1          2           3            4
-        states: idle, align_back, goto_front, goto_back, calibration_test
-        '''
+
+        self.active = 0
+
         #initialise output
         self.output = []
         #initialise dimension object
         self.Dim = Dim
         #current state
         self.state = 0
-
         #output
         self.output = []
-
-
         self.action_dict = {
         'f' : b'\x01',
         'b' : b'\x02',
         's' : b'\x05'
         }
-
         #all possible actions mapped to the corresponding arduino outputs
         self.triggers = {
         '3' : self.switch_front,
         '4' : self.switch_back}
-
         #initialise time saving attributes
         self.time = 0
         self.time_list = []
-
         #initialise clock_list (init,wait,function)
         self.clock_list = []
-
-
+        #initialise task_control (task_name,on/off)
+        self.task_control[]
 
     #get list of instructions, in the given order
     def get_instructions(self,data):
@@ -78,8 +70,6 @@ class Task():
             #print('{} not in process dict'.format(key))
         print('state changed {}:{}'.format(self.state,next_state))            
         self.state = next_state
-
-
         return 1
 
     #start a timer
@@ -108,8 +98,17 @@ class Task():
                 else:
                     print(item[2])
                     self.output.append(item[2])
-                self.clock_list.remove(item)       
-            
+                self.clock_list.remove(item)  
+
+    def activate(self,on):
+    if on:
+        self.active = 1
+        self.state = 0
+        print('{} activated'.format(self.name))
+    else:
+        self.active = 0
+        print('{} deactivated'.format(self.name))
+     
 
 
     

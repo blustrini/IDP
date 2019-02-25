@@ -5,6 +5,7 @@ The main loop of the program
 from serial_con import *
 from task import *
 from dim import *
+from calibrate_dist import *
 
 
 #create board object
@@ -14,9 +15,14 @@ print('board')
 
 #initialise dimension object
 Dim = Dim()
-#initialise progress object
-Calibrate = Calibrate(Dim)
 
+#initialise tasks
+Calibrate_Dist = Calibrate_Dist(Dim)
+
+#create list of tasks
+task_dict = {
+    'Calibrate_Dist':Calibrate_Dist
+}
 
 # code to test serial input buffer working
 # n = 10
@@ -34,52 +40,51 @@ Calibrate = Calibrate(Dim)
 #       print('buffer size: {}'.format(board.inWaiting()))
 #       serial_in = flush_buffer(board)
 #       for j in serial_in[1]:
-#           print('line: {}'.format(j))
+#           print('line: {}'.format(j))   
 
-    
-
+#main loop
 while True:
+    #get serial input
     serial_in = read_next_line(board,decode=True,strip=True)
+    #print serial input
     if serial_in != None:
         print(serial_in)
-    #feed line into task object
-    try:
-        key1 = Calibrate.triggers[serial_in]
-    except:
-        #print('Key: {} not found in triggers dict'.format(serial_in))
-        pass
 
-    try:
-        var1 = key1[Calibrate.state]
-    except:
-        #print('Key: \'{}\' not found in triggers dict'.format(Calibrate.state))
-        pass
+    #pass input into all tasks
+    for Task in tasks:
+        if Task.active == 1:
+            #feed line into task object
+            try:
+                Task.get_instructions(Task.triggers[serial_in][Task.state])
+            except:
+                #print('var1 probably not defined')
+                pass
 
-    try:
-        Calibrate.get_instructions(var1)
-    except:
-        #print('var1 probably not defined')
-        pass
+            '''
+            try:
+                #adds responses to arduino interrupts to output
+                Calibrate.get_instructions(Calibrate.triggers[serial_in][Calibrate.state])
+            #catch error if no line has been read
+            except KeyError:
+                print('No Key found')
+            '''
 
-    '''
-    try:
-        #adds responses to arduino interrupts to output
-        Calibrate.get_instructions(Calibrate.triggers[serial_in][Calibrate.state])
-    #catch error if no line has been read
-    except KeyError:
-        print('No Key found')
-    '''
-    #adds output of processin gonto output
-    Calibrate.update()
+            #writes output of processing onto output
+            Task.update()
 
-    #write all instructions to serial, DATA STRUCTURE NEEDS RETHINKING!
-    #print(Calibrate.output)
-    for i in Calibrate.output:
-        write_serial(i,board)
+            #write outputs onto serial (in order!)
+            for output in Task.output:
+                write_serial(output,board)
 
-    Calibrate.output = []
-    var1,key1 = None,None
+            #turn any tasks on/off
+            for control in task_control:
+                control[0].update(control[1])
 
+            #clear output
+            Task.output = []
+            Task.task_control = []
+
+    #reset serial
     serial_in = ''
 
 '''

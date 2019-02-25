@@ -8,8 +8,10 @@ Task object should be rewritten generally and class inheritance can be used to p
 import time
 from task import *
 
-class Calibrate(Task):
+class Calibrate_Dist(Task):
     def __init__(self,Dim):
+        #name
+        self.name = 'Calibrate_Dist'
 
         #dictionaries represent reaction to trigger based on current state
         self.switch_front = {

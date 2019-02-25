@@ -9,7 +9,7 @@ Created on Thu Feb 21 10:03:14 2019
 class Dim():
     def __init__(self):
         self.arena_length = 240
-        self.arena_width = 1
+        self.arena_width = 240
         self.robot_length = 39.2
-        self.robot_width = 1
+        self.robot_width = 20
         self.speed = None
