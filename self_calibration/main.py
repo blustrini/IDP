@@ -4,6 +4,7 @@ The main loop of the program
 #import modules
 from serial_con import *
 from task import *
+from dim import *
 
 
 #create board object
@@ -11,8 +12,11 @@ board = establish_serial(find_usb_port())
 
 print('board')
 
+#initialise dimension object
+Dim = Dim()
 #initialise progress object
-Calibrate = Task()
+Calibrate = Calibrate(Dim)
+
 
 # code to test serial input buffer working
 # n = 10
