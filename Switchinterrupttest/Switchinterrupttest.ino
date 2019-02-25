@@ -9,7 +9,7 @@ int low2 = 6;
 int high2 = 7;
 
 //Debounce time
-int debounceTime = 300;
+int debounceTime = 1000;
 //Last interrupt
 static unsigned long lastInterruptTime = 0;
 
