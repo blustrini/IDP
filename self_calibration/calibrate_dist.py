@@ -10,6 +10,8 @@ from task import *
 
 class Calibrate_Dist(Task):
     def __init__(self,Dim):
+        #initialise super object
+        super().__init__(Dim)
         #name
         self.name = 'Calibrate_Dist'
 
@@ -35,6 +37,11 @@ class Calibrate_Dist(Task):
         '34' : (self.end_timer,self.calibrate,self.test_calibrate),#calc calibration
         '40' : (self.print_calibration_data)
         }
+
+        #all possible actions mapped to the corresponding arduino outputs
+        self.triggers = {
+        '3' : self.switch_front,
+        '4' : self.switch_back}
 
     #print calibration data
     def print_calibration_data(self):

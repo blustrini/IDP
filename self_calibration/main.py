@@ -20,9 +20,13 @@ Dim = Dim()
 Calibrate_Dist = Calibrate_Dist(Dim)
 
 #create list of tasks
+tasks = [Calibrate_Dist]
+#create dict of tasks
 task_dict = {
     'Calibrate_Dist':Calibrate_Dist
 }
+
+Calibrate_Dist.active = 1
 
 # code to test serial input buffer working
 # n = 10
@@ -77,7 +81,7 @@ while True:
                 write_serial(output,board)
 
             #turn any tasks on/off
-            for control in task_control:
+            for control in Task.task_control:
                 control[0].update(control[1])
 
             #clear output

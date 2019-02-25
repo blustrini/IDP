@@ -12,7 +12,6 @@ class Task():
     def __init__(self,Dim):
 
         self.active = 0
-
         #initialise output
         self.output = []
         #initialise dimension object
@@ -26,17 +25,13 @@ class Task():
         'b' : b'\x02',
         's' : b'\x05'
         }
-        #all possible actions mapped to the corresponding arduino outputs
-        self.triggers = {
-        '3' : self.switch_front,
-        '4' : self.switch_back}
         #initialise time saving attributes
         self.time = 0
         self.time_list = []
         #initialise clock_list (init,wait,function)
         self.clock_list = []
         #initialise task_control (task_name,on/off)
-        self.task_control[]
+        self.task_control = []
 
     #get list of instructions, in the given order
     def get_instructions(self,data):
@@ -101,13 +96,13 @@ class Task():
                 self.clock_list.remove(item)  
 
     def activate(self,on):
-    if on:
-        self.active = 1
-        self.state = 0
-        print('{} activated'.format(self.name))
-    else:
-        self.active = 0
-        print('{} deactivated'.format(self.name))
+        if on:
+            self.active = 1
+            self.state = 0
+            print('{} activated'.format(self.name))
+        else:
+            self.active = 0
+            print('{} deactivated'.format(self.name))
      
 
 
