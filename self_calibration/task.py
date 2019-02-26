@@ -92,11 +92,15 @@ class Task():
                 print('triggered')
                 if len(item[2])>1:
                     for func in item[2]:
-                        print(func)
-                        self.output.append(func)
+                        if 'y' in str(type(func)):
+                            self.output.append(func)
+                        else:
+                            func()
                 else:
-                    print(item[2])
-                    self.output.append(item[2])
+                    if 'y' in str(type(func)):
+                        self.output.append(func)
+                    else:
+                        func()
                 self.clock_list.remove(item)  
 
     def activate(self,on):

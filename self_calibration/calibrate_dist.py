@@ -15,6 +15,9 @@ class Calibrate_Dist(Task):
         #name
         self.name = 'Calibrate_Dist'
 
+        #flowchart        0         1           2            3              4 
+        #               idle, align back, go forwards, go backwards, test calibrate
+
         #dictionaries represent reaction to trigger based on current state
         self.switch_front = {
         0 : (('b'),1),          #move backward, goto state 1
