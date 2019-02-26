@@ -23,7 +23,11 @@ class Task():
         self.action_dict = {
         'f' : b'\x01',
         'b' : b'\x02',
-        's' : b'\x05'
+        'L' : b'\x03', #pivot left
+        'R' : b'\x04', #pivot right
+        's' : b'\x05',
+        'l' : b'\x06', #spin left
+        
         }
         #initialise time saving attributes
         self.time = 0

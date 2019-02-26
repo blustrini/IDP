@@ -39,23 +39,28 @@ void MoveBackward() {
   myMotor2->run(FORWARD);
 }
 
-void HardLeft() {
-  myMotor1->setSpeed(motorSpeedFast);
-  myMotor1->run(FORWARD);
+void PivotLeft() {
+  myMotor1->setSpeed(0);
   myMotor2->setSpeed(motorSpeedFast);
   myMotor2->run(BACKWARD);
 }
 
-void HardRight() {
+void PivotRight() {
   myMotor1->setSpeed(motorSpeedFast);
-  myMotor1->run(BACKWARD);
-  myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(FORWARD);
+  myMotor1->run(FORWARD);
+  myMotor2->setSpeed(0);
 }
 
 void MoveStop() {
   myMotor1->setSpeed(0);
   myMotor2->setSpeed(0);
+}
+
+void SpinLeft() {
+  myMotor1->setSpeed(motorSpeedFast);
+  myMotor1->run(BACKWARD);
+  myMotor2->setSpeed(motorSpeedFast);
+  myMotor2->run(BACKWARD);
 }
 
 //Serial output functions
@@ -112,7 +117,10 @@ void loop() {
   //Switch statement
   const byte a = 1;
   const byte b = 2;
-  const byte c = 5;
+  const byte c = 3;
+  const byte d = 4;
+  const byte e = 5;
+  const byte f = 6;
   
   switch(serialInput) {
    case a:
@@ -122,15 +130,16 @@ void loop() {
      MoveBackward();
      break;
    case c:
+     PivotLeft();
+     break;
+   case d:
+     PivotRight();
+     break;
+   case e:
      MoveStop();
      break;
-     /*
-   case 4:
-     HardRight();
+   case f:
+     SpinLeft();
      break;
-   case c:
-     MoveStop();
-     break;
-     */
 }
 }
