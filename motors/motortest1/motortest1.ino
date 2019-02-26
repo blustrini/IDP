@@ -7,55 +7,65 @@ Adafruit_DCMotor *myMotor1 = AFMS.getMotor(1);
 Adafruit_DCMotor *myMotor2 = AFMS.getMotor(2);
 int motorSpeedFast = 255;
 int motorSpeedSlow = 180;
-int delayTime = 10000;
+int spinDelay = 1000;
+int pivotDelay = 4650;
 
-//Switch pins
-int switchPinFront = 7;
-int switchPinBack = 3;
-
-void runForward() {
-  myMotor1->setSpeed(motorSpeedFast);
-  myMotor1->run(FORWARD);
-  myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(FORWARD);
-}
-
-void runBackward() {
-  myMotor1->setSpeed(motorSpeedFast);
-  myMotor1->run(BACKWARD);
-  myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(BACKWARD);
-}
-
-void hardLeft() {
+void MoveForward() {
   myMotor1->setSpeed(motorSpeedFast);
   myMotor1->run(FORWARD);
   myMotor2->setSpeed(motorSpeedFast);
   myMotor2->run(BACKWARD);
 }
 
-void hardRight() {
+void MoveBackward() {
   myMotor1->setSpeed(motorSpeedFast);
   myMotor1->run(BACKWARD);
   myMotor2->setSpeed(motorSpeedFast);
   myMotor2->run(FORWARD);
+}
+
+void PivotLeft() {
+  myMotor1->setSpeed(0);
+  myMotor2->setSpeed(motorSpeedFast);
+  myMotor2->run(BACKWARD);
+}
+
+void PivotRight() {
+  myMotor1->setSpeed(motorSpeedFast);
+  myMotor1->run(FORWARD);
+  myMotor2->setSpeed(0);
+}
+
+void SpinLeft() {
+  myMotor1->setSpeed(motorSpeedFast);
+  myMotor1->run(BACKWARD);
+  myMotor2->setSpeed(motorSpeedFast);
+  myMotor2->run(BACKWARD);
+}
+
+void MoveStop() {
+  myMotor1->setSpeed(0);
+  myMotor2->setSpeed(0);
 }
 
 void setup() {
   // put your setup code here, to run once:
   AFMS.begin();
-  runForward();
 }
 
 void loop() {
-  //if switch front is pressed, move backwards
-  //if (digitalRead(switchPinFront) == HIGH){
-    //runBackward();
-  //}
-  //if switch back switch is pressed, move forward
-  //if (digitalRead(switchPinBack) == HIGH){
-    //runForward();
-  //}
-  
+  delay(pivotDelay);
+  PivotLeft();
+  delay(pivotDelay);
+  MoveStop();
+  delay(pivotDelay);
+  PivotRight();
+  delay(pivotDelay);
+  MoveStop();
+  delay(pivotDelay);
+  SpinLeft();
+  delay(spinDelay);
+  MoveStop();
+  delay(pivotDelay);
 
 }
