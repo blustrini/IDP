@@ -26,7 +26,9 @@ class Task():
         'L' : b'\x03', #pivot left
         'R' : b'\x04', #pivot right
         's' : b'\x05',
-        'l' : b'\x06', #spin left
+        'l' : b'\x06', #soft turn left
+        'r' : b'\x07', #soft turn right
+        'd' : b'\x08', #soft turn left
         
         }
         #initialise time saving attributes

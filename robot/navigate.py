@@ -23,8 +23,8 @@ class Navigate(Task):
 
         #dictionaries represent reaction to trigger based on current state
         self.switch_front = {
-        0 : (('f'),1),          #move forward, goto state 1
-        1 : (('b'),2),             #move backward goto state
+        0 : (('d'),1),          #move forward, goto state 1
+        1 : (('b'),2),             #move backward goto state 2
         2 : ((),2),             #unexpected trigger, maybe do some error fixing later
         3 : (('b'),4),             #move back, goto state 4
         4 : ((),4),             #unexpected trigger, maybe do some error fixing later
@@ -32,7 +32,7 @@ class Navigate(Task):
         }
         
         self.switch_back = {
-        0 : (('f'),1),          #move forward, goto state 1
+        0 : (('d'),1),          #move forward, goto state 1
         1 : ((),1),             #ignore, stay in state 1
         2 : (('b'),3),             #add clock that aliogns robot with wall, goto state 3
         3 : ((),3),          #unexpected trigger, maybe do some error fixing later n.b. back switch might be triggered by align mechanism
@@ -43,7 +43,7 @@ class Navigate(Task):
         #processing actions
         self.processes = {
         '12' : (self.init_htl),
-        '23' : (self.align_back_wall),
+        '23' : (self.align_back_wall_first),
         '43' : (self.align_back_wall),
         '34' : (self.check_sweeps),
         '45' : (self.init_htl)
@@ -60,6 +60,15 @@ class Navigate(Task):
         time1 = time.time()
         wait1 = 1
         func1 = self.action_dict['f']
+        tuple1 = (time1,wait1,func1)
+        print(tuple1)
+        self.clock_list.append(tuple1)
+        
+    def align_back_wall_first(self):
+        print('align back wall')
+        time1 = time.time()
+        wait1 = 1
+        func1 = self.action_dict['d']
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.clock_list.append(tuple1)
@@ -99,20 +108,42 @@ class Navigate(Task):
         #start,wait,func
         time1 = time.time()
         wait1 = 10/self.Dim.speed
-        func1 = self.full_turn_left
+        func1 = self.pivot_ninety_left
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.clock_list.append(tuple1)
         return 1
         
-    def full_turn_left(self):
+    def pivot_ninety_left(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 4.7 #add real value
-        func1 = self.action_dict['b']
+        wait1 = 2.3 #add real value
+        func1 = self.reverse_before_soft_left
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.output.append(self.action_dict['L'])        
+        self.clock_list.append(tuple1)
+        return 1
+    
+    def reverse_before_soft_left(self):
+        #start,wait,func
+        time1 = time.time()
+        wait1 = 2 #add real value
+        func1 = self.soft_left
+        tuple1 = (time1,wait1,func1)
+        print(tuple1)
+        self.output.append(self.action_dict['b'])        
+        self.clock_list.append(tuple1)
+        return 1
+    
+    def soft_left(self):
+        #start,wait,func
+        time1 = time.time()
+        wait1 = 2.5 #add real value
+        func1 = self.action_dict['b']
+        tuple1 = (time1,wait1,func1)
+        print(tuple1)
+        self.output.append(self.action_dict['l'])        
         self.clock_list.append(tuple1)
         return 1
 
@@ -126,14 +157,36 @@ class Navigate(Task):
         self.clock_list.append(tuple1)
         return 1
         
-    def full_turn_right(self):
+    def pivot_ninety_right(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 4.7 #add real value
-        func1 = self.action_dict['b']
+        wait1 = 2.3 #add real value
+        func1 = self.reverse_before_soft_right
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.output.append(self.action_dict['R'])        
+        self.clock_list.append(tuple1)
+        return 1
+    
+    def reverse_before_soft_right(self):
+        #start,wait,func
+        time1 = time.time()
+        wait1 = 2 #add real value
+        func1 = self.soft_right
+        tuple1 = (time1,wait1,func1)
+        print(tuple1)
+        self.output.append(self.action_dict['b'])        
+        self.clock_list.append(tuple1)
+        return 1
+    
+    def soft_right(self):
+        #start,wait,func
+        time1 = time.time()
+        wait1 = 2.5 #add real value
+        func1 = self.action_dict['b']
+        tuple1 = (time1,wait1,func1)
+        print(tuple1)
+        self.output.append(self.action_dict['r'])        
         self.clock_list.append(tuple1)
         return 1
     
