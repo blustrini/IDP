@@ -40,15 +40,15 @@ void MoveBackward() {
 }
 
 void PivotLeft() {
-  myMotor1->setSpeed(0);
-  myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(BACKWARD);
+  myMotor2->setSpeed(0);
+  myMotor1->setSpeed(motorSpeedFast);
+  myMotor1->run(FORWARD);
 }
 
 void PivotRight() {
-  myMotor1->setSpeed(motorSpeedFast);
-  myMotor1->run(FORWARD);
-  myMotor2->setSpeed(0);
+  myMotor2->setSpeed(motorSpeedFast);
+  myMotor2->run(BACKWARD);
+  myMotor1->setSpeed(0);
 }
 
 void MoveStop() {
@@ -58,9 +58,9 @@ void MoveStop() {
 
 void SpinLeft() {
   myMotor1->setSpeed(motorSpeedFast);
-  myMotor1->run(BACKWARD);
+  myMotor1->run(FORWARD);
   myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(BACKWARD);
+  myMotor2->run(FORWARD);
 }
 
 //Serial output functions
