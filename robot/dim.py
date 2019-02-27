@@ -12,4 +12,4 @@ class Dim():
         self.arena_width = 240
         self.robot_length = 39.2
         self.robot_width = 20
-        self.speed = None
+        self.speed = 10

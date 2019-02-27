@@ -90,13 +90,14 @@ class Task():
         for item in self.clock_list:
             if time1-item[0] >= item[1]:
                 print('triggered')
-                if len(item[2])>1:
+                try:
                     for func in item[2]:
                         if 'y' in str(type(func)):
                             self.output.append(func)
                         else:
                             func()
-                else:
+                except TypeError:
+                    func = item[2]
                     if 'y' in str(type(func)):
                         self.output.append(func)
                     else:

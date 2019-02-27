@@ -18,8 +18,8 @@ class Navigate(Task):
         #attributes
         self.sweeps = 1
         
-        #flowchart		  0		    1			  2			   	3				4			5
-        #				idle, enter field, align first sweep, do 1 sweep, align next sweep, initiate leave
+        #flowchart        0         1             2             3               4           5
+        #               idle, enter field, align first sweep, do 1 sweep, align next sweep, initiate leave
 
         #dictionaries represent reaction to trigger based on current state
         self.switch_front = {
@@ -55,29 +55,30 @@ class Navigate(Task):
         '4' : self.switch_back}
        
        #ram into back wall to mae robot straight
-	def align_back_wall(self):
-		time1 = time.time()
-		wait1 = 1
-		func1 = self.action_dict['f']
-		tuple1 = (time1,wait1,func1)
-		print(tuple1)
-		self.clock_list.append(tuple1)
+    def align_back_wall(self):
+        print('align back wall')
+        time1 = time.time()
+        wait1 = 1
+        func1 = self.action_dict['f']
+        tuple1 = (time1,wait1,func1)
+        print(tuple1)
+        self.clock_list.append(tuple1)
 
-	def check_sweeps(self):
-		if self.sweeps >= 5:
-			self.change_state(5)
-		elif self.sweeps % 2 == 1:
-			self.init_ftl()
-		else:
-			self.init_ftr()
-		self.sweeps += 1
+    def check_sweeps(self):
+        if self.sweeps >= 3:
+            self.change_state(5)
+        elif self.sweeps % 2 == 1:
+            self.init_ftl()
+        else:
+            self.init_ftr()
+        self.sweeps += 1
 
 
     #turning functions
     def init_htl(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 10/self.Dim.speed
+        wait1 = 2/self.Dim.speed
         func1 = self.half_turn_left
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -87,14 +88,14 @@ class Navigate(Task):
     def half_turn_left(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 3 #calculate with actual dimensions
+        wait1 = 1.2 #calculate with actual dimensions
         func1 = self.action_dict['b']
         tuple1 = (time1,wait1,func1)
-		self.output.append(self.action_dict['l'])
+        self.output.append(self.action_dict['l'])
         self.clock_list.append(tuple1)
         return 1
 
-	def init_ftl(self):
+    def init_ftl(self):
         #start,wait,func
         time1 = time.time()
         wait1 = 10/self.Dim.speed
@@ -107,7 +108,7 @@ class Navigate(Task):
     def full_turn_left(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 5 #add real value
+        wait1 = 4.7 #add real value
         func1 = self.action_dict['b']
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -115,7 +116,7 @@ class Navigate(Task):
         self.clock_list.append(tuple1)
         return 1
 
-	def init_ftr(self):
+    def init_ftr(self):
         #start,wait,func
         time1 = time.time()
         wait1 = 10/self.Dim.speed
@@ -128,7 +129,7 @@ class Navigate(Task):
     def full_turn_right(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 5 #add real value
+        wait1 = 4.7 #add real value
         func1 = self.action_dict['b']
         tuple1 = (time1,wait1,func1)
         print(tuple1)
