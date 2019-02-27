@@ -6,6 +6,7 @@ from serial_con import *
 from task import *
 from dim import *
 from calibrate_dist import *
+from navigate import *
 
 
 #create board object
@@ -18,15 +19,19 @@ Dim = Dim()
 
 #initialise tasks
 Calibrate_Dist = Calibrate_Dist(Dim)
+Navigate = Navigate(Dim)
+
 
 #create list of tasks
-tasks = [Calibrate_Dist]
+tasks = [Calibrate_Dist,Navigate]
 #create dict of tasks
 task_dict = {
-    'Calibrate_Dist':Calibrate_Dist
+    'Calibrate_Dist':Calibrate_Dist,
+    'Navigate':Navigate
 }
 
-Calibrate_Dist.active = 1
+Calibrate_Dist.active = 0
+Navigate.active = 1
 
 # code to test serial input buffer working
 # n = 10
