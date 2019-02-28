@@ -23,7 +23,7 @@ class Navigate(Task):
 
         #dictionaries represent reaction to trigger based on current state
         self.switch_front = {
-        0 : (('d'),1),          #move forward, goto state 1
+        0 : (('f'),1),          #move forward, goto state 1
         1 : (('b'),2),             #move backward goto state 2
         2 : ((),2),             #unexpected trigger, maybe do some error fixing later
         3 : (('b'),4),             #move back, goto state 4
@@ -32,7 +32,7 @@ class Navigate(Task):
         }
         
         self.switch_back = {
-        0 : (('d'),1),          #move forward, goto state 1
+        0 : (('f'),1),          #move forward, goto state 1
         1 : ((),1),             #ignore, stay in state 1
         2 : (('b'),3),             #add clock that aliogns robot with wall, goto state 3
         3 : ((),3),          #unexpected trigger, maybe do some error fixing later n.b. back switch might be triggered by align mechanism
