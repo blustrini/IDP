@@ -17,12 +17,12 @@ float actual_dist;
 
 //PID variables
 float expected_dist = 7;
-float p_gain = 0.2;
-float i_gain = 0.2;
+float p_gain = 2;
+float i_gain = 2;
 float i_mem = 0;
 
 //Counter
-
+counter = 0;
 
 //Motor functions
 void MoveForward() {
@@ -42,17 +42,24 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  
-  actual_dist = sr04.Distance();
-  //Serial.print(dist);
-  //Serial.println("cm");
+  if (counter % 5 = 0){
+    actual_dist = sr04.Distance();
+    //Serial.print(dist);
+    //Serial.println("cm");
 
-  //PID
-  error_temp = actual_dist - expected_dist;
-  i_mem += i_gain * error_temp;
-  motor_increase = (p_gain * error_temp) + i_mem
+    //PID
+    error_temp = actual_dist - expected_dist;
+    i_mem += i_gain * error_temp;
+    int motor_increase = (p_gain * error_temp) + i_mem
 
-  //Change variable motor speed 
-  motorSpeedVar += motor_increase
+    //Change variable motor speed 
+    motorSpeedVar += motor_increase
+
+    //increase counter 
+    counter = 1;
+  }
+
+  counter += 1;
+ 
 
 }
