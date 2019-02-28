@@ -107,7 +107,7 @@ class Navigate(Task):
     def init_ftl(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 10/self.Dim.speed
+        wait1 = 0.6
         func1 = self.pivot_ninety_left
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -139,7 +139,7 @@ class Navigate(Task):
     def soft_left(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 2.5 #add real value
+        wait1 = 3.2 #add real value
         func1 = self.action_dict['b']
         tuple1 = (time1,wait1,func1)
         print(tuple1)
