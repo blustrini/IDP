@@ -68,20 +68,34 @@ void SlightRight() {
 void setup() {
   // put your setup code here, to run once:
   AFMS.begin();
+  Serial.begin(9600);
+  
 }
 
 void loop() {
+  /*
   delay(5000);
-  SlightRight();
+  MoveForward();
   delay(5000);
   MoveBackward();
-  delay(2000);
+  delay(600);
   PivotLeft();
   delay(2300);
   MoveBackward();
   delay(2000);
-  SoftLeft();
-  delay(2.5);
+  SoftTurnLeft();
+  delay(3200);
   MoveBackward();
+  */
+
+  delay(5000);
+  SlightRight();
+  delay(2000);
+  MoveBackward();
+  delay(200);
+  SoftTurnLeft();
+  delay(500);
+  MoveForward();
+  delay(2000);
   
 }
