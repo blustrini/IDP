@@ -3,8 +3,8 @@
 #include <Adafruit_MotorShield.h>
 #include "utility/Adafruit_MS_PWMServoDriver.h"
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
-Adafruit_DCMotor *myMotor1 = AFMS.getMotor(1);
-Adafruit_DCMotor *myMotor2 = AFMS.getMotor(2);
+Adafruit_DCMotor *myMotorRight = AFMS.getMotor(1);
+Adafruit_DCMotor *myMotorLeft = AFMS.getMotor(2);
 int motorSpeedFast = 255;
 int motorSpeedSlowTurn = 80;
 int motorSpeedSlowStraight = 210;
@@ -27,34 +27,34 @@ static unsigned long lastInterruptTime = 0;
 
 //Motor functions
 void MoveForward() {
-  myMotor1->setSpeed(motorSpeedFast);
-  myMotor1->run(FORWARD);
-  myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(BACKWARD);
+  myMotorRight->setSpeed(motorSpeedFast);
+  myMotorRight->run(FORWARD);
+  myMotorLeft->setSpeed(motorSpeedFast);
+  myMotorLeft->run(BACKWARD);
 }
 
 void MoveBackward() {
-  myMotor1->setSpeed(motorSpeedFast);
-  myMotor1->run(BACKWARD);
-  myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(FORWARD);
+  myMotorRight->setSpeed(motorSpeedFast);
+  myMotorRight->run(BACKWARD);
+  myMotorLeft->setSpeed(motorSpeedFast);
+  myMotorLeft->run(FORWARD);
 }
 
 void PivotLeft() {
-  myMotor2->setSpeed(0);
-  myMotor1->setSpeed(motorSpeedFast);
-  myMotor1->run(FORWARD);
+  myMotorLeft->setSpeed(0);
+  myMotorRight->setSpeed(motorSpeedFast);
+  myMotorRight->run(FORWARD);
 }
 
 void PivotRight() {
-  myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(BACKWARD);
-  myMotor1->setSpeed(0);
+  myMotorLeft->setSpeed(motorSpeedFast);
+  myMotorLeft->run(BACKWARD);
+  myMotorRight->setSpeed(0);
 }
 
 void MoveStop() {
-  myMotor1->setSpeed(0);
-  myMotor2->setSpeed(0);
+  myMotorRight->setSpeed(0);
+  myMotorLeft->setSpeed(0);
 }
 
 void SoftTurnLeft() {
@@ -65,17 +65,17 @@ void SoftTurnLeft() {
 }
 
 void SoftTurnRight() {
-  myMotor1->setSpeed(motorSpeedSlowTurn);
-  myMotor1->run(FORWARD);
-  myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(BACKWARD);
+  myMotorRight->setSpeed(motorSpeedSlowTurn);
+  myMotorRight->run(FORWARD);
+  myMotorLeft->setSpeed(motorSpeedFast);
+  myMotorLeft->run(BACKWARD);
 }
 
 void SlightRight() {
-  myMotor1->setSpeed(motorSpeedSlowStraight);
-  myMotor1->run(FORWARD);
-  myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(BACKWARD);
+  myMotorRight->setSpeed(motorSpeedSlowStraight);
+  myMotorRight->run(FORWARD);
+  myMotorLeft->setSpeed(motorSpeedFast);
+  myMotorLeft->run(BACKWARD);
 }
 
 //Serial output functions
