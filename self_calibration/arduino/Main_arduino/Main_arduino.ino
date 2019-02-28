@@ -72,7 +72,7 @@ void SoftTurnRight() {
 }
 
 void SlightRight() {
-  myMotor1->setSpeed(motorSpeedSlow);
+  myMotor1->setSpeed(motorSpeedSlowStraight);
   myMotor1->run(FORWARD);
   myMotor2->setSpeed(motorSpeedFast);
   myMotor2->run(BACKWARD);
