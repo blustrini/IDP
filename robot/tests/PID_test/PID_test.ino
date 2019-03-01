@@ -54,10 +54,12 @@ void loop() {
     int motor_increase = (p_gain * error_temp) + i_mem;
 
     //Change variable motor speed 
-    motorSpeedVar += motor_increase;
-
+    if (motorSpeedVar < 255 && motorSpeedVar > 0){
+      motorSpeedVar += motor_increase;
+      myMotorLeft->setSpeed(motorSpeedVar);
+    }
     //increase counter 
-    counter = 1;
+    counter = 0;
   }
 
   counter += 1;
