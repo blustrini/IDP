@@ -6,8 +6,8 @@
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
 Adafruit_DCMotor *myMotorRight = AFMS.getMotor(1);
 Adafruit_DCMotor *myMotorLeft = AFMS.getMotor(2);
-int motorSpeedVar = 200;
-int motorSpeedConst = 200;
+int motorSpeedVar = 150;
+int motorSpeedConst = 150;
 
 //Inclusions and variables for ultrasonic sensor
 #include "SR04.h"
@@ -18,12 +18,15 @@ float actual_dist;
 
 //PID variables
 float expected_dist = 15;
-float p_gain = 2;
-float i_gain = 2;
+float last_dist = 15;
+float p_gain = 0.4  ;
+float i_gain = 0.005;
+float d_gain = 1;
 float i_mem = 0;
 
 //Counter
 int counter = 0;
+int d_counter = 0;
 
 //Motor functions
 void MoveForward() {
@@ -39,30 +42,71 @@ void setup() {
   AFMS.begin();
   delay(2000);
   MoveForward();
+  int flusher = 0;
+  while (flusher < 100){
+    float a = sr04.Distance();
+    flusher++;
+  }
+  expected_dist = sr04.Distance();
+  Serial.print("expected_dist:");
+  Serial.println(expected_dist);
+  last_dist = expected_dist;
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  if (counter % 5 == 0){
+
+  if (counter % 1 == 0){
+    d_counter += 1;
+    while (true){
     actual_dist = sr04.Distance();
-    //Serial.print(dist);
-    //Serial.println("cm");
+      if (actual_dist < 5*expected_dist) {
+        break;
+      }
+    }
+    Serial.print(actual_dist);
+    Serial.println("cm");
+    Serial.print("Derivative: ");
+    Serial.print(actual_dist-last_dist);
+    Serial.println("cm");
 
     //PID
     float error_temp = actual_dist - expected_dist;
-    i_mem += i_gain * error_temp;
-    int motor_increase = (p_gain * error_temp) + i_mem;
+    //Serial.println(p_gain* error_temp);
+    //Serial.println(
+    //i_mem += i_gain * error_temp;
+    i_mem = 0;
+    float d_increase = d_gain * (actual_dist - last_dist);
+    int motor_increase = (p_gain * error_temp) + i_mem + d_increase;
+    Serial.print("Imem ");
+    Serial.println(i_mem);
+    Serial.print("Pmotorincrease ");
+    Serial.println(p_gain * error_temp);
+    Serial.print("Dmotorincrease ");
+    Serial.println(d_increase);
+    Serial.println(motor_increase);
 
     //Change variable motor speed 
-    if (motorSpeedVar < 255 && motorSpeedVar > 0){
+    if ((motorSpeedVar + motor_increase) < 255 && (motorSpeedVar + motor_increase) > 0){
       motorSpeedVar += motor_increase;
-      myMotorLeft->setSpeed(motorSpeedVar);
+    } else if((motorSpeedVar + motor_increase) >= 255){
+      motorSpeedVar = 255;
+      Serial.println("OVER");
+    } else {
+      motorSpeedVar = 0;
+      Serial.println("UNDER");
     }
+    myMotorLeft->setSpeed(motorSpeedVar);
+    Serial.println(motorSpeedVar);
     //increase counter 
     counter = 0;
+    if (d_counter % 10 == 0){
+     d_counter = 0;
+    last_dist = actual_dist;
+    }
   }
 
   counter += 1;
  
-
+  
 }
