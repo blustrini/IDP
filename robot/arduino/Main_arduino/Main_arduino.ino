@@ -3,11 +3,26 @@
 #include <Adafruit_MotorShield.h>
 #include "utility/Adafruit_MS_PWMServoDriver.h"
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
-Adafruit_DCMotor *myMotor1 = AFMS.getMotor(1);
-Adafruit_DCMotor *myMotor2 = AFMS.getMotor(2);
+Adafruit_DCMotor *myMotorR = AFMS.getMotor(1);
+Adafruit_DCMotor *myMotorL = AFMS.getMotor(2);
+int motorSpeedConst = 200;
+int motorSpeedVar = 200;
 int motorSpeedFast = 255;
-int motorSpeedSlow = 180;
+int motorSpeedSlowTurn = 80;
+int motorSpeedSlowStraight = 230;
 int delayTime = 10000;
+
+//Inclusions and variables for right ultrasonic sensors
+#include "SR04.h"
+//Right
+#define TRIG_PIN 12
+#define ECHO_PIN 11
+SR04 ultrasoundRight = SR04(ECHO_PIN,TRIG_PIN);
+//Left
+#define TRIG_PIN 10
+#define ECHO_PIN 9
+SR04 ultrasoundLeft = SR04(ECHO_PIN,TRIG_PIN);
+float actual_dist;
 
 //Switch interrupt pin
 const byte switchFrontPin = 2;
@@ -30,48 +45,62 @@ float last_dist = 0;
 float p_gain = 0.4  ;
 //float i_gain = 0.005;
 float d_gain = 1;
-//float i_mem = 0;
+float i_mem = 0;
 bool pid_on = false; 
 int pid_counter = 0;
 int pid_d_counter = 0;
 
 //Motor functions
 void MoveForward() {
-  myMotor1->setSpeed(motorSpeedFast);
-  myMotor1->run(FORWARD);
-  myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(BACKWARD);
+  myMotorR->setSpeed(motorSpeedConst);
+  myMotorR->run(FORWARD);
+  myMotorL->setSpeed(motorSpeedVar);
+  myMotorL->run(BACKWARD);
 }
 
 void MoveBackward() {
-  myMotor1->setSpeed(motorSpeedFast);
-  myMotor1->run(BACKWARD);
-  myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(FORWARD);
+  myMotorR->setSpeed(motorSpeedConst);
+  myMotorR->run(BACKWARD);
+  myMotorL->setSpeed(motorSpeedVar);
+  myMotorL->run(FORWARD);
 }
 
 void PivotLeft() {
-  myMotor2->setSpeed(0);
-  myMotor1->setSpeed(motorSpeedFast);
-  myMotor1->run(FORWARD);
+  myMotorL->setSpeed(0);
+  myMotorR->setSpeed(motorSpeedFast);
+  myMotorR->run(FORWARD);
 }
 
 void PivotRight() {
-  myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(BACKWARD);
-  myMotor1->setSpeed(0);
+  myMotorL->setSpeed(motorSpeedFast);
+  myMotorL->run(BACKWARD);
+  myMotorR->setSpeed(0);
 }
 
 void MoveStop() {
-  myMotor1->setSpeed(0);
-  myMotor2->setSpeed(0);
+  myMotorR->setSpeed(0);
+  myMotorL->setSpeed(0);
 }
 
-void SpinLeft() {
-  myMotor1->setSpeed(motorSpeedFast);
-  myMotor1->run(FORWARD);
-  myMotor2->setSpeed(motorSpeedFast);
-  myMotor2->run(FORWARD);
+void SoftTurnLeft() {
+  myMotorR->setSpeed(motorSpeedFast);
+  myMotorR->run(FORWARD);
+  myMotorL->setSpeed(motorSpeedSlowTurn);
+  myMotorL->run(BACKWARD);
+}
+
+void SoftTurnRight() {
+  myMotorR->setSpeed(motorSpeedSlowTurn);
+  myMotorR->run(FORWARD);
+  myMotorL->setSpeed(motorSpeedFast);
+  myMotorL->run(BACKWARD);
+}
+
+void SlightRight() {
+  myMotorR->setSpeed(motorSpeedSlowStraight);
+  myMotorR->run(FORWARD);
+  myMotorL->setSpeed(motorSpeedFast);
+  myMotorL->run(BACKWARD);
 }
 
 //Serial output functions
@@ -108,7 +137,7 @@ void PIDSetup() {
 }
 
 //PID main function
-void pid() {
+void PID() {
   if (pid_counter % 1 == 0){
     pid_d_counter += 1;
     while (true){
@@ -132,7 +161,7 @@ void pid() {
     } else {
       motorSpeedVar = 0;
     }
-    myMotorLeft->setSpeed(motorSpeedVar);
+    myMotorL->setSpeed(motorSpeedVar);
     Serial.println(motorSpeedVar);
     //increase counter 
     pid_counter = 0;
@@ -186,6 +215,9 @@ void loop() {
   const byte d = 4;
   const byte e = 5;
   const byte f = 6;
+  const byte g = 7;
+  const byte h = 8;
+  const byte i = 9;
   
   switch(serialInput) {
    case a:
@@ -204,7 +236,16 @@ void loop() {
      MoveStop();
      break;
    case f:
-     SpinLeft();
+     SoftTurnLeft();
+     break;
+   case g:
+     SoftTurnRight();
+     break;
+   case h:
+     PidLeft();
+     break;
+   case i:
+     PidRight();
      break;
 }
 }
