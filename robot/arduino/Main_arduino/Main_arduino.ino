@@ -15,13 +15,13 @@ int delayTime = 10000;
 //Inclusions and variables for right ultrasonic sensors
 #include "SR04.h"
 //Right
-#define TRIG_PIN 12
-#define ECHO_PIN 11
-SR04 ultrasoundRight = SR04(ECHO_PIN,TRIG_PIN);
+#define TRIG_PIN_R 12
+#define ECHO_PIN_R 11
+SR04 ultrasoundRight = SR04(ECHO_PIN_R,TRIG_PIN_R);
 //Left
-#define TRIG_PIN 10
-#define ECHO_PIN 9
-SR04 ultrasoundLeft = SR04(ECHO_PIN,TRIG_PIN);
+#define TRIG_PIN_L 10
+#define ECHO_PIN_L 9
+SR04 ultrasoundLeft = SR04(ECHO_PIN_L,TRIG_PIN_L);
 float actual_dist;
 
 //Switch interrupt pin
@@ -49,6 +49,7 @@ float i_mem = 0;
 bool pid_on = false; 
 int pid_counter = 0;
 int pid_d_counter = 0;
+int pid_side;
 
 //Motor functions
 void MoveForward() {
@@ -121,31 +122,34 @@ void switchBackSerial() {
 }
 
 //PID setup function
-void PIDSetup() {
+void PIDSetup(int side) {
   int flusher = 0;
   while (flusher < 100){
-    float a = sr04.Distance();
+    float a = GetUltrasound(side);
     flusher++;
   }
   while (true){
-    expected_dist = sr04.Distance();
+    expected_dist = GetUltrasound(side);
     if (expected_dist > 0 && expected_dist < 200){
       break;
     }
   }
   last_dist = expected_dist;
+
+  pid_on = true;
+  pid_side = side;
 }
 
 //PID main function
-void PID() {
+void PID(int side) {
   if (pid_counter % 1 == 0){
     pid_d_counter += 1;
     while (true){
-    actual_dist = sr04.Distance();
+    actual_dist = GetUltrasound(side);
       if (actual_dist < 5*expected_dist) {
         break;
       }
-
+    }
     //PID
     float error_temp = actual_dist - expected_dist;
     //i_mem += i_gain * error_temp;
@@ -153,9 +157,18 @@ void PID() {
     float d_increase = d_gain * (actual_dist - last_dist);
     int motor_increase = (p_gain * error_temp) + i_mem + d_increase;
 
+    //Calculate new motor speed depending on which side of PID
+    int newSpeed;
+    if (side == 0){
+      newSpeed = motorSpeedVar + motor_increase;
+    } else{
+      newSpeed = motorSpeedVar - motor_increase;
+    }
+    
+    
     //Change variable motor speed 
-    if ((motorSpeedVar + motor_increase) < 255 && (motorSpeedVar + motor_increase) > 0){
-      motorSpeedVar += motor_increase;
+    if (newSpeed < 255 && newSpeed > 0){
+      newSpeed;
     } else if((motorSpeedVar + motor_increase) >= 255){
       motorSpeedVar = 255;
     } else {
@@ -172,6 +185,20 @@ void PID() {
   }
 
   pid_counter += 1;
+}
+
+//Getting ultrasound data
+int GetUltrasound(int side){
+  if (side == 0){
+    return ultrasoundRight.Distance();
+  }else{
+    return ultrasoundLeft.Distance();
+  }
+}
+
+//Stop pid
+void PIDStop(){
+  pid_on == false;
 }
 
 void setup() {
@@ -218,6 +245,13 @@ void loop() {
   const byte g = 7;
   const byte h = 8;
   const byte i = 9;
+  const byte j = 10;
+  const byte k = 11;
+  const byte l = 12;
+  const byte m = 13;
+  const byte n = 14;
+  const byte o = 15;
+  const byte p = 16;
   
   switch(serialInput) {
    case a:
@@ -242,10 +276,16 @@ void loop() {
      SoftTurnRight();
      break;
    case h:
-     PidLeft();
+     PIDSetup(1);
      break;
    case i:
-     PidRight();
+     PIDSetup(0);
      break;
-}
+   case p:
+     PIDStop();
+     break;
+  }
+   if (pid_on == true){
+    PID(pid_side);
+   }
 }
