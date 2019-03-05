@@ -17,8 +17,8 @@ SR04 sr04 = SR04(ECHO_PIN,TRIG_PIN);
 float actual_dist;
 
 //PID variables
-float expected_dist = 15;
-float last_dist = 15;
+float expected_dist = 0;
+float last_dist = 0;
 float p_gain = 0.4  ;
 float i_gain = 0.005;
 float d_gain = 1;
@@ -47,7 +47,12 @@ void setup() {
     float a = sr04.Distance();
     flusher++;
   }
-  expected_dist = sr04.Distance();
+  while (true){
+    expected_dist = sr04.Distance();
+    if (expected_dist > 0 && expected_dist < 200){
+      break;
+    }
+  }
   Serial.print("expected_dist:");
   Serial.println(expected_dist);
   last_dist = expected_dist;

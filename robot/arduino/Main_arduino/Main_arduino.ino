@@ -24,6 +24,15 @@ int debounceTime = 1000;
 //Last interrupt
 static unsigned long lastInterruptTime = 0;
 
+//PID variables
+float expected_dist = 0;
+float last_dist = 0;
+float p_gain = 0.4  ;
+float i_gain = 0.005;
+float d_gain = 1;
+float i_mem = 0;
+bool pid_on = false; 
+
 //Motor functions
 void MoveForward() {
   myMotor1->setSpeed(motorSpeedFast);
