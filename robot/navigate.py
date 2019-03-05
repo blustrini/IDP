@@ -74,7 +74,7 @@ class Navigate(Task):
         self.clock_list.append(tuple1)
 
     def check_sweeps(self):
-        if self.sweeps >= 3:
+        if self.sweeps >= 7:
             self.change_state(5)
         elif self.sweeps % 2 == 1:
             self.init_ftl()
@@ -150,8 +150,8 @@ class Navigate(Task):
     def init_ftr(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 10/self.Dim.speed
-        func1 = self.full_turn_right
+        wait1 = 0.6
+        func1 = self.pivot_ninety_right
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.clock_list.append(tuple1)
@@ -182,7 +182,7 @@ class Navigate(Task):
     def soft_right(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 2.5 #add real value
+        wait1 = 3.2 #add real value
         func1 = self.action_dict['b']
         tuple1 = (time1,wait1,func1)
         print(tuple1)

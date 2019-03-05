@@ -30,7 +30,13 @@ class Task():
         'r' : b'\x07', #soft turn right
         'p_l' : b'\x08', #pid left
         'p_r' : b'\x09', #pid right
-        
+        'halt' : b'\x10', #halt everything
+        'resume' : b'\x11', #resume
+        'rej' : b'\x12', #flip rejection switch
+        'pick' : b'\x13', #rotate pickup wheel
+        'open' : b'\x14', #open collection compartment
+        'd' : b'\x15' #drive diagonally right
+
         
         }
         #initialise time saving attributes
@@ -108,11 +114,12 @@ class Task():
                         func()
                 self.clock_list.remove(item)  
 
-    def activate(self,on):
+    def activate(self,on,reset=True):
         if on:
             self.active = 1
-            self.state = 0
-            print('{} activated'.format(self.name))
+            if reset:
+            	self.state = 0
+            print('{} activated into state {}'.format(self.name,self.state))
         else:
             self.active = 0
             print('{} deactivated'.format(self.name))
