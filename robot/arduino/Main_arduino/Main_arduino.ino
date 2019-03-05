@@ -28,10 +28,12 @@ static unsigned long lastInterruptTime = 0;
 float expected_dist = 0;
 float last_dist = 0;
 float p_gain = 0.4  ;
-float i_gain = 0.005;
+//float i_gain = 0.005;
 float d_gain = 1;
-float i_mem = 0;
+//float i_mem = 0;
 bool pid_on = false; 
+int pid_counter = 0;
+int pid_d_counter = 0;
 
 //Motor functions
 void MoveForward() {
@@ -87,6 +89,60 @@ void switchBackSerial() {
     Serial.println(4);
   }
   lastInterruptTime = interruptTime;
+}
+
+//PID setup function
+void PIDSetup() {
+  int flusher = 0;
+  while (flusher < 100){
+    float a = sr04.Distance();
+    flusher++;
+  }
+  while (true){
+    expected_dist = sr04.Distance();
+    if (expected_dist > 0 && expected_dist < 200){
+      break;
+    }
+  }
+  last_dist = expected_dist;
+}
+
+//PID main function
+void pid() {
+  if (pid_counter % 1 == 0){
+    pid_d_counter += 1;
+    while (true){
+    actual_dist = sr04.Distance();
+      if (actual_dist < 5*expected_dist) {
+        break;
+      }
+
+    //PID
+    float error_temp = actual_dist - expected_dist;
+    //i_mem += i_gain * error_temp;
+    i_mem = 0;
+    float d_increase = d_gain * (actual_dist - last_dist);
+    int motor_increase = (p_gain * error_temp) + i_mem + d_increase;
+
+    //Change variable motor speed 
+    if ((motorSpeedVar + motor_increase) < 255 && (motorSpeedVar + motor_increase) > 0){
+      motorSpeedVar += motor_increase;
+    } else if((motorSpeedVar + motor_increase) >= 255){
+      motorSpeedVar = 255;
+    } else {
+      motorSpeedVar = 0;
+    }
+    myMotorLeft->setSpeed(motorSpeedVar);
+    Serial.println(motorSpeedVar);
+    //increase counter 
+    pid_counter = 0;
+    if (pid_d_counter % 10 == 0){
+     pid_d_counter = 0;
+    last_dist = actual_dist;
+    }
+  }
+
+  pid_counter += 1;
 }
 
 void setup() {
