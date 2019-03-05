@@ -28,7 +28,9 @@ class Task():
         's' : b'\x05',
         'l' : b'\x06', #soft turn left
         'r' : b'\x07', #soft turn right
-        'd' : b'\x08', #soft turn left
+        'p_l' : b'\x08', #pid left
+        'p_r' : b'\x09', #pid right
+        
         
         }
         #initialise time saving attributes

@@ -8,18 +8,31 @@ MOTOR INSTRUCTIONS
 
 drive forwards = 1
 drive back = 2
-turn left = 3
-turn right = 4
+pivot left = 3
+pivot right = 4
 stop driving = 5
+soft turn left = 6
+soft turn right  = 7
+pid left = 8
+pid right = 9
 
 GENERAL INSTRUCTIONS
 
-halt everything = 6
-resume = 7
+halt everything = 10
+resume = 11
+
+NON-MOTOR INSTRUCTIONS
+
+flip rejection switch = 12
+rotate pickup wheel = 13
+drop blocks onto platform = 14
 
 ARDUINO OUTPUTS
 
 front switch triggered = sf
 back switch triggered = sb
+block detect = sb
+hall sensor = sh
+
 
 

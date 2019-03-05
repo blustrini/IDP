@@ -15,8 +15,6 @@ ARDUINO IMPLEMENTATION - RAY
 Think about how to handle buffer getting too large
 - Temporarily stop Arduino loop, let python catch up
 
-- Calibration: find motor speeds that make the robot go straight, ultrasound sensor calibration
-
 ----------------------------
 MAIN PYTHON PROCESS - BERNARDO
 ----------------------------
