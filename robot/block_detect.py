@@ -41,7 +41,7 @@ class Block_Detect(Task):
 
     def timeout_hall(self):
         time1 = time.time()
-        wait = 3  #change this accordingly
+        wait = 3  #how long robot will wait for hall trigger
         func1 = self.check_reject
         tuple1 = (time1,wait,func1)
         self.clock_list.append(tuple1)

@@ -37,8 +37,9 @@ class Task():
         's_block' : b'\x14', # flip switch block
         'd' : b'\x15', #drive diagonally right
         'p_s' : b'\x16', #pid stop
-        'pick' : b'\x17', #rotate pickup wheel
-        'open' : b'\x18' #open collection compartment
+        'w_r' : b'\x17', #rotate pickup wheel
+        'w_s' : b'\x18', #open collection compartment
+        'drop' : b'\x19' #drop blocks onto plaform
         }
         #initialise time saving attributes
         self.time = 0

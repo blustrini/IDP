@@ -7,7 +7,7 @@ from task import *
 from dim import *
 from calibrate_dist import *
 from navigate import *
-from block_sort import *
+from block_pickup import *
 from block_detect import *
 
 #create board object
@@ -19,7 +19,7 @@ print('board')
 Dim = Dim()
 
 #initialise tasks
-Block_Sort = Block_Sort(Dim)
+Block_Pickup = Block_Pickup(Dim)
 Block_Detect = Block_Detect(Dim)
 Calibrate_Dist = Calibrate_Dist(Dim)
 Navigate = Navigate(Dim)
@@ -31,7 +31,7 @@ tasks = [Calibrate_Dist,Navigate]
 task_dict = {
     'Calibrate_Dist':Calibrate_Dist,
     'Navigate':Navigate,
-    'Block_Sort':Block_Sort,
+    'Block_Pickup':Block_Pickup,
     'Block_Detect':Block_Detect
 }
 

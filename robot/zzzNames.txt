@@ -41,6 +41,7 @@ front switch triggered = 3
 back switch triggered = 4
 block detect = 5
 hall sensor = 6
+block at wheel = 7
 
 
 
