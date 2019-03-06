@@ -1,4 +1,5 @@
 
+
 front switch = switch_front
 back switch = switch_back
 
@@ -26,16 +27,19 @@ resume = 11
 
 NON-MOTOR INSTRUCTIONS
 
-flip rejection switch = 12
-rotate pickup wheel = 13
-drop blocks onto platform = 14
+flip switch accept = 12
+flip switch reject = 13
+flip switch block = 14
+
+rotate pickup wheel = 17
+drop blocks onto platform = 18
 
 ARDUINO OUTPUTS
 
-front switch triggered = sf
-back switch triggered = sb
-block detect = sb
-hall sensor = sh
+front switch triggered = 3
+back switch triggered = 4
+block detect = 5
+hall sensor = 6
 
 
 

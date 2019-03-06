@@ -32,19 +32,20 @@ class Task():
         'p_r' : b'\x09', #pid right
         'halt' : b'\x10', #halt everything
         'resume' : b'\x11', #resume
-        'rej' : b'\x12', #flip rejection switch
-        'pick' : b'\x13', #rotate pickup wheel
-        'open' : b'\x14', #open collection compartment
-        'd' : b'\x15' #drive diagonally right
-
-        
+        's_acc' : b'\x12', #flip switch accept
+        's_rej' : b'\x13', #flip switch reject
+        's_block' : b'\x14', # flip switch block
+        'd' : b'\x15', #drive diagonally right
+        'p_s' : b'\x16', #pid stop
+        'pick' : b'\x17', #rotate pickup wheel
+        'open' : b'\x18' #open collection compartment
         }
         #initialise time saving attributes
         self.time = 0
         self.time_list = []
         #initialise clock_list (init,wait,function)
         self.clock_list = []
-        #initialise task_control (task_name,on/off)
+        #initialise task_control (task_name,on/off,reset)
         self.task_control = []
 
     #get list of instructions, in the given order
@@ -115,10 +116,10 @@ class Task():
                 self.clock_list.remove(item)  
 
     def activate(self,on,reset=True):
+        if reset:
+            self.state = 0
         if on:
             self.active = 1
-            if reset:
-            	self.state = 0
             print('{} activated into state {}'.format(self.name,self.state))
         else:
             self.active = 0

@@ -7,7 +7,8 @@ from task import *
 from dim import *
 from calibrate_dist import *
 from navigate import *
-
+from block_sort import *
+from block_detect import *
 
 #create board object
 board = establish_serial(find_usb_port())
@@ -18,6 +19,8 @@ print('board')
 Dim = Dim()
 
 #initialise tasks
+Block_Sort = Block_Sort(Dim)
+Block_Detect = Block_Detect(Dim)
 Calibrate_Dist = Calibrate_Dist(Dim)
 Navigate = Navigate(Dim)
 
@@ -27,11 +30,14 @@ tasks = [Calibrate_Dist,Navigate]
 #create dict of tasks
 task_dict = {
     'Calibrate_Dist':Calibrate_Dist,
-    'Navigate':Navigate
+    'Navigate':Navigate,
+    'Block_Sort':Block_Sort,
+    'Block_Detect':Block_Detect
 }
 
 Calibrate_Dist.active = 0
 Navigate.active = 1
+Block_Pickup.active = 1
 
 # code to test serial input buffer working
 # n = 10
@@ -87,7 +93,8 @@ while True:
 
             #turn any tasks on/off
             for control in Task.task_control:
-                control[0].update(control[1])
+                task_to_control = tasks_dict[control[0]]
+                task_to_control.activate(control[1],control[2])
 
             #clear output
             Task.output = []

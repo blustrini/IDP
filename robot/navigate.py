@@ -26,9 +26,9 @@ class Navigate(Task):
         0 : (('f'),1),          #move forward, goto state 1
         1 : (('b'),2),             #move backward goto state 2
         2 : ((),2),             #unexpected trigger, maybe do some error fixing later
-        3 : (('b'),4),             #move back, goto state 4
+        3 : (('p_s','s_block','b'),4),             #move back, goto state 4
         4 : ((),4),             #unexpected trigger, maybe do some error fixing later
-        5 : (('s'),0),             #ignore, stay in state 5
+        5 : (('s'),0)             #ignore, stay in state 5
         }
         
         self.switch_back = {
@@ -37,15 +37,15 @@ class Navigate(Task):
         2 : (('b'),3),             #add clock that aliogns robot with wall, goto state 3
         3 : ((),3),          #unexpected trigger, maybe do some error fixing later n.b. back switch might be triggered by align mechanism
         4 : (('b'),3),             #add clock that aliogns robot with wall, goto state 3
-        5 : (('s'),0),          #move forward, goto state 2
+        5 : (('s'),0)          #move forward, goto state 2
         }
         
         #processing actions
         self.processes = {
         '12' : (self.init_htl),
-        '23' : (self.align_back_wall_first),
-        '43' : (self.align_back_wall),
-        '34' : (self.check_sweeps),
+        '23' : (self.align_back_wall_first,self.tart_block_detect),
+        '43' : (self.align_back_wall,self.start_block_detect),
+        '34' : (self.stop_pid,self.stop_block_detect,self.check_sweeps),
         '45' : (self.init_htl)
         }
 
@@ -53,6 +53,12 @@ class Navigate(Task):
         self.triggers = {
         '3' : self.switch_front,
         '4' : self.switch_back}
+
+    def stop_block_detect(self):
+        self.task_control.append(('Block_Detect',0,1))
+
+    def start_block_detect(self):
+        self.task_control.append(('Block_Detect',1,1))
        
        #ram into back wall to mae robot straight
     def align_back_wall(self):
@@ -77,9 +83,15 @@ class Navigate(Task):
     def start_pid(self):
         if self.sweeps % 2 == 1:
             self.output.append(self.action_dict['p_r'])
+            self.Dim.pid_side = 'r'
         else:
             self.output.append(self.action_dict['p_l'])
-        self.output.append('f')
+            self.Dim.pid_side = 'l'
+        self.output.append(self.action_dict['f'])
+        self.Dim.pid = True
+
+    def stop_pid(self):
+        self.Dim.pid = False
 
     def check_sweeps(self):
         if self.sweeps >= 7:

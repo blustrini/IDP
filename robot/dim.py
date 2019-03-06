@@ -13,3 +13,5 @@ class Dim():
         self.robot_length = 39.2
         self.robot_width = 20
         self.speed = 10
+        self.pid = False
+        self.pid_side = 'l'
