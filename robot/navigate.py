@@ -59,7 +59,8 @@ class Navigate(Task):
         print('align back wall')
         time1 = time.time()
         wait1 = 1
-        func1 = self.action_dict['f']
+        #func1 = self.action_dict['f']
+        func1 = self.start_pid()
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.clock_list.append(tuple1)
@@ -72,6 +73,13 @@ class Navigate(Task):
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.clock_list.append(tuple1)
+        
+    def start_pid(self):
+        if self.sweeps % 2 == 1:
+            self.output.append(self.action_dict['p_r'])
+        else:
+            self.output.append(self.action_dict['p_l'])
+        self.output.append('f')
 
     def check_sweeps(self):
         if self.sweeps >= 7:
