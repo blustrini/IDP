@@ -19,8 +19,8 @@ class Block_Detect(Task):
         }
         
         self.hall_detect = {
-        0 : ((),2),          #move forward, goto state 1
-        1 : ((),2),             #ignore, stay in state 1
+        0 : ((),3),          #move forward, goto state 1
+        1 : ((),3),             #ignore, stay in state 1
         2: ((),2),
         3: ((),3)
         }

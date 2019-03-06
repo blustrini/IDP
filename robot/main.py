@@ -38,6 +38,7 @@ task_dict = {
 Calibrate_Dist.active = 0
 Navigate.active = 1
 Block_Pickup.active = 1
+Block_Detect.active = 1
 
 # code to test serial input buffer working
 # n = 10
