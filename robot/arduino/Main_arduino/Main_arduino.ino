@@ -31,8 +31,6 @@ const byte switchBackPin = 3;
 //TESTTT low and high pins
 int low1 = 4;
 int high1 = 5;
-int low2 = 6;
-int high2 = 7;
 
 //Debounce time
 int debounceTime = 1000;
@@ -50,6 +48,15 @@ bool pid_on = false;
 int pid_counter = 0;
 int pid_d_counter = 0;
 int pid_side;
+
+//Variables for block handling
+const byte hallDetectPin = 8;
+const byte servoPin = 7;
+#include <Servo.h>
+Servo myServo;
+int servoPosAcc = 0;
+int servoPosRej = 40;
+int servoPosBlock = 90;
 
 //Motor functions
 void MoveForward() {
@@ -79,6 +86,7 @@ void PivotRight() {
 }
 
 void MoveStop() {
+  pid_on = false;
   myMotorR->setSpeed(0);
   myMotorL->setSpeed(0);
 }
@@ -201,6 +209,19 @@ void PIDStop(){
   pid_on == false;
 }
 
+//Servo functions
+void ServoAcc(){
+  myServo.write(servoPosAcc)
+}
+
+void ServoRej(){
+  myServo.write(servoPosRej)
+}
+
+void ServoBlock(){
+  myServo.write(servoPosBlock)
+}
+
 void setup() {
   // put your setup code here, to run once:
 
@@ -226,7 +247,9 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(switchFrontPin), switchFrontSerial, RISING);
   pinMode(switchBackPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(switchBackPin), switchBackSerial, RISING);
-  
+
+  //attach servo pin
+  myServo.attach(servoPin);
 }
 
 void loop() {
