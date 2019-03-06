@@ -32,7 +32,8 @@ flip switch reject = 13
 flip switch block = 14
 
 rotate pickup wheel = 17
-drop blocks onto platform = 18
+stop pickup wheel = 18
+drop blocks onto platform = 19
 
 ARDUINO OUTPUTS
 

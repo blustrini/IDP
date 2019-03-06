@@ -12,6 +12,12 @@ int motorSpeedSlowTurn = 80;
 int motorSpeedSlowStraight = 230;
 int delayTime = 10000;
 
+//Motors for pickup wheel and block release mechanism
+Adafruit_DCMotor *pickupMotor = AFMS.getMotor(3);
+Adafruit_DCMotor *releaseMotor = AFMS.getMotor(4);
+int pickupMotorSpeed = 150;
+int releaseMotorSpeed = 50;
+
 //Inclusions and variables for right ultrasonic sensors
 #include "SR04.h"
 //Right
@@ -33,9 +39,12 @@ int low1 = 4;
 int high1 = 5;
 
 //Debounce time
-int debounceTime = 1000;
-//Last interrupt
+int debounceTimeSwitch = 1000;
+int debounceTimeHall = 500;
+//Last interrupt switches, block detector, hall sensor
 static unsigned long lastInterruptTime = 0;
+static unsigned long lastInterruptTimeBD = 0;
+static unsigned long lastInterruptTimeHall = 0;
 
 //PID variables
 float expected_dist = 0;
@@ -50,12 +59,13 @@ int pid_d_counter = 0;
 int pid_side;
 
 //Variables for block handling
-const byte hallDetectPin = 8;
-const byte servoPin = 7;
+//block detect pin is A0
+int hallDetectPin = 8;
+int servoPin = 7;
 #include <Servo.h>
 Servo myServo;
 int servoPosAcc = 0;
-int servoPosRej = 40;
+int servoPosRej = 40; //need to be calibrated
 int servoPosBlock = 90;
 
 //Motor functions
@@ -115,7 +125,7 @@ void SlightRight() {
 //Serial output functions
 void switchFrontSerial() {
   unsigned long interruptTime = millis();
-  if (interruptTime - lastInterruptTime > debounceTime){
+  if (interruptTime - lastInterruptTime > debounceTimeSwitch){
     Serial.println(3);
   }
   lastInterruptTime = interruptTime;
@@ -123,7 +133,7 @@ void switchFrontSerial() {
 
 void switchBackSerial() {
   unsigned long interruptTime = millis();
-  if (interruptTime - lastInterruptTime > debounceTime){
+  if (interruptTime - lastInterruptTime > debounceTimeSwitch){
     Serial.println(4);
   }
   lastInterruptTime = interruptTime;
@@ -211,15 +221,56 @@ void PIDStop(){
 
 //Servo functions
 void ServoAcc(){
-  myServo.write(servoPosAcc)
+  myServo.write(servoPosAcc);
 }
 
 void ServoRej(){
-  myServo.write(servoPosRej)
+  myServo.write(servoPosRej);
 }
 
 void ServoBlock(){
-  myServo.write(servoPosBlock)
+  myServo.write(servoPosBlock);
+}
+
+//Interrupt routine for hall detector
+ISR(PCINT0_vect){
+  unsigned long interruptTime = millis();
+  if (interruptTime - lastInterruptTimeHall > debounceTimeHall){
+    if (digitalRead(hallDetectPin) == HIGH){
+      Serial.println(6);
+    }
+  }
+  lastInterruptTimeHall = interruptTime;
+}
+
+//Interrupt routine for block detector
+ISR(PCINT1_vect){
+  unsigned long interruptTime = millis();
+  if (interruptTime - lastInterruptTimeBD > debounceTimeSwitch){
+    if (digitalRead(A0) == HIGH){
+      Serial.println(5);
+    }
+  }
+  lastInterruptTimeBD = interruptTime;
+}
+
+//Pickup wheel functions
+void StartPickupWheel(){
+  pickupMotor->setSpeed(pickupMotorSpeed);
+  pickupMotor->run(FORWARD);
+}
+
+void StopPickupWheel(){
+  pickupMotor->setSpeed(0);
+}
+
+//Block Releasing function
+void ReleaseBlocks(){
+  releaseMotor->setSpeed(releaseMotorSpeed);
+  releaseMotor->run(FORWARD);
+  //add delay then stop motor? DELETE IF NECESSARY
+  delay(1);
+  releaseMotor->setSpeed(0);
 }
 
 void setup() {
@@ -235,10 +286,10 @@ void setup() {
   //low high pins
   pinMode(high1, OUTPUT);
   pinMode(low1, OUTPUT);
-  pinMode(high2, OUTPUT);
-  pinMode(low2, OUTPUT);
-  digitalWrite(low2,LOW);
-  digitalWrite(high2, HIGH);
+  //pinMode(high2, OUTPUT);
+  //pinMode(low2, OUTPUT);
+  //digitalWrite(low2,LOW);
+  //digitalWrite(high2, HIGH);
   digitalWrite(low1,LOW);
   digitalWrite(high1, HIGH);
   
@@ -248,13 +299,23 @@ void setup() {
   pinMode(switchBackPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(switchBackPin), switchBackSerial, RISING);
 
-  //attach servo pin
+  //Attach servo pin
   myServo.attach(servoPin);
+
+  //Declare pin for hall detector
+  pinMode(hallDetectPin, INPUT);
+  //Pin change interrupt for hall detector
+  PCMSK0 = B00000001; //Enable digital pin 8
+  //Block detecting switch
+  pinMode(A0, INPUT_PULLUP);
+  PCMSK1 = B00000001; //Enable analogue pin A0
+  PCIFR = B00000000; //Clear all interrupt flags
+  PCICR = B00000011; //Enable PCIE0 and PCIE1 group
+  
 }
 
 void loop() {
-  //Write serial based on sensor output
-  
+
   //Read serial
   byte serialInput = Serial.read();
 
@@ -275,6 +336,9 @@ void loop() {
   const byte n = 14;
   const byte o = 15;
   const byte p = 16;
+  const byte q = 17;
+  const byte r = 18;
+  const byte s = 19;
   
   switch(serialInput) {
    case a:
@@ -304,8 +368,35 @@ void loop() {
    case i:
      PIDSetup(0);
      break;
+   case j:
+     //halt everything
+     break;
+   case k:
+     //resume
+     break;
+   case l:
+     ServoAcc();
+     break;
+   case m:
+     ServoRej();
+     break;
+   case n:
+     ServoBlock();
+     break;
+   case o:
+     SlightRight();
+     break;
    case p:
      PIDStop();
+     break;
+   case q:
+     StartPickupWheel();
+     break;
+   case r:
+     StopPickupWheel();
+     break;
+   case s:
+     ReleaseBlocks();
      break;
   }
    if (pid_on == true){
