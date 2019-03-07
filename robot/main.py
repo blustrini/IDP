@@ -30,7 +30,7 @@ Navigate = Navigate(Dim)
 
 
 #create list of tasks
-tasks = [Calibrate_Dist,Navigate]
+tasks = [Calibrate_Dist,Navigate,Block_Detect,Block_Pickup,Drop_Payload,Park]
 #create dict of tasks
 task_dict = {
     'Park':Park,
@@ -46,24 +46,6 @@ Navigate.active = 1
 Block_Pickup.active = 1
 Block_Detect.active = 0
 Drop_Payload.active = 0
-
-# code to test serial input buffer working
-# n = 10
-# i = -1
-#main loop
-# while True:
-#   i = i+1
-#   i = i%10
-
-#   if i != 0:
-#       serial_in = read_next_line(board)
-#       print('line: {}'.format(serial_in))
-
-#   else:
-#       print('buffer size: {}'.format(board.inWaiting()))
-#       serial_in = flush_buffer(board)
-#       for j in serial_in[1]:
-#           print('line: {}'.format(j))   
 
 #main loop
 while True:
