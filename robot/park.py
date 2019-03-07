@@ -10,7 +10,7 @@ class Park(Task):
 
 
         #flowchart        0         1         2
-        #               idle,	align wall, reverse, 
+        #               idle,   align wall, reverse, 
 
         self.switch_front = {
         0 : ((),0), #ignore
@@ -57,11 +57,11 @@ class Park(Task):
         return 1
 
     def time_park(self):
-    	time1 = time.time()
-    	wait = 2
-    	func1 = self.action_dict['s']
-    	tuple1 = (time1,wait,func1)
-    	self.clock_list.append(tuple1)
+        time1 = time.time()
+        wait = 2
+        func1 = self.action_dict['s']
+        tuple1 = (time1,wait,func1)
+        self.clock_list.append(tuple1)
 
 
 
