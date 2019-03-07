@@ -247,7 +247,7 @@ ISR(PCINT0_vect){
 ISR(PCINT1_vect){
   unsigned long interruptTime = millis();
   if (interruptTime - lastInterruptTimeBD > debounceTimeSwitch){
-    if (digitalRead(A0) == HIGH){
+    if (digitalRead(A0) == LOW){
       Serial.println(5);
     }
   }
