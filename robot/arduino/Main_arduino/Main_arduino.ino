@@ -12,11 +12,23 @@ int motorSpeedSlowTurn = 80;
 int motorSpeedSlowStraight = 230;
 int delayTime = 10000;
 
-//Motors for pickup wheel and block release mechanism
+//Motors for pickup wheel
 Adafruit_DCMotor *pickupMotor = AFMS.getMotor(3);
-Adafruit_DCMotor *releaseMotor = AFMS.getMotor(4);
 int pickupMotorSpeed = 150;
-int releaseMotorSpeed = 50;
+
+//Servo for block release
+#include<Servo.h>
+Servo blockReleaseServo;
+int blockReleaseServoPos = 20; //closed 135 open 20
+
+//Servo for block switch
+Servo switchServo;
+int switchServoPosAcc = 0;
+int switchServoPosRej = 40; //need to be calibrated
+int switchServoPosBlock = 90;
+
+//servo delays
+int servoDelay = 1000;
 
 //Inclusions and variables for right ultrasonic sensors
 #include "SR04.h"
@@ -25,8 +37,8 @@ int releaseMotorSpeed = 50;
 #define ECHO_PIN_R 11
 SR04 ultrasoundRight = SR04(ECHO_PIN_R,TRIG_PIN_R);
 //Left
-#define TRIG_PIN_L 10
-#define ECHO_PIN_L 9
+#define TRIG_PIN_L 7
+#define ECHO_PIN_L 6
 SR04 ultrasoundLeft = SR04(ECHO_PIN_L,TRIG_PIN_L);
 float actual_dist;
 
@@ -58,15 +70,8 @@ int pid_counter = 0;
 int pid_d_counter = 0;
 int pid_side;
 
-//Variables for block handling
-//block detect pin is A0
+//Hall detector
 int hallDetectPin = 8;
-int servoPin = 7;
-#include <Servo.h>
-Servo myServo;
-int servoPosAcc = 0;
-int servoPosRej = 40; //need to be calibrated
-int servoPosBlock = 90;
 
 //Motor functions
 void MoveForward() {
@@ -219,17 +224,20 @@ void PIDStop(){
   pid_on == false;
 }
 
-//Servo functions
+//Switch Servo functions
 void ServoAcc(){
-  myServo.write(servoPosAcc);
+  switchServo.write(switchServoPosAcc);
+  delay(servoDelay);
 }
 
 void ServoRej(){
-  myServo.write(servoPosRej);
+  switchServo.write(switchServoPosRej);
+  delay(servoDelay);
 }
 
 void ServoBlock(){
-  myServo.write(servoPosBlock);
+  switchServo.write(switchServoPosBlock);
+  delay(servoDelay);
 }
 
 //Interrupt routine for hall detector
@@ -266,11 +274,8 @@ void StopPickupWheel(){
 
 //Block Releasing function
 void ReleaseBlocks(){
-  releaseMotor->setSpeed(releaseMotorSpeed);
-  releaseMotor->run(FORWARD);
-  //add delay then stop motor? DELETE IF NECESSARY
-  delay(1);
-  releaseMotor->setSpeed(0);
+  blockReleaseServo.write(blockReleaseServoPos);
+  delay(servoDelay);
 }
 
 void setup() {
@@ -299,8 +304,9 @@ void setup() {
   pinMode(switchBackPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(switchBackPin), switchBackSerial, RISING);
 
-  //Attach servo pin
-  myServo.attach(servoPin);
+  //Attach servo pins
+  blockReleaseServo.attach(10);
+  switchServo.attach(9);
 
   //Declare pin for hall detector
   pinMode(hallDetectPin, INPUT);
