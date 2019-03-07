@@ -9,6 +9,8 @@ from calibrate_dist import *
 from navigate import *
 from block_pickup import *
 from block_detect import *
+from drop_payload import *
+from park import *
 
 #create board object
 board = establish_serial(find_usb_port())
@@ -19,6 +21,8 @@ print('board')
 Dim = Dim()
 
 #initialise tasks
+Park = Park(Dim)
+Drop_Payload = Drop_Payload(Dim)
 Block_Pickup = Block_Pickup(Dim)
 Block_Detect = Block_Detect(Dim)
 Calibrate_Dist = Calibrate_Dist(Dim)
@@ -29,16 +33,19 @@ Navigate = Navigate(Dim)
 tasks = [Calibrate_Dist,Navigate]
 #create dict of tasks
 task_dict = {
+    'Park':Park,
     'Calibrate_Dist':Calibrate_Dist,
     'Navigate':Navigate,
     'Block_Pickup':Block_Pickup,
-    'Block_Detect':Block_Detect
+    'Block_Detect':Block_Detect,
+    'Drop_Payload':Drop_Payload
 }
-
+Park.active = 0
 Calibrate_Dist.active = 0
 Navigate.active = 1
 Block_Pickup.active = 1
-Block_Detect.active = 1
+Block_Detect.active = 0
+Drop_Payload.active = 0
 
 # code to test serial input buffer working
 # n = 10

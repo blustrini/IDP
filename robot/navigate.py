@@ -46,13 +46,18 @@ class Navigate(Task):
         '23' : (self.align_back_wall_first,self.tart_block_detect),
         '43' : (self.align_back_wall,self.start_block_detect),
         '34' : (self.stop_pid,self.stop_block_detect,self.check_sweeps),
-        '45' : (self.init_htl)
+        '45' : (self.init_htl),
+        '50' : (self.init_drop_payload)
         }
 
         #all possible actions mapped to the corresponding arduino outputs
         self.triggers = {
         '3' : self.switch_front,
         '4' : self.switch_back}
+
+    def init_drop_payload(self):
+        self.task_control.append(('Drop_Payload',1,1))
+        self.active = 0
 
     def stop_block_detect(self):
         self.task_control.append(('Block_Detect',0,1))
