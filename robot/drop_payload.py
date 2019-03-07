@@ -26,7 +26,7 @@ class Drop_Payload(Task):
         2 : (('f'),2),          #failsafe
         3 : ((),3),             #ignore
         4 : ((),4),             #ignore
-        5 : (('s'),0)          #move forward, goto state 2
+        5 : (('s'),0)          #ignore
         }
         
         #processing actions
@@ -35,8 +35,8 @@ class Drop_Payload(Task):
         '12' : (self.align_back_wall),
         '23' : (self.init_htr),
         '34' : (self.wait_for_blocks),
-        '45' : (self.init_htr),
-        '50': (self.park)
+        '45' : (self.init_htr_back),
+        '50': (self.turnoff)
         }
 
         #all possible actions mapped to the corresponding arduino outputs
@@ -45,8 +45,7 @@ class Drop_Payload(Task):
         '4' : self.switch_back
         }
 
-    def park(self):
-        self.task_control.append(('Park',1,1))
+    def turnoff(self):
         self.active = 0
 
     def self.wait_for_blocks(self):
@@ -62,6 +61,16 @@ class Drop_Payload(Task):
 
 
     #turning functions
+    def init_htr_back(self):
+        #start,wait,func
+        time1 = time.time()
+        wait1 = 2/self.Dim.speed
+        func1 = self.half_turn_right_back
+        tuple1 = (time1,wait1,func1)
+        print(tuple1)
+        self.clock_list.append(tuple1)
+        return 1
+
     def init_htr(self):
         #start,wait,func
         time1 = time.time()
@@ -70,6 +79,17 @@ class Drop_Payload(Task):
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.clock_list.append(tuple1)
+        return 1
+
+    def half_turn_right_back(self):
+        #start,wait,func
+        time1 = time.time()
+        wait1 = 1.2 #calculate with actual dimensions
+        func1 = self.action_dict['b']
+        tuple1 = (time1,wait1,func1)
+        self.output.append(self.action_dict['r'])
+        self.clock_list.append(tuple1)
+        self.task_control.append(('Park',1,1))
         return 1
 
     def half_turn_right(self):
