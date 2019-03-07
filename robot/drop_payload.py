@@ -50,7 +50,7 @@ class Drop_Payload(Task):
 
     def self.wait_for_blocks(self):
         time1 = time.time()
-        wait1 = 5
+        wait1 = self.Dim.wait_drop
         func1 = self.init_statechange_45
         tuple1 = (time1,wait1,func1)
         self.clock_list.append(tuple1)
@@ -64,7 +64,7 @@ class Drop_Payload(Task):
     def init_htr_back(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 2/self.Dim.speed
+        wait1 = self.Dim.wait_init_ht
         func1 = self.half_turn_right_back
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -74,7 +74,7 @@ class Drop_Payload(Task):
     def init_htr(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 2/self.Dim.speed
+        wait1 = self.Dim.wait_init_ht
         func1 = self.half_turn_right
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -84,7 +84,7 @@ class Drop_Payload(Task):
     def half_turn_right_back(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 1.2 #calculate with actual dimensions
+        wait1 = self.Dim.wait_ht
         func1 = self.action_dict['b']
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['r'])
@@ -95,7 +95,7 @@ class Drop_Payload(Task):
     def half_turn_right(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 1.2 #calculate with actual dimensions
+        wait1 = self.Dim.wait_ht
         func1 = self.action_dict['f']
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['r'])
@@ -106,7 +106,7 @@ class Drop_Payload(Task):
     def init_htl(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 2/self.Dim.speed
+        wait1 = self.Dim.wait_init_ht
         func1 = self.half_turn_left
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -116,7 +116,7 @@ class Drop_Payload(Task):
     def half_turn_left(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 1.2 #calculate with actual dimensions
+        wait1 = self.Dim.wait_ht
         func1 = self.action_dict['b']
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['l'])
@@ -126,7 +126,7 @@ class Drop_Payload(Task):
     def align_back_wall(self):
         print('align back wall')
         time1 = time.time()
-        wait1 = 1
+        wait1 = self.Dim.wait_align
         func1 = self.drive_to_centre
         #func1 = self.start_pid()
         tuple1 = (time1,wait1,func1)

@@ -39,7 +39,7 @@ class Park(Task):
     def init_htl(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 2/self.Dim.speed
+        wait1 = self.Dim.wait_init_ht
         func1 = self.half_turn_left
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -49,7 +49,7 @@ class Park(Task):
     def half_turn_left(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 1.2 #calculate with actual dimensions
+        wait1 = self.Dim.wait_ht
         func1 = self.action_dict['f']
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['l'])
@@ -58,7 +58,7 @@ class Park(Task):
 
     def time_park(self):
         time1 = time.time()
-        wait = 2
+        wait = self.Dim.wait_park
         func1 = self.action_dict['s']
         tuple1 = (time1,wait,func1)
         self.clock_list.append(tuple1)

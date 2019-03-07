@@ -69,7 +69,7 @@ class Navigate(Task):
     def align_back_wall(self):
         print('align back wall')
         time1 = time.time()
-        wait1 = 1
+        wait1 = self.Dim.wait_align
         #func1 = self.action_dict['f']
         func1 = self.start_pid()
         tuple1 = (time1,wait1,func1)
@@ -79,7 +79,7 @@ class Navigate(Task):
     def align_back_wall_first(self):
         print('align back wall')
         time1 = time.time()
-        wait1 = 1
+        wait1 = self.Dim.wait_align
         func1 = self.action_dict['d']
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -112,7 +112,7 @@ class Navigate(Task):
     def init_htl(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 2/self.Dim.speed
+        wait1 = self.Dim.wait_init_ht
         func1 = self.half_turn_left
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -122,7 +122,7 @@ class Navigate(Task):
     def half_turn_left(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 1.2 #calculate with actual dimensions
+        wait1 = self.Dim.wait_ht
         func1 = self.action_dict['b']
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['l'])
@@ -132,7 +132,7 @@ class Navigate(Task):
     def init_ftl(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 0.6
+        wait1 = self.Dim.wait_ft
         func1 = self.pivot_ninety_left
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -142,7 +142,7 @@ class Navigate(Task):
     def pivot_ninety_left(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 2.3 #add real value
+        wait1 = self.Dim.wait_pivot
         func1 = self.reverse_before_soft_left
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -153,8 +153,7 @@ class Navigate(Task):
     def reverse_before_soft_left(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 2 #add real value
-        func1 = self.soft_left
+        wait1 = self.Dim.wait_init_st
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.output.append(self.action_dict['b'])        
@@ -164,7 +163,7 @@ class Navigate(Task):
     def soft_left(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 3.2 #add real value
+        wait1 = self.Dim.wait_st
         func1 = self.action_dict['b']
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -175,7 +174,7 @@ class Navigate(Task):
     def init_ftr(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 0.6
+        wait1 = self.Dim.wait_init_ft
         func1 = self.pivot_ninety_right
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -185,7 +184,7 @@ class Navigate(Task):
     def pivot_ninety_right(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 2.3 #add real value
+        wait1 = self.Dim.wait_pivot
         func1 = self.reverse_before_soft_right
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -196,7 +195,7 @@ class Navigate(Task):
     def reverse_before_soft_right(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 2 #add real value
+        wait1 = self.Dim.wait_init_st
         func1 = self.soft_right
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -207,7 +206,7 @@ class Navigate(Task):
     def soft_right(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = 3.2 #add real value
+        wait1 = self.Dim.wait_st
         func1 = self.action_dict['b']
         tuple1 = (time1,wait1,func1)
         print(tuple1)
