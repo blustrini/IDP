@@ -122,12 +122,31 @@ class Navigate(Task):
     def half_turn_left(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = self.Dim.wait_ht
-        func1 = self.action_dict['b']
+        wait1 = self.Dim.wait_correct_right
+        func1 = self.correct_right
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['l'])
         self.clock_list.append(tuple1)
         return 1
+    
+    def correct_right(self):
+        time1 = time.time()
+        wait1 = self.Dim.wait_correct_left
+        func1 = self.correct_left
+        tuple1 = (time1,wait1,func1)
+        self.output.append(self.action_dict['R'])
+        self.clock_list.append(tuple1)
+        return 1
+        
+    def correct_left(self):
+        time1 = time.time()
+        wait1 = self.Dim.wait_ht
+        func1 = self.action_dict['b']
+        tuple1 = (time1,wait1,func1)
+        self.output.append(self.action_dict['L'])
+        self.clock_list.append(tuple1)
+        return 1
+        #MORE TO DO
 
     def init_ftl(self):
         #start,wait,func
