@@ -32,7 +32,7 @@ Navigate = Navigate(Dim)
 #create list of tasks
 tasks = [Calibrate_Dist,Navigate,Block_Detect,Block_Pickup,Drop_Payload,Park]
 #create dict of tasks
-task_dict = {
+tasks_dict = {
     'Park':Park,
     'Calibrate_Dist':Calibrate_Dist,
     'Navigate':Navigate,

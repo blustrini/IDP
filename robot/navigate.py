@@ -80,7 +80,7 @@ class Navigate(Task):
         print('align back wall')
         time1 = time.time()
         wait1 = self.Dim.wait_align
-        func1 = self.action_dict['d']
+        func1 = self.action_dict['f']
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.clock_list.append(tuple1)
@@ -154,6 +154,7 @@ class Navigate(Task):
         #start,wait,func
         time1 = time.time()
         wait1 = self.Dim.wait_init_st
+        func1 = self.soft_left
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.output.append(self.action_dict['b'])        
