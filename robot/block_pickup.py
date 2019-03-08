@@ -1,7 +1,7 @@
 from task import *
 import time
 
-class Block_Sort(Task):
+class Block_Pickup(Task):
     def __init__(self,Dim):
         #initialise superobject
         super().__init__(Dim)
@@ -35,7 +35,7 @@ class Block_Sort(Task):
         tuple1 = (time1,wait1,func1)
         self.clock_list.append(tuple1)
 
-    def wheel_360:
+    def wheel_360(self):
         time1 = time.time()
         wait1 = self.Dim.wait_wheel
         func1 = self.action_dict['w_s']

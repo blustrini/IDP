@@ -43,7 +43,7 @@ class Navigate(Task):
         #processing actions
         self.processes = {
         '12' : (self.init_htl),
-        '23' : (self.align_back_wall_first,self.tart_block_detect),
+        '23' : (self.align_back_wall_first,self.start_block_detect),
         '43' : (self.align_back_wall,self.start_block_detect),
         '34' : (self.stop_pid,self.stop_block_detect,self.check_sweeps),
         '45' : (self.init_htl),

@@ -48,14 +48,14 @@ class Drop_Payload(Task):
     def turnoff(self):
         self.active = 0
 
-    def self.wait_for_blocks(self):
+    def wait_for_blocks(self):
         time1 = time.time()
         wait1 = self.Dim.wait_drop
         func1 = self.init_statechange_45
         tuple1 = (time1,wait1,func1)
         self.clock_list.append(tuple1)
 
-    def self.init_statechange_45(self):
+    def init_statechange_45(self):
         self.output.append(self.action_dict['b'])
         self.change_state(5)
 
