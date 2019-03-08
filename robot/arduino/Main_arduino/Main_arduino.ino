@@ -10,6 +10,7 @@ int motorSpeedVar = 200;
 int motorSpeedFast = 255;
 int motorSpeedSlowTurn = 80;
 int motorSpeedSlowStraight = 230;
+int motorSpeedSlowCorrectLeft = 150;
 int delayTime = 10000;
 
 //Motors for pickup wheel
@@ -122,6 +123,13 @@ void SoftTurnRight() {
 
 void SlightRight() {
   myMotorR->setSpeed(motorSpeedSlowStraight);
+  myMotorR->run(FORWARD);
+  myMotorL->setSpeed(motorSpeedFast);
+  myMotorL->run(BACKWARD);
+}
+
+void CorrectLeft() {
+  myMotorR->setSpeed(motorSpeedSlowCorrectLeft);
   myMotorR->run(FORWARD);
   myMotorL->setSpeed(motorSpeedFast);
   myMotorL->run(BACKWARD);
@@ -390,7 +398,7 @@ void loop() {
      ServoBlock();
      break;
    case o:
-     SlightRight();
+     CorrectLeft();
      break;
    case p:
      PIDStop();
