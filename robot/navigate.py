@@ -132,12 +132,13 @@ class Navigate(Task):
     def correct_right(self):
         time1 = time.time()
         wait1 = self.Dim.wait_correct_r
-        func1 = self.slight_forward
+        #func1 = self.slight_forward
+        func1 = self.correct_left
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['R'])
         self.clock_list.append(tuple1)
         return 1
-
+    '''
     def slight_forward(self):
         time1 = time.time()
         wait1 = self.Dim.wait_forward
@@ -145,14 +146,15 @@ class Navigate(Task):
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['f'])
         self.clock_list.append(tuple1)
-        return 1   
+        return 1  
+    ''' 
         
     def correct_left(self):
         time1 = time.time()
         wait1 = self.Dim.wait_correct_l
         func1 = self.action_dict['b']
         tuple1 = (time1,wait1,func1)
-        self.output.append(self.action_dict['L'])
+        self.output.append(self.action_dict['c_l'])
         self.clock_list.append(tuple1)
         return 1
         #MORE TO DO

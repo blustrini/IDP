@@ -37,7 +37,7 @@ class Task():
         's_acc' : b'\x12', #flip switch accept
         's_rej' : b'\x13', #flip switch reject
         's_block' : b'\x14', # flip switch block
-        'd' : b'\x15', #drive diagonally right
+        'c_l' : b'\x15', #drive diagonally right
         'p_s' : b'\x16', #pid stop
         'w_r' : b'\x17', #rotate pickup wheel
         'w_s' : b'\x18', #open collection compartment

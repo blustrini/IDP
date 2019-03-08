@@ -34,6 +34,5 @@ class Dim():
         self.wait_align = 1
         self.wait_correct_r = 0.5
         self.wait_correct_l = 0.5
-        self.wait_forward = 0.2
         #parking wait
         self.wait_park = 1
