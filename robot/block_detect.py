@@ -27,7 +27,7 @@ class Block_Detect(Task):
 
         #processing actions
         self.processes = {
-        '01' : (self.timoeut_hall),
+        '01' : (self.timeout_hall),
         '12' : (self.accept),
         '13' : (self.reject),
         '20' : (self.goforward),

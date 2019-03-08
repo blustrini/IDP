@@ -26,7 +26,7 @@ class Dim():
         #turning waits
         self.wait_init_ht = 1.2
         self.wait_init_st = 2
-        self.wait_init_ft
+        self.wait_init_ft = 4
         self.wait_ht = 2
         self.wait_ft = 0.6
         self.wait_pivot = 2.3
