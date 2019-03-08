@@ -39,15 +39,6 @@ void setup() {
   Serial.begin(9600);
   delay(1000);
 
-  //low high pins
-  pinMode(high1, OUTPUT);
-  pinMode(low1, OUTPUT);
-  pinMode(high2, OUTPUT);
-  pinMode(low2, OUTPUT);
-  digitalWrite(low2,LOW);
-  digitalWrite(high2, HIGH);
-  digitalWrite(low1,LOW);
-  digitalWrite(high1, HIGH);
   
   //Attach Front and Back switch interrupt pins
   pinMode(switchFrontPin, INPUT_PULLUP);
