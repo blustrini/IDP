@@ -17,7 +17,7 @@ soft turn right  = 7
 pid left = 8
 pid right = 9
 pid stop = 16
-drive diagonally right = 15
+correct_left = 15
 
 
 GENERAL INSTRUCTIONS
