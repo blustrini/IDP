@@ -11,6 +11,8 @@ from dim import *
 class Task():
     def __init__(self,Dim):
 
+        self.name = 'Name'
+
         self.active = 0
         #initialise output
         self.output = []
@@ -79,7 +81,7 @@ class Task():
         except KeyError:
             pass
             #print('{} not in process dict'.format(key))
-        print('state changed {}:{}'.format(self.state,next_state))            
+        print(self.name + ' state changed {}:{}'.format(self.state,next_state))            
         self.state = next_state
         return 1
 

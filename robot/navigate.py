@@ -80,7 +80,7 @@ class Navigate(Task):
         print('align back wall')
         time1 = time.time()
         wait1 = self.Dim.wait_align
-        func1 = self.action_dict['f']
+        func1 = self.start_pid()
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.clock_list.append(tuple1)
@@ -122,7 +122,7 @@ class Navigate(Task):
     def half_turn_left(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = self.Dim.wait_correct_right
+        wait1 = self.Dim.wait_ht
         func1 = self.correct_right
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['l'])
@@ -131,16 +131,25 @@ class Navigate(Task):
     
     def correct_right(self):
         time1 = time.time()
-        wait1 = self.Dim.wait_correct_left
-        func1 = self.correct_left
+        wait1 = self.Dim.wait_correct_r
+        func1 = self.slight_forward
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['R'])
         self.clock_list.append(tuple1)
         return 1
+
+    def slight_forward(self):
+        time1 = time.time()
+        wait1 = self.Dim.wait_forward
+        func1 = self.correct_left
+        tuple1 = (time1,wait1,func1)
+        self.output.append(self.action_dict['f'])
+        self.clock_list.append(tuple1)
+        return 1   
         
     def correct_left(self):
         time1 = time.time()
-        wait1 = self.Dim.wait_ht
+        wait1 = self.Dim.wait_correct_l
         func1 = self.action_dict['b']
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['L'])

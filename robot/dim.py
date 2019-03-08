@@ -24,7 +24,7 @@ class Dim():
         self.wait_wheel = 3
         self.wait_drop = 5
         #turning waits
-        self.wait_init_ht = 1.35
+        self.wait_init_ht = 1.5
         self.wait_init_st = 2
         self.wait_init_ft = 4
         self.wait_ht = 3.4
@@ -32,7 +32,8 @@ class Dim():
         self.wait_pivot = 5
         self.wait_st = 3.2
         self.wait_align = 1
-        self.wait_correct_right = 0.5
-        self.wait_correct_left = 0.5
+        self.wait_correct_r = 0.5
+        self.wait_correct_l = 0.5
+        self.wait_forward = 0.2
         #parking wait
         self.wait_park = 1
