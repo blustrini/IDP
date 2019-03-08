@@ -69,7 +69,7 @@ void setup() {
   // put your setup code here, to run once:
   AFMS.begin();
   Serial.begin(9600);
-  
+  MoveForward();
 }
 
 void loop() {
@@ -88,6 +88,8 @@ void loop() {
   MoveBackward();
   */
 
+  /*
+  //JUST DELETED
   delay(5000);
   SlightRight();
   delay(2000);
@@ -97,5 +99,13 @@ void loop() {
   delay(500);
   MoveForward();
   delay(2000);
+  */
+  Serial.println(motorSpeedFast);
+  delay(3000);
+  MoveBackward();
+  delay(3000);
+  MoveForward();
+  motorSpeedFast -= 10;
+  
   
 }

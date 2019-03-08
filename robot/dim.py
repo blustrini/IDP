@@ -32,5 +32,7 @@ class Dim():
         self.wait_pivot = 5
         self.wait_st = 3.2
         self.wait_align = 1
+        self.wait_correct_right = 0.5
+        self.wait_correct_left = 0.5
         #parking wait
         self.wait_park = 1
