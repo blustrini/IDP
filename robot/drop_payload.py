@@ -26,7 +26,7 @@ class Drop_Payload(Task):
         2 : (('f'),2),          #failsafe
         3 : ((),3),             #ignore
         4 : ((),4),             #ignore
-        5 : (('s'),0)          #ignore
+        5 : ((),0)          #ignore
         }
         
         #processing actions
@@ -64,7 +64,7 @@ class Drop_Payload(Task):
     def init_htr_back(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = self.Dim.wait_init_ht
+        wait1 = self.Dim.wait_init_ht + 2
         func1 = self.half_turn_right_back
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -78,6 +78,7 @@ class Drop_Payload(Task):
         func1 = self.half_turn_right
         tuple1 = (time1,wait1,func1)
         print(tuple1)
+        self.output.append(self.action_dict['b'])
         self.clock_list.append(tuple1)
         return 1
 
@@ -106,7 +107,7 @@ class Drop_Payload(Task):
     def init_htl(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = self.Dim.wait_init_ht
+        wait1 = self.Dim.wait_init_ht + 4
         func1 = self.half_turn_left
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -136,14 +137,14 @@ class Drop_Payload(Task):
 
     def drive_to_centre(self):
         time1 = time.time()
-        wait1 = (0.5*self.Dim.arena_width-self.robot_length)/self.Dim.speed
+        wait1 = (0.5*self.Dim.arena_width-self.Dim.robot_length)/self.Dim.speed
         func1 = self.init_statechange_23
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['f'])
         self.clock_list.append(tuple1)
 
     def init_statechange_23(self):
-        self.action_dict['s']
+        self.output.append(self.action_dict['s'])
         self.change_state(3)
 
 
