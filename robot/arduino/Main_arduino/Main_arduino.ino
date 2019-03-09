@@ -10,7 +10,7 @@ int motorSpeedVar = 200;
 int motorSpeedFast = 255;
 int motorSpeedSlowTurn = 80;
 int motorSpeedSlowStraight = 230;
-int motorSpeedSlowCorrectLeft = 150;
+int motorSpeedSlowCorrectLeft = 100;
 int delayTime = 10000;
 
 //Motors for pickup wheel
