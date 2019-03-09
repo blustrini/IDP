@@ -100,12 +100,14 @@ void loop() {
   MoveForward();
   delay(2000);
   */
+
+  /*
   Serial.println(motorSpeedFast);
   delay(3000);
   MoveBackward();
   delay(3000);
   MoveForward();
   motorSpeedFast -= 10;
-  
+  */
   
 }
