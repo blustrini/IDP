@@ -74,6 +74,12 @@ int pid_side;
 //Hall detector
 int hallDetectPin = 8;
 
+// IR sensor
+int analogIRPin = 0;
+int IRThreshold = 400; //CALIBRATE THIS
+static unsigned long lastIRinterruptTime = 0;
+int IRTimeThreshold;
+
 //Motor functions
 void MoveForward() {
   myMotorR->setSpeed(motorSpeedConst);
@@ -416,4 +422,12 @@ void loop() {
    if (pid_on == true){
     PID(pid_side);
    }
+  /*
+   if (analogRead(analogIRPin) > IRThreshold){
+    unsigned long IRinterruptTime = millis();
+    if ((IRinterruptTime - lastIRinterruptTime) > IRTimeThreshold){
+      //send block detected
+    }
+   }
+   */
 }
