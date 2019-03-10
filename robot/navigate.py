@@ -77,6 +77,7 @@ class Navigate(Task):
 
     def start_block_detect(self):
         self.task_control.append(('Block_Detect',1,1))
+        self.output.append(self.action_dict['s_acc'])
        
        #ram into back wall to mae robot straight
     def align_back_wall(self):

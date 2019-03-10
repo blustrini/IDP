@@ -8,7 +8,7 @@ from dim import *
 from calibrate_dist import *
 from navigate import *
 from block_pickup import *
-from block_detect import *
+from block_detect2 import *
 from drop_payload import *
 from park import *
 
@@ -54,6 +54,14 @@ Navigate.state = 0
 while True:
     #get serial input
     serial_in = read_next_line(board,decode=True,strip=True)
+    if serial_in == 6:
+        if Dim.block_detected:
+            while serial_in == '6':
+                serial_in = read_next_line(board,decode=True,strip=True)
+            Dim.block_detected = False
+        else:
+            Dim.block_detected = True
+
     #print serial input
     if serial_in != None:
         print(serial_in)

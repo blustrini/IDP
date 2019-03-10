@@ -40,7 +40,7 @@ ARDUINO OUTPUTS
 front switch triggered = 3
 back switch triggered = 4
 block detect = 5
-hall sensor = 6
+hall sensor = 6xq
 block at wheel = 7
 
 
