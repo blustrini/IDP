@@ -5,7 +5,7 @@
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
 Adafruit_DCMotor *myMotorR = AFMS.getMotor(1);
 Adafruit_DCMotor *myMotorL = AFMS.getMotor(2);
-int motorSpeedConst = 200;
+int motorSpeedConst = 201;
 int motorSpeedVar = 200;
 int motorSpeedFast = 255;
 int motorSpeedSlowTurn = 80;
@@ -15,7 +15,14 @@ int delayTime = 10000;
 
 //Motors for pickup wheel
 Adafruit_DCMotor *pickupMotor = AFMS.getMotor(3);
-int pickupMotorSpeed = 150;
+int pickupMotorSpeed = 255;
+
+//Pickup wheel timing
+#include<Timer.h>
+Timer pickupTimer;
+bool reversing = false;
+unsigned long lastReverseTime;
+int reverseDelay = 700;
 
 //Servo for block release
 #include<Servo.h>
@@ -24,12 +31,12 @@ int blockReleaseServoPos = 20; //closed 135 open 20
 
 //Servo for block switch
 Servo switchServo;
-int switchServoPosAcc = 0;
-int switchServoPosRej = 40; //need to be calibrated
-int switchServoPosBlock = 90;
+int switchServoPosAcc = 130;
+int switchServoPosRej = 75; //need to be calibrated
+int switchServoPosBlock = 40;
 
 //servo delays
-int servoDelay = 1000;
+int servoDelay = 500;
 
 //Inclusions and variables for right ultrasonic sensors
 #include "SR04.h"
@@ -254,6 +261,7 @@ void ServoBlock(){
   delay(servoDelay);
 }
 
+/*
 //Interrupt routine for hall detector
 ISR(PCINT0_vect){
   unsigned long interruptTime = millis();
@@ -275,6 +283,7 @@ ISR(PCINT1_vect){
   }
   lastInterruptTimeBD = interruptTime;
 }
+*/
 
 //Pickup wheel functions
 void StartPickupWheel(){
@@ -284,6 +293,12 @@ void StartPickupWheel(){
 
 void StopPickupWheel(){
   pickupMotor->setSpeed(0);
+}
+
+void ReversePickup(){
+  pickupMotor->run(FORWARD);
+  reversing = true;
+  lastReverseTime = millis();
 }
 
 //Block Releasing function
@@ -319,18 +334,26 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(switchBackPin), switchBackSerial, RISING);
 
   //Attach servo pins
-  blockReleaseServo.attach(10);
-  switchServo.attach(9);
+  blockReleaseServo.attach(9);
+  switchServo.attach(10);
 
   //Declare pin for hall detector
-  pinMode(hallDetectPin, INPUT);
+  pinMode(A0, INPUT);
+
+  //Pickup wheel timer
+  int wheelReverseEvent = pickupTimer.every(6000, ReversePickup, 0);
+  pickupMotor->setSpeed(pickupMotorSpeed);
+  pickupMotor->run(BACKWARD);
+
+  /*
   //Pin change interrupt for hall detector
-  PCMSK0 = B00000001; //Enable digital pin 8
+  PCMSK1 = B00000001; //Enable A0
   //Block detecting switch
   pinMode(A0, INPUT_PULLUP);
-  PCMSK1 = B00000001; //Enable analogue pin A0
+  PCMSK0 = B00000001; //Enable digital pin 8
   PCIFR = B00000000; //Clear all interrupt flags
-  PCICR = B00000011; //Enable PCIE0 and PCIE1 group
+  PCICR = B00000001; //Enable PCIE0 and PCIE1 group
+  */
   
 }
 
@@ -422,6 +445,22 @@ void loop() {
    if (pid_on == true){
     PID(pid_side);
    }
+
+   //Hall detector code
+   int HallDetectValue = analogRead(A0);
+   if (HallDetectValue > 0){
+    Serial.println(6);
+   }
+
+   //Update pickup wheel timer
+   pickupTimer.update();
+   if (reversing == true){
+    if (millis() - lastReverseTime > reverseDelay) {
+      pickupMotor->run(BACKWARD);
+      reversing = false;
+    }
+   }
+  
   /*
    if (analogRead(analogIRPin) > IRThreshold){
     unsigned long IRinterruptTime = millis();
