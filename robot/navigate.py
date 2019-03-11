@@ -27,19 +27,19 @@ class Navigate(Task):
         1 : (('b'),2),             #move backward goto state 2
         2 : ((),2),             #unexpected trigger, maybe do some error fixing later
         #3 : (('p_s','s_block','b'),4),             #move back, goto state 4 #change!!!!
-        3 : (('s_block','b'),4),             #move back, goto state 4 #change!!!!
+        3 : (('B','b'),4),             #move back, goto state 4 #change!!!!
         4 : ((),4),             #unexpected trigger, maybe do some error fixing later
         5 : ((),0)             #ignore
         }
         
         self.switch_back = {
-        0 : (('b'),6),          #move forward, goto state 3
+        0 : (('f'),1),          #move forward, goto state 3
         1 : ((),1),             #ignore, stay in state 1
         2 : (('b'),3),             #add clock that aliogns robot with wall, goto state 3
         3 : ((),3),          #ignore
         4 : (('b'),3),             #add clock that aliogns robot with wall, goto state 3
         5 : (('f'),0),          #stop and goto state 0
-        6 : (('b'),1)
+        6 : (('b'),2)
         }
         
         #processing actions
@@ -79,7 +79,7 @@ class Navigate(Task):
 
     def start_block_detect(self):
         self.task_control.append(('Block_Detect',1,1))
-        self.output.append(self.action_dict['s_acc'])
+        self.output.append(self.action_dict['A'])
        
        #ram into back wall to mae robot straight
     def align_back_wall(self):

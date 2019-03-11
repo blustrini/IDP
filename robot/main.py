@@ -11,6 +11,7 @@ from block_pickup import *
 from block_detect2 import *
 from drop_payload import *
 from park import *
+from test_servos import *
 
 #create board object
 board = establish_serial(find_usb_port())
@@ -27,10 +28,11 @@ Block_Pickup = Block_Pickup(Dim)
 Block_Detect = Block_Detect(Dim)
 Calibrate_Dist = Calibrate_Dist(Dim)
 Navigate = Navigate(Dim)
+Test_Servos = Test_Servos(Dim)
 
 
 #create list of tasks
-tasks = [Calibrate_Dist,Navigate,Block_Detect,Block_Pickup,Drop_Payload,Park]
+tasks = [Calibrate_Dist,Navigate,Block_Detect,Block_Pickup,Drop_Payload,Park,Test_Servos]
 #create dict of tasks
 tasks_dict = {
     'Park':Park,
@@ -42,10 +44,11 @@ tasks_dict = {
 }
 Park.active = 0
 Calibrate_Dist.active = 0
-Navigate.active = 1
+Navigate.active = 0
 Block_Pickup.active = 0
 Block_Detect.active = 0
 Drop_Payload.active = 0
+Test_Servos.active = 1
 
 Navigate.state = 0
 

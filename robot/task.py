@@ -30,18 +30,18 @@ class Task():
         's' : b'\x05',
         'l' : b'\x06', #soft turn left
         'r' : b'\x07', #soft turn right
-        'p_l' : b'\x08', #pid left
-        'p_r' : b'\x09', #pid right
-        'halt' : b'\x10', #halt everything
-        'resume' : b'\x11', #resume
-        's_acc' : b'\x12', #flip switch accept
-        's_rej' : b'\x13', #flip switch reject
-        's_block' : b'\x14', # flip switch block
-        'c_l' : b'\x15', #drive diagonally right
-        'p_s' : b'\x16', #pid stop
-        'w_r' : b'\x17', #rotate pickup wheel
-        'w_s' : b'\x18', #open collection compartment
-        'drop' : b'\x19' #drop blocks onto plaform
+        #'p_l' : b'\x08', #pid left
+        #'p_r' : b'\x09', #pid right
+        #'h' : b'\x10', #halt everything
+        #'H' : b'\x11', #resume
+        'A' : b'\x08', #flip switch accept
+        'E' : b'\x09', #flip switch eject
+        'B' : b'\x10', # flip switch block
+        #'d' : b'\x15', #drive diagonally right
+        #'p_s' : b'\x16', #pid stop
+        #'w_r' : b'\x17', #rotate pickup wheel
+        #'w_s' : b'\x18', #start pickup wheel
+        'O' : b'\x12' #drop blocks onto plaform
         }
         #initialise time saving attributes
         self.time = 0

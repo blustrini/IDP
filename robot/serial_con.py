@@ -39,6 +39,7 @@ def read_next_line(board,decode=False,strip=True):
     if board.inWaiting() > 0:
         try:
             line = board.readline()
+            print(line)
             if not decode:
                 return(line)
             else:
@@ -70,7 +71,8 @@ def write_serial(msg,board):
     #msg2 = struct.pack('>B',msg)
     #print(msg2)
     try:
-        board.write(msg)
+        a = board.write(msg)
+        print(a)
         #board.write(msg2)
     except:
         print('Error: Couldn\'t write line to serial')

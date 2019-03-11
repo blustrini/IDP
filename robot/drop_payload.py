@@ -15,7 +15,7 @@ class Drop_Payload(Task):
         0 : (('b'),1),          #move back, goto state 1
         1 : ((),1),             #ignore
         2 : ((),2),             #trigger emergency calibrate?
-        3 : (('s','drop'),4),    #stop, goto state 4
+        3 : (('s','O'),4),    #stop, goto state 4
         4 : ((),4),             #ignore
         5 : ((),5)             #ignore
         }

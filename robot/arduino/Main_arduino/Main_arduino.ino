@@ -8,7 +8,7 @@
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
 Adafruit_DCMotor *myMotorR = AFMS.getMotor(1);
 Adafruit_DCMotor *myMotorL = AFMS.getMotor(2);
-int motorSpeedConst = 201;
+int motorSpeedConst = 206;
 int motorSpeedVar = 200;
 int motorSpeedFast = 255;
 int motorSpeedSlowTurn = 80;
@@ -343,6 +343,10 @@ void setup() {
   //Attach servo pins
   blockReleaseServo.attach(9);
   switchServo.attach(10);
+  blockReleaseServo.write(135);
+  delay(500);
+  switchServo.write(switchServoPosAcc);
+  delay(500);
 
   //Declare pin for hall detector
   pinMode(A0, INPUT);
@@ -368,6 +372,11 @@ void loop() {
 
   //Read serial
   byte serialInput = Serial.read();
+  byte check = 255;
+
+  if (serialInput != check){
+    Serial.println(serialInput);
+  }
 
   //Switch statement
   const byte a = 1;
@@ -413,10 +422,10 @@ void loop() {
      SoftTurnRight();
      break;
    case h:
-     PIDSetup(1);
+     ServoAcc();
      break;
    case i:
-     PIDSetup(0);
+     ServoRej();
      break;
    case j:
      //halt everything
@@ -425,28 +434,24 @@ void loop() {
      //resume
      break;
    case l:
-     ServoAcc();
      break;
    case m:
-     ServoRej();
      break;
    case n:
-     ServoBlock();
      break;
    case o:
      CorrectLeft();
      break;
    case p:
-     PIDStop();
+     ServoBlock();
      break;
    case q:
      StartPickupWheel();
      break;
    case r:
-     StopPickupWheel();
+     ReleaseBlocks();
      break;
    case s:
-     ReleaseBlocks();
      break;
   }
    if (pid_on == true){

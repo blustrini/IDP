@@ -12,7 +12,7 @@ class Block_Detect(Task):
 
         #dictionaries represent reaction to trigger based on current state
         self.hall_detect = {
-        0 : (('s_rej'),1),          #move forward, goto state 1
+        0 : (('E'),1),          #move forward, goto state 1
         1 : ((),1),             #ignore, stay in state 1
         2: ((),2),
         }
@@ -38,7 +38,7 @@ class Block_Detect(Task):
         self.change_state(0)
 
     def open_switch(self):
-        self.output.append(self.action_dict['s_acc'])
+        self.output.append(self.action_dict['A'])
 
 
 
