@@ -8,7 +8,7 @@
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
 Adafruit_DCMotor *myMotorR = AFMS.getMotor(1);
 Adafruit_DCMotor *myMotorL = AFMS.getMotor(2);
-int motorSpeedConst = 205;
+int motorSpeedConst = 201;
 int motorSpeedVar = 200;
 int motorSpeedFast = 255;
 int motorSpeedSlowTurn = 80;
@@ -57,9 +57,9 @@ float actual_dist;
 const byte switchFrontPin = 2;
 const byte switchBackPin = 3;
 
-//TESTTT low and high pins
-int low1 = 4;
-int high1 = 5;
+//LED pins
+const int IRLEDPin = 5;
+const int motorLEDPin = 4;
 
 //Debounce time
 int debounceTimeSwitch = 1000;
@@ -87,10 +87,8 @@ static unsigned long last_detect = 0;
 int hall_wait = 1000;
 
 // IR sensor
-int analogIRPin = 0;
-int IRThreshold = 400; //CALIBRATE THIS
-static unsigned long lastIRinterruptTime = 0;
-int IRTimeThreshold;
+int analogIRPin = 1;
+int IRThreshold = 475; //CALIBRATE THIS
 
 //Motor functions
 void MoveForward() {
@@ -98,6 +96,7 @@ void MoveForward() {
   myMotorR->run(FORWARD);
   myMotorL->setSpeed(motorSpeedVar);
   myMotorL->run(BACKWARD);
+  digitalWrite(motorLEDPin,HIGH);
 }
 
 void MoveBackward() {
@@ -105,24 +104,28 @@ void MoveBackward() {
   myMotorR->run(BACKWARD);
   myMotorL->setSpeed(motorSpeedVar);
   myMotorL->run(FORWARD);
+  digitalWrite(motorLEDPin,HIGH);
 }
 
 void PivotLeft() {
   myMotorL->setSpeed(0);
   myMotorR->setSpeed(motorSpeedFast);
   myMotorR->run(FORWARD);
+  digitalWrite(motorLEDPin,HIGH);
 }
 
 void PivotRight() {
   myMotorL->setSpeed(motorSpeedFast);
   myMotorL->run(BACKWARD);
   myMotorR->setSpeed(0);
+  digitalWrite(motorLEDPin,HIGH);
 }
 
 void MoveStop() {
   pid_on = false;
   myMotorR->setSpeed(0);
   myMotorL->setSpeed(0);
+  digitalWrite(motorLEDPin,LOW);
 }
 
 void SoftTurnLeft() {
@@ -130,6 +133,7 @@ void SoftTurnLeft() {
   myMotorR->run(FORWARD);
   myMotorL->setSpeed(motorSpeedSlowTurn);
   myMotorL->run(BACKWARD);
+  digitalWrite(motorLEDPin,HIGH);
 }
 
 void SoftTurnRight() {
@@ -137,6 +141,7 @@ void SoftTurnRight() {
   myMotorR->run(FORWARD);
   myMotorL->setSpeed(motorSpeedFast);
   myMotorL->run(BACKWARD);
+  digitalWrite(motorLEDPin,HIGH);
 }
 
 void SlightRight() {
@@ -144,6 +149,7 @@ void SlightRight() {
   myMotorR->run(FORWARD);
   myMotorL->setSpeed(motorSpeedFast);
   myMotorL->run(BACKWARD);
+  digitalWrite(motorLEDPin,HIGH);
 }
 
 void CorrectLeft() {
@@ -151,6 +157,7 @@ void CorrectLeft() {
   myMotorR->run(FORWARD);
   myMotorL->setSpeed(motorSpeedFast);
   myMotorL->run(BACKWARD);
+  digitalWrite(motorLEDPin,HIGH);
 }
 
 //Serial output functions
@@ -322,15 +329,10 @@ void setup() {
   Serial.begin(9600);
   //delay(1000);
 
-  //low high pins
-  pinMode(high1, OUTPUT);
-  pinMode(low1, OUTPUT);
-  //pinMode(high2, OUTPUT);
-  //pinMode(low2, OUTPUT);
-  //digitalWrite(low2,LOW);
-  //digitalWrite(high2, HIGH);
-  digitalWrite(low1,LOW);
-  digitalWrite(high1, HIGH);
+  //LED pins
+  pinMode(IRLEDPin, OUTPUT);
+  pinMode(motorLEDPin, OUTPUT);
+  
   
   //Attach Front and Back switch interrupt pins
   pinMode(switchFrontPin, INPUT_PULLUP);
@@ -348,11 +350,8 @@ void setup() {
   //Pickup wheel timer
   int wheelReverseEvent = pickupTimer.every(6000, ReversePickup, 0);
   pickupMotor->setSpeed(pickupMotorSpeed);
-  pickupMotor->run(BACKWARD);\
+  pickupMotor->run(BACKWARD);
 
-  //servo set
-  switchServo.write(switchServoPosAcc);
-  blockReleaseServo.write(135);
   /*
   //Pin change interrupt for hall detector
   PCMSK1 = B00000001; //Enable A0
@@ -453,12 +452,8 @@ void loop() {
    if (pid_on == true){
     PID(pid_side);
    }
-<<<<<<< HEAD
 
 
-=======
-/*
->>>>>>> 29cbdf15de35d93ae81cc602b675aea34aeb82c8
    //Hall detector code
    int HallDetectValue = analogRead(A0);
    if (HallDetectValue > 200){
@@ -467,12 +462,8 @@ void loop() {
       Serial.println(6);
     }
    }
-<<<<<<< HEAD
 
 
-=======
-*/
->>>>>>> 29cbdf15de35d93ae81cc602b675aea34aeb82c8
    //Update pickup wheel timer
    pickupTimer.update();
    if (reversing == true){
@@ -482,12 +473,12 @@ void loop() {
     }
    }
   
-  /*
+
    if (analogRead(analogIRPin) > IRThreshold){
-    unsigned long IRinterruptTime = millis();
-    if ((IRinterruptTime - lastIRinterruptTime) > IRTimeThreshold){
-      //send block detected
+    digitalWrite(IRLEDPin,LOW);
     }
+   else {
+    digitalWrite(IRLEDPin,HIGH);
    }
-   */
+  
 }
