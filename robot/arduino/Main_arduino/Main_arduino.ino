@@ -1,3 +1,6 @@
+#include <Event.h>
+#include <Timer.h>
+
 //Inclusions and variables for Motor
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
@@ -22,7 +25,7 @@ int pickupMotorSpeed = 255;
 Timer pickupTimer;
 bool reversing = false;
 unsigned long lastReverseTime;
-int reverseDelay = 700;
+int reverseDelay = 1200;
 
 //Servo for block release
 #include<Servo.h>

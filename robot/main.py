@@ -47,7 +47,7 @@ Block_Pickup.active = 0
 Block_Detect.active = 0
 Drop_Payload.active = 1
 
-Navigate.state = 0
+Navigate.state = 1
 
 
 #main loop

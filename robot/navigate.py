@@ -18,8 +18,8 @@ class Navigate(Task):
         #attributes
         self.sweeps = 1
         
-        #flowchart        0         1             2             3               4              5
-        #               idle, enter field, align first sweep, do 1 sweep, align next sweep, initiate leave
+        #flowchart        0         1             2             3               4              5				6
+        #               idle, enter field, align first sweep, do 1 sweep, align next sweep, initiate leave, go back
 
         #dictionaries represent reaction to trigger based on current state
         self.switch_front = {
@@ -33,12 +33,13 @@ class Navigate(Task):
         }
         
         self.switch_back = {
-        0 : (('f'),3),          #move forward, goto state 3
+        0 : (('b'),6),          #move forward, goto state 3
         1 : ((),1),             #ignore, stay in state 1
         2 : (('b'),3),             #add clock that aliogns robot with wall, goto state 3
         3 : ((),3),          #ignore
         4 : (('b'),3),             #add clock that aliogns robot with wall, goto state 3
-        5 : (('f'),0)          #stop and goto state 0
+        5 : (('f'),0),          #stop and goto state 0
+        6 : (('b'),1)
         }
         
         #processing actions
@@ -51,6 +52,7 @@ class Navigate(Task):
         '45' : (self.init_htl),
         '50' : (self.init_drop_payload),
         '30' : (self.stop_and_flush),
+        '61' : (self.align_back_wall)
 
         }
 
