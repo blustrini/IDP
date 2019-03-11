@@ -42,25 +42,18 @@ tasks_dict = {
 }
 Park.active = 0
 Calibrate_Dist.active = 0
-Navigate.active = 0
+Navigate.active = 1
 Block_Pickup.active = 0
 Block_Detect.active = 0
-Drop_Payload.active = 1
+Drop_Payload.active = 0
 
-Navigate.state = 1
+Navigate.state = 0
 
 
 #main loop
 while True:
     #get serial input
     serial_in = read_next_line(board,decode=True,strip=True)
-    if serial_in == 6:
-        if Dim.block_detected:
-            while serial_in == '6':
-                serial_in = read_next_line(board,decode=True,strip=True)
-            Dim.block_detected = False
-        else:
-            Dim.block_detected = True
 
     #print serial input
     if serial_in != None:

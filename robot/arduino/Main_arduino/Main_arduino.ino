@@ -8,7 +8,7 @@
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
 Adafruit_DCMotor *myMotorR = AFMS.getMotor(1);
 Adafruit_DCMotor *myMotorL = AFMS.getMotor(2);
-int motorSpeedConst = 201;
+int motorSpeedConst = 205;
 int motorSpeedVar = 200;
 int motorSpeedFast = 255;
 int motorSpeedSlowTurn = 80;
@@ -346,8 +346,11 @@ void setup() {
   //Pickup wheel timer
   int wheelReverseEvent = pickupTimer.every(6000, ReversePickup, 0);
   pickupMotor->setSpeed(pickupMotorSpeed);
-  pickupMotor->run(BACKWARD);
+  pickupMotor->run(BACKWARD);\
 
+  //servo set
+  switchServo.write(switchServoPosAcc);
+  blockReleaseServo.write(135);
   /*
   //Pin change interrupt for hall detector
   PCMSK1 = B00000001; //Enable A0
@@ -448,13 +451,13 @@ void loop() {
    if (pid_on == true){
     PID(pid_side);
    }
-
+/*
    //Hall detector code
    int HallDetectValue = analogRead(A0);
    if (HallDetectValue > 0){
     Serial.println(6);
    }
-
+*/
    //Update pickup wheel timer
    pickupTimer.update();
    if (reversing == true){
