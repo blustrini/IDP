@@ -34,7 +34,7 @@ int blockReleaseServoPos = 20; //closed 135 open 20
 
 //Servo for block switch
 Servo switchServo;
-int switchServoPosAcc = 130;
+int switchServoPosAcc = 120;
 int switchServoPosRej = 75; //need to be calibrated
 int switchServoPosBlock = 40;
 
@@ -83,6 +83,8 @@ int pid_side;
 
 //Hall detector
 int hallDetectPin = 8;
+static unsigned long last_detect = 0;
+int hall_wait = 1000;
 
 // IR sensor
 int analogIRPin = 0;
@@ -449,11 +451,16 @@ void loop() {
     PID(pid_side);
    }
 
+
    //Hall detector code
    int HallDetectValue = analogRead(A0);
-   if (HallDetectValue > 0){
-    Serial.println(6);
+   if (HallDetectValue > 200){
+    if (millis() - last_detect > hall_wait) {
+      last_detect = millis();
+      Serial.println(6);
+    }
    }
+
 
    //Update pickup wheel timer
    pickupTimer.update();
