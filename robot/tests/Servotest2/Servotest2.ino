@@ -16,7 +16,7 @@ int blockReleaseServoPos = 20; //closed 135 open 20
 //Servo for block switch
 Servo switchServo;
 int switchServoPosAcc = 120;
-int switchServoPosRej = 75; //need to be calibrated
+int switchServoPosRej = 65; //need to be calibrated
 int switchServoPosBlock = 40;
 
 //servo delays

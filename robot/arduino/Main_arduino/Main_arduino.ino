@@ -35,7 +35,7 @@ int blockReleaseServoPos = 20; //closed 135 open 20
 //Servo for block switch
 Servo switchServo;
 int switchServoPosAcc = 120;
-int switchServoPosRej = 75; //need to be calibrated
+int switchServoPosRej = 60; //need to be calibrated
 int switchServoPosBlock = 40;
 
 //servo delays
@@ -374,9 +374,6 @@ void loop() {
   byte serialInput = Serial.read();
   byte check = 255;
 
-  if (serialInput != check){
-    Serial.println(serialInput);
-  }
 
   //Switch statement
   const byte a = 1;

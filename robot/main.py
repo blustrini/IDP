@@ -24,7 +24,6 @@ Dim = Dim()
 #initialise tasks
 Park = Park(Dim)
 Drop_Payload = Drop_Payload(Dim)
-Block_Pickup = Block_Pickup(Dim)
 Block_Detect = Block_Detect(Dim)
 Calibrate_Dist = Calibrate_Dist(Dim)
 Navigate = Navigate(Dim)
@@ -32,7 +31,7 @@ Test_Servos = Test_Servos(Dim)
 
 
 #create list of tasks
-tasks = [Calibrate_Dist,Navigate,Block_Detect,Block_Pickup,Drop_Payload,Park,Test_Servos]
+tasks = [Calibrate_Dist,Navigate,Block_Detect,Drop_Payload,Park,Test_Servos]
 #create dict of tasks
 tasks_dict = {
     'Park':Park,
@@ -47,8 +46,8 @@ Calibrate_Dist.active = 0
 Navigate.active = 0
 Block_Pickup.active = 0
 Block_Detect.active = 0
-Drop_Payload.active = 0
-Test_Servos.active = 1
+Drop_Payload.active = 1
+Test_Servos.active = 0
 
 Navigate.state = 0
 
