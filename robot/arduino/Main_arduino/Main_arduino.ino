@@ -453,12 +453,8 @@ void loop() {
    if (pid_on == true){
     PID(pid_side);
    }
-<<<<<<< HEAD
 
-
-=======
 /*
->>>>>>> 29cbdf15de35d93ae81cc602b675aea34aeb82c8
    //Hall detector code
    int HallDetectValue = analogRead(A0);
    if (HallDetectValue > 200){
@@ -467,12 +463,9 @@ void loop() {
       Serial.println(6);
     }
    }
-<<<<<<< HEAD
 
-
-=======
 */
->>>>>>> 29cbdf15de35d93ae81cc602b675aea34aeb82c8
+
    //Update pickup wheel timer
    pickupTimer.update();
    if (reversing == true){

@@ -1,3 +1,7 @@
 {
+  "main.py": true,
+  "reset_serial.py": true,
+  "test2_serial.py": true,
+  "test_serial.py": true,
   "test_test.py": true
 }
