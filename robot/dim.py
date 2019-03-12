@@ -27,15 +27,15 @@ class Dim():
         self.wait_init_ht = 1.5
         self.wait_init_st = 1.3
         self.wait_init_ft = 1.2
-        self.wait_ht = 3.7
+        self.wait_ht = 3.8
         self.wait_ft = 1
         self.wait_pivot = 2.4
-        self.wait_st = 3.3
+        self.wait_st = 3.6
         self.wait_align = 1
-        self.wait_init_correct = 0.2
-        self.wait_correct_r = 0.2
+        self.wait_init_correct = 0.3
+        self.wait_correct_r = 0.7
         self.wait_correct_l = 0.2
-        self.wait_forward = 5.1
+        self.wait_forward = 1
         #parking wait
         self.wait_park = 0.5
 

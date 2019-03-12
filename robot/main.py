@@ -43,10 +43,10 @@ tasks_dict = {
 }
 Park.active = 0
 Calibrate_Dist.active = 0
-Navigate.active = 0
-Block_Pickup.active = 0
-Block_Detect.active = 0
-Drop_Payload.active = 1
+Navigate.active = 1
+#Block_Pickup.active = 0
+Block_Detect.active = 1
+Drop_Payload.active = 0
 Test_Servos.active = 0
 
 Navigate.state = 0

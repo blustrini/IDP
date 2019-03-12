@@ -68,7 +68,9 @@ class Task():
     #change state and perform any functions associated with change of state
     def change_state(self,next_state):
         #create the key for the processes dictionary
+        
         key = str(self.state)+str(next_state)
+        self.state = next_state
         #call the relevant processes
         try:
             for function in self.processes[key]:
@@ -81,8 +83,8 @@ class Task():
         except KeyError:
             pass
             #print('{} not in process dict'.format(key))
-        print(self.name + ' state changed {}:{}'.format(self.state,next_state))            
-        self.state = next_state
+        print(self.name + ' state changed {}'.format(key))            
+        
         return 1
 
     #start a timer

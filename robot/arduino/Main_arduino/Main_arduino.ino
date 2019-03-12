@@ -8,7 +8,7 @@
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
 Adafruit_DCMotor *myMotorR = AFMS.getMotor(1);
 Adafruit_DCMotor *myMotorL = AFMS.getMotor(2);
-int motorSpeedConst = 206;
+int motorSpeedConst = 201;
 int motorSpeedVar = 200;
 int motorSpeedFast = 255;
 int motorSpeedSlowTurn = 80;
@@ -27,6 +27,12 @@ bool reversing = false;
 unsigned long lastReverseTime;
 int reverseDelay = 1200;
 
+//LED blink
+bool motorLEDBlink = false;
+bool motorLEDOn = false;
+Timer LEDBlinkTimer;
+
+
 //Servo for block release
 #include<Servo.h>
 Servo blockReleaseServo;
@@ -35,7 +41,7 @@ int blockReleaseServoPos = 20; //closed 135 open 20
 //Servo for block switch
 Servo switchServo;
 int switchServoPosAcc = 120;
-int switchServoPosRej = 60; //need to be calibrated
+int switchServoPosRej = 75; //need to be calibrated
 int switchServoPosBlock = 40;
 
 //servo delays
@@ -96,7 +102,7 @@ void MoveForward() {
   myMotorR->run(FORWARD);
   myMotorL->setSpeed(motorSpeedVar);
   myMotorL->run(BACKWARD);
-  digitalWrite(motorLEDPin,HIGH);
+  motorLEDBlink = true;
 }
 
 void MoveBackward() {
@@ -104,21 +110,21 @@ void MoveBackward() {
   myMotorR->run(BACKWARD);
   myMotorL->setSpeed(motorSpeedVar);
   myMotorL->run(FORWARD);
-  digitalWrite(motorLEDPin,HIGH);
+  motorLEDBlink = true;
 }
 
 void PivotLeft() {
   myMotorL->setSpeed(0);
   myMotorR->setSpeed(motorSpeedFast);
   myMotorR->run(FORWARD);
-  digitalWrite(motorLEDPin,HIGH);
+  motorLEDBlink = true;
 }
 
 void PivotRight() {
   myMotorL->setSpeed(motorSpeedFast);
   myMotorL->run(BACKWARD);
   myMotorR->setSpeed(0);
-  digitalWrite(motorLEDPin,HIGH);
+  motorLEDBlink = true;
 }
 
 void MoveStop() {
@@ -126,6 +132,7 @@ void MoveStop() {
   myMotorR->setSpeed(0);
   myMotorL->setSpeed(0);
   digitalWrite(motorLEDPin,LOW);
+  motorLEDBlink = false;
 }
 
 void SoftTurnLeft() {
@@ -133,7 +140,7 @@ void SoftTurnLeft() {
   myMotorR->run(FORWARD);
   myMotorL->setSpeed(motorSpeedSlowTurn);
   myMotorL->run(BACKWARD);
-  digitalWrite(motorLEDPin,HIGH);
+  motorLEDBlink = true;
 }
 
 void SoftTurnRight() {
@@ -141,7 +148,7 @@ void SoftTurnRight() {
   myMotorR->run(FORWARD);
   myMotorL->setSpeed(motorSpeedFast);
   myMotorL->run(BACKWARD);
-  digitalWrite(motorLEDPin,HIGH);
+  motorLEDBlink = true;
 }
 
 void SlightRight() {
@@ -149,7 +156,7 @@ void SlightRight() {
   myMotorR->run(FORWARD);
   myMotorL->setSpeed(motorSpeedFast);
   myMotorL->run(BACKWARD);
-  digitalWrite(motorLEDPin,HIGH);
+  motorLEDBlink = true;
 }
 
 void CorrectLeft() {
@@ -157,7 +164,7 @@ void CorrectLeft() {
   myMotorR->run(FORWARD);
   myMotorL->setSpeed(motorSpeedFast);
   myMotorL->run(BACKWARD);
-  digitalWrite(motorLEDPin,HIGH);
+  motorLEDBlink = true;
 }
 
 //Serial output functions
@@ -319,6 +326,24 @@ void ReleaseBlocks(){
   delay(servoDelay);
 }
 
+//LED blink
+void BlinkMotorLED() {
+  if (motorLEDBlink == true){
+    if (motorLEDOn == true){
+      digitalWrite(motorLEDPin,LOW);
+      motorLEDOn = false;
+    } else if (motorLEDOn == false){
+      digitalWrite(motorLEDPin,HIGH);
+      motorLEDOn = true;
+    }
+  } else if (motorLEDBlink == false){
+    if (motorLEDOn == true){
+      digitalWrite(motorLEDPin,LOW);
+      motorLEDOn = false;
+    }
+  }
+}
+
 void setup() {
   // put your setup code here, to run once:
 
@@ -343,10 +368,10 @@ void setup() {
   //Attach servo pins
   blockReleaseServo.attach(9);
   switchServo.attach(10);
+
+  //servos start
   blockReleaseServo.write(135);
-  delay(500);
   switchServo.write(switchServoPosAcc);
-  delay(500);
 
   //Declare pin for hall detector
   pinMode(A0, INPUT);
@@ -356,6 +381,8 @@ void setup() {
   pickupMotor->setSpeed(pickupMotorSpeed);
   pickupMotor->run(BACKWARD);
 
+  //LED blink timer
+  int LEDBlinkEvent = LEDBlinkTimer.every(1000, BlinkMotorLED, 0);
   /*
   //Pin change interrupt for hall detector
   PCMSK1 = B00000001; //Enable A0
@@ -372,8 +399,6 @@ void loop() {
 
   //Read serial
   byte serialInput = Serial.read();
-  byte check = 255;
-
 
   //Switch statement
   const byte a = 1;
@@ -419,10 +444,10 @@ void loop() {
      SoftTurnRight();
      break;
    case h:
-     ServoAcc();
+     PIDSetup(1);
      break;
    case i:
-     ServoRej();
+     PIDSetup(0);
      break;
    case j:
      //halt everything
@@ -431,24 +456,28 @@ void loop() {
      //resume
      break;
    case l:
+     ServoAcc();
      break;
    case m:
+     ServoRej();
      break;
    case n:
+     ServoBlock();
      break;
    case o:
      CorrectLeft();
      break;
    case p:
-     ServoBlock();
+     PIDStop();
      break;
    case q:
      StartPickupWheel();
      break;
    case r:
-     ReleaseBlocks();
+     StopPickupWheel();
      break;
    case s:
+     ReleaseBlocks();
      break;
   }
    if (pid_on == true){
@@ -474,6 +503,9 @@ void loop() {
       reversing = false;
     }
    }
+
+   //Update motor led blink timer
+   LEDBlinkTimer.update();
   
 
    if (analogRead(analogIRPin) > IRThreshold){

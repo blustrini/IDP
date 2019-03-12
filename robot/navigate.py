@@ -23,17 +23,17 @@ class Navigate(Task):
 
         #dictionaries represent reaction to trigger based on current state
         self.switch_front = {
-        0 : (('f',),1),          #move forward, goto state 1
+        0 : (('b',),0),          #move forward, goto state 1
         1 : (('b'),2),             #move backward goto state 2
         2 : ((),2),             #unexpected trigger, maybe do some error fixing later
         #3 : (('p_s','s_block','b'),4),             #move back, goto state 4 #change!!!!
-        3 : (('B','b'),4),             #move back, goto state 4 #change!!!!
+        3 : (('b'),4),             #move back, goto state 4 #change!!!!
         4 : ((),4),             #unexpected trigger, maybe do some error fixing later
         5 : ((),0)             #ignore
         }
         
         self.switch_back = {
-        0 : (('f'),1),          #move forward, goto state 3
+        0 : (('b'),1),          #move forward, goto state 3
         1 : ((),1),             #ignore, stay in state 1
         2 : (('b'),3),             #add clock that aliogns robot with wall, goto state 3
         3 : ((),3),          #ignore
@@ -44,14 +44,17 @@ class Navigate(Task):
         
         #processing actions
         self.processes = {
-        '12' : (self.init_htl_first),
+        '00' : (self.align_back_wall_zero),
+        '01' : (self.align_back_wall),
+        '12' : (self.init_htl_first,self.stop_block_detect),
         '23' : (self.align_back_wall_first,self.start_block_detect),
         '43' : (self.align_back_wall,self.start_block_detect),
         #'34' : (self.stop_pid,self.stop_block_detect,self.check_sweeps),
+        #'34' : (self.stop_block_detect,self.check_sweeps),
         '34' : (self.stop_block_detect,self.check_sweeps),
-        '45' : (self.init_htl),
-        '50' : (self.init_drop_payload),
-        '30' : (self.stop_and_flush),
+        '45' : (self.init_htl_final,self.init_drop_payload),
+        '50' : (),
+        '30' : (),
         '61' : (self.align_back_wall)
 
         }
@@ -63,24 +66,37 @@ class Navigate(Task):
 
 
     def init_drop_payload(self):
-        self.task_control.append(('Drop_Payload',1,1))
+        func1 = self.drop_payload
         time1 = time.time()
         wait1 = 2
         tuple1 = (time1,wait1,func1)
         self.clock_list.append(tuple1)
+    
+    def drop_payload(self):
+        self.task_control.append(('Drop_Payload',1,1))
 
     def stop_block_detect(self):
         self.task_control.append(('Block_Detect',0,1))
 
     def start_block_detect(self):
         self.task_control.append(('Block_Detect',1,1))
-        self.output.append(self.action_dict['A'])
+        #self.output.append(self.action_dict['A'])
        
        #ram into back wall to mae robot straight
     def align_back_wall(self):
         print('align back wall')
         time1 = time.time()
         wait1 = self.Dim.wait_align
+        func1 = self.action_dict['f']
+        #func1 = self.start_pid()
+        tuple1 = (time1,wait1,func1)
+        print(tuple1)
+        self.clock_list.append(tuple1)
+        
+    def align_back_wall_zero(self):
+        print('align back wall')
+        time1 = time.time()
+        wait1 = self.Dim.wait_align + 2
         func1 = self.action_dict['f']
         #func1 = self.start_pid()
         tuple1 = (time1,wait1,func1)
@@ -118,7 +134,17 @@ class Navigate(Task):
             self.init_ftr()
         self.sweeps += 1
 
-
+    #turning functions
+    def init_htl_final(self):
+        #start,wait,func
+        time1 = time.time()
+        wait1 = self.Dim.wait_init_ht
+        func1 = self.half_turn_left_final
+        tuple1 = (time1,wait1,func1)
+        print(tuple1)
+        self.clock_list.append(tuple1)
+        return 1
+    
     #turning functions
     def init_htl(self):
         #start,wait,func
@@ -141,6 +167,16 @@ class Navigate(Task):
         self.clock_list.append(tuple1)
         return 1
 
+    def half_turn_left_final(self):
+        #start,wait,func
+        time1 = time.time()
+        wait1 = self.Dim.wait_ht
+        func1 = self.action_dict['f']
+        tuple1 = (time1,wait1,func1)
+        self.output.append(self.action_dict['l'])
+        self.clock_list.append(tuple1)
+        return 1
+    
     def half_turn_left(self):
         #start,wait,func
         time1 = time.time()
@@ -165,6 +201,7 @@ class Navigate(Task):
         time1 = time.time()
         wait1 = self.Dim.wait_correct_r
         func1 = self.slight_forward
+        #func1 = self.action_dict['f']
         #func1 = self.correct_left
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['R'])

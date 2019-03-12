@@ -7,7 +7,7 @@ int servopos = 0; //needs to be calibrated
 
 void setup() {
   // put your setup code here, to run once:
-  blockReleaseServo.attach(9);
+  blockReleaseServo.attach(10);
   delay(500);
   
 }
@@ -34,7 +34,7 @@ void loop() {
 
 
   delay(500);
-  blockReleaseServo.write(20);
+  blockReleaseServo.write(65);
   delay(500);
 // SERVO 120: ACCEPT, 75: REJECT, 40: CLOSED
 }
