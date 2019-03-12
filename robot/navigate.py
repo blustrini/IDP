@@ -51,7 +51,6 @@ class Navigate(Task):
         '23' : (self.align_back_wall_first,self.start_block_detect),
         '43' : (self.align_back_wall,self.start_block_detect),
         #'34' : (self.stop_pid,self.stop_block_detect,self.check_sweeps),
-        #'34' : (self.stop_block_detect,self.check_sweeps),
         '34' : (self.stop_block_detect,self.check_sweeps),
         '45' : (self.init_htl_final,self.init_drop_payload),
         '50' : (),
@@ -222,7 +221,8 @@ class Navigate(Task):
     def correct_left(self):
         time1 = time.time()
         wait1 = self.Dim.wait_correct_l
-        func1 = self.action_dict['F']
+        #func1 = self.action_dict['F']
+        func1 = self.action_dict['f']
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['L'])
         self.clock_list.append(tuple1)
@@ -265,7 +265,8 @@ class Navigate(Task):
         #start,wait,func
         time1 = time.time()
         wait1 = self.Dim.wait_st
-        func1 = self.action_dict['b']
+        #func1 = self.action_dict['b']
+        func1 = self.reverse_after_soft_turn
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.output.append(self.action_dict['l'])        
@@ -308,10 +309,22 @@ class Navigate(Task):
         #start,wait,func
         time1 = time.time()
         wait1 = self.Dim.wait_st
-        func1 = self.action_dict['b']
+        func1 = self.reverse_after_soft_turn
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.output.append(self.action_dict['r'])        
         self.clock_list.append(tuple1)
         return 1
+    
+    #ADDED
+    def reverse_after_soft_turn(self):
+        time1 = time.time()
+        wait1 = self.Dim.timeout
+        func1 = self.to_state_3
+        tuple1 = (time1,wait1,func1)
+        print(tuple1)
+        self.output.append(self.action_dict['b'])
+    
+    def to_state_3(self):
+        self.change_state(3)
     

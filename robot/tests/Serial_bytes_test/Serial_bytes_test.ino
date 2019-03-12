@@ -10,7 +10,7 @@ void loop() {
 
   //Read serial
   while (Serial.available() > 0){
-    serialInput += Serial.read();
+    serialInput = Serial.read();
   }
   
   if (serialInput > 0){

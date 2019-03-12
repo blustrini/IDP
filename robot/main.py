@@ -7,7 +7,7 @@ from task import *
 from dim import *
 from calibrate_dist import *
 from navigate import *
-from block_pickup import *
+#from block_pickup import *
 from block_detect2 import *
 from drop_payload import *
 from park import *
@@ -37,7 +37,6 @@ tasks_dict = {
     'Park':Park,
     'Calibrate_Dist':Calibrate_Dist,
     'Navigate':Navigate,
-    'Block_Pickup':Block_Pickup,
     'Block_Detect':Block_Detect,
     'Drop_Payload':Drop_Payload
 }

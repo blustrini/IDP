@@ -16,6 +16,7 @@ class Block_Detect(Task):
         1 : ((),1),             #ignore, stay in state 1
         2: ((),2),
         }
+        
 
         #processing actions
         self.processes = {
@@ -25,7 +26,8 @@ class Block_Detect(Task):
 
         #all possible actions mapped to the corresponding arduino outputs
         self.triggers = {
-        '6' : self.hall_detect}
+        '6' : self.hall_detect,
+        }
 
     def timeout_hall(self):
         time1 = time.time()

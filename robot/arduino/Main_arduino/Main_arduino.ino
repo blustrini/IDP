@@ -8,10 +8,10 @@
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
 Adafruit_DCMotor *myMotorR = AFMS.getMotor(1);
 Adafruit_DCMotor *myMotorL = AFMS.getMotor(2);
-int motorSpeedRightFirst = 152;
+int motorSpeedRightFirst = 153;
 int motorSpeedLeftFirst = 152;
-int motorSpeedConst = 202;
-int motorSpeedVar = 200;
+int motorSpeedConst = 155;
+int motorSpeedVar = 150;
 int motorSpeedFast = 255;
 int motorSpeedSlowTurn = 80;
 int motorSpeedSlowStraight = 230;
@@ -27,7 +27,7 @@ int pickupMotorSpeed = 255;
 Timer pickupTimer;
 bool reversing = false;
 unsigned long lastReverseTime;
-int reverseDelay = 1200;
+int reverseDelay = 800;
 
 //LED blink
 bool motorLEDBlink = false;
@@ -42,8 +42,8 @@ int blockReleaseServoPos = 20; //closed 135 open 20
 
 //Servo for block switch
 Servo switchServo;
-int switchServoPosAcc = 120;
-int switchServoPosRej = 75; //need to be calibrated
+int switchServoPosAcc = 135;
+int switchServoPosRej = 90; //need to be calibrated
 int switchServoPosBlock = 40;
 
 //servo delays
@@ -91,7 +91,7 @@ int pid_side;
 
 //Hall detector
 int hallDetectPin = 8;
-static unsigned long last_detect = 0;
+static unsigned long last_detect_hall = 0;
 int hall_wait = 1000;
 
 // IR sensor
@@ -99,7 +99,7 @@ int analogIRPin = 1;
 int IRThreshold = 475; //CALIBRATE THIS
 
 //Motor functions
-void MoveForwardFirst(){
+void MoveForwardSlow(){
   myMotorR->setSpeed(motorSpeedRightFirst);
   myMotorR->run(FORWARD);
   myMotorL->setSpeed(motorSpeedLeftFirst);
@@ -387,7 +387,7 @@ void setup() {
   pinMode(A0, INPUT);
 
   //Pickup wheel timer
-  int wheelReverseEvent = pickupTimer.every(6000, ReversePickup, 0);
+  int wheelReverseEvent = pickupTimer.every(5500, ReversePickup, 0);
   pickupMotor->setSpeed(pickupMotorSpeed);
   pickupMotor->run(BACKWARD);
 
@@ -495,8 +495,8 @@ void loop() {
    //Hall detector code
    int HallDetectValue = analogRead(A0);
    if (HallDetectValue > 250){
-    if (millis() - last_detect > hall_wait) {
-      last_detect = millis();
+    if (millis() - last_detect_hall > hall_wait) {
+      last_detect_hall = millis();
       Serial.println(6);
     }
    }

@@ -41,8 +41,8 @@ class Task():
         #'p_s' : b'\x16', #pid stop
         #'w_r' : b'\x17', #rotate pickup wheel
         #'w_s' : b'\x18', #start pickup wheel
-        'O' : b'\x12', #drop blocks onto plaform
-        'F' : b'\x13'
+        'O' : b'\x12' #drop blocks onto plaform
+        #'F' : b'\x00'
         }
         #initialise time saving attributes
         self.time = 0
@@ -69,7 +69,6 @@ class Task():
     #change state and perform any functions associated with change of state
     def change_state(self,next_state):
         #create the key for the processes dictionary
-        
         key = str(self.state)+str(next_state)
         self.state = next_state
         #call the relevant processes
