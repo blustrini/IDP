@@ -421,6 +421,7 @@ void loop() {
   const byte r = 18;
   const byte s = 19;
   
+  
   switch(serialInput) {
    case a:
      MoveForward();
@@ -444,10 +445,10 @@ void loop() {
      SoftTurnRight();
      break;
    case h:
-     PIDSetup(1);
+     ServoAcc();
      break;
    case i:
-     PIDSetup(0);
+     ServoRej();
      break;
    case j:
      //halt everything
@@ -456,28 +457,24 @@ void loop() {
      //resume
      break;
    case l:
-     ServoAcc();
      break;
    case m:
-     ServoRej();
      break;
    case n:
-     ServoBlock();
      break;
    case o:
      CorrectLeft();
      break;
    case p:
-     PIDStop();
+     ServoBlock();
      break;
    case q:
      StartPickupWheel();
      break;
    case r:
-     StopPickupWheel();
+     ReleaseBlocks();
      break;
    case s:
-     ReleaseBlocks();
      break;
   }
    if (pid_on == true){
