@@ -35,7 +35,7 @@ class Dim():
         self.wait_init_correct = 0.2
         self.wait_correct_r = 0.2
         self.wait_correct_l = 0.2
-        self.wait_forward = 3.7
+        self.wait_forward = 5.1
         #parking wait
         self.wait_park = 0.5
 

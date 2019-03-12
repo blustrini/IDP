@@ -44,7 +44,7 @@ class Navigate(Task):
         
         #processing actions
         self.processes = {
-        '12' : (self.init_htl),
+        '12' : (self.init_htl_first),
         '23' : (self.align_back_wall_first,self.start_block_detect),
         '43' : (self.align_back_wall,self.start_block_detect),
         #'34' : (self.stop_pid,self.stop_block_detect,self.check_sweeps),
@@ -61,16 +61,11 @@ class Navigate(Task):
         '3' : self.switch_front,
         '4' : self.switch_back}
 
-    def stop_and_flush(self):
-        self.state = 0
-        self.clock_list = []
-
 
     def init_drop_payload(self):
         self.task_control.append(('Drop_Payload',1,1))
         time1 = time.time()
         wait1 = 2
-        func1 = self.stop_and_flush
         tuple1 = (time1,wait1,func1)
         self.clock_list.append(tuple1)
 
@@ -129,6 +124,17 @@ class Navigate(Task):
         #start,wait,func
         time1 = time.time()
         wait1 = self.Dim.wait_init_ht
+        func1 = self.half_turn_left
+        tuple1 = (time1,wait1,func1)
+        print(tuple1)
+        self.clock_list.append(tuple1)
+        return 1
+
+     #turning functions
+    def init_htl_first(self):
+        #start,wait,func
+        time1 = time.time()
+        wait1 = self.Dim.wait_init_ht + 1
         func1 = self.half_turn_left
         tuple1 = (time1,wait1,func1)
         print(tuple1)

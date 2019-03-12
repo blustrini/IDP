@@ -121,6 +121,7 @@ class Task():
     def activate(self,on,reset=True):
         if reset:
             self.state = 0
+            self.clock_list = []
         if on:
             self.active = 1
             print('{} activated into state {}'.format(self.name,self.state))

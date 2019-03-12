@@ -31,7 +31,7 @@ class Drop_Payload(Task):
         
         #processing actions
         self.processes = {
-        '01' : (self.init_htl),
+        '01' : (self.init_htl,self.turnoff_nav),
         '12' : (self.align_back_wall),
         '23' : (self.init_htr),
         '34' : (self.wait_for_blocks),
@@ -44,6 +44,9 @@ class Drop_Payload(Task):
         '3' : self.switch_front,
         '4' : self.switch_back
         }
+
+    def turnoff_nav(self):
+        self.task_control.append(('Navigate',0,0))
 
     def turnoff(self):
         self.active = 0
