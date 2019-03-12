@@ -24,6 +24,7 @@ class Navigate(Task):
         #dictionaries represent reaction to trigger based on current state
         self.switch_front = {
         0 : (('b',),0),          #move forward, goto state 1
+        #0 : (('F',),0),          #move forward, goto state 1
         1 : (('b'),2),             #move backward goto state 2
         2 : ((),2),             #unexpected trigger, maybe do some error fixing later
         #3 : (('p_s','s_block','b'),4),             #move back, goto state 4 #change!!!!
@@ -221,7 +222,7 @@ class Navigate(Task):
     def correct_left(self):
         time1 = time.time()
         wait1 = self.Dim.wait_correct_l
-        func1 = self.action_dict['f']
+        func1 = self.action_dict['F']
         tuple1 = (time1,wait1,func1)
         self.output.append(self.action_dict['L'])
         self.clock_list.append(tuple1)

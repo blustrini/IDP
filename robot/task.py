@@ -41,7 +41,8 @@ class Task():
         #'p_s' : b'\x16', #pid stop
         #'w_r' : b'\x17', #rotate pickup wheel
         #'w_s' : b'\x18', #start pickup wheel
-        'O' : b'\x12' #drop blocks onto plaform
+        'O' : b'\x12', #drop blocks onto plaform
+        'F' : b'\x13'
         }
         #initialise time saving attributes
         self.time = 0

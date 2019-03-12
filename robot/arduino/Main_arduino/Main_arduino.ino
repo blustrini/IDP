@@ -8,7 +8,9 @@
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
 Adafruit_DCMotor *myMotorR = AFMS.getMotor(1);
 Adafruit_DCMotor *myMotorL = AFMS.getMotor(2);
-int motorSpeedConst = 201;
+int motorSpeedRightFirst = 152;
+int motorSpeedLeftFirst = 152;
+int motorSpeedConst = 202;
 int motorSpeedVar = 200;
 int motorSpeedFast = 255;
 int motorSpeedSlowTurn = 80;
@@ -97,6 +99,14 @@ int analogIRPin = 1;
 int IRThreshold = 475; //CALIBRATE THIS
 
 //Motor functions
+void MoveForwardFirst(){
+  myMotorR->setSpeed(motorSpeedRightFirst);
+  myMotorR->run(FORWARD);
+  myMotorL->setSpeed(motorSpeedLeftFirst);
+  myMotorL->run(BACKWARD);
+  motorLEDBlink = true;
+}
+
 void MoveForward() {
   myMotorR->setSpeed(motorSpeedConst);
   myMotorR->run(FORWARD);
@@ -484,7 +494,7 @@ void loop() {
 
    //Hall detector code
    int HallDetectValue = analogRead(A0);
-   if (HallDetectValue > 200){
+   if (HallDetectValue > 250){
     if (millis() - last_detect > hall_wait) {
       last_detect = millis();
       Serial.println(6);
