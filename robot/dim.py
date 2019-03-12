@@ -19,7 +19,11 @@ class Dim():
         self.pid = False
         self.pid_side = 'r'
         #bloc detection waits
+        '''speeds ~200
         self.wait_hall = 1.5
+        '''
+        #speeds ~150
+        self.wait_hall = 2
         self.wait_block = 3
         self.wait_wheel = 3
         self.wait_drop = 5
