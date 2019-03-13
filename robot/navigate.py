@@ -34,7 +34,7 @@ class Navigate(Task):
         }
         
         self.switch_back = {
-        0 : (('b'),1),          #move forward, goto state 3
+        0 : (('f'),1),          #move forward, goto state 3
         1 : ((),1),             #ignore, stay in state 1
         2 : (('b'),3),             #add clock that aliogns robot with wall, goto state 3
         3 : ((),3),          #ignore
@@ -68,7 +68,8 @@ class Navigate(Task):
     def init_drop_payload(self):
         func1 = self.drop_payload
         time1 = time.time()
-        wait1 = 2
+        #wait1 = 2
+        wait1 = 5
         tuple1 = (time1,wait1,func1)
         self.clock_list.append(tuple1)
     
@@ -126,13 +127,23 @@ class Navigate(Task):
         self.Dim.pid = False
 
     def check_sweeps(self):
+        print('sweeps = {}'.format(self.sweeps))
         if self.sweeps >= 5:
+            '''
+            time1 = time.time()
+            wait1 = 1.5
+            func1 = self.to_state_5
+            tuple1 = (time1,wait1,func1)
+            self.clock_list.append(tuple1)
+            '''
             self.change_state(5)
         elif self.sweeps % 2 == 1:
             self.init_ftl()
+            self.sweeps += 1
         else:
             self.init_ftr()
-        self.sweeps += 1
+            self.sweeps += 1
+        
 
     #turning functions
     def init_htl_final(self):
@@ -171,11 +182,16 @@ class Navigate(Task):
         #start,wait,func
         time1 = time.time()
         wait1 = self.Dim.wait_ht
-        func1 = self.action_dict['f']
+        #func1 = self.action_dict['f']
+        func1 = self.after_half_turn_left_final
         tuple1 = (time1,wait1,func1)
+        print(tuple1)
         self.output.append(self.action_dict['l'])
         self.clock_list.append(tuple1)
         return 1
+    
+    def after_half_turn_left_final(self):
+        self.output.append(self.action_dict['f'])
     
     def half_turn_left(self):
         #start,wait,func
@@ -243,17 +259,26 @@ class Navigate(Task):
         #start,wait,func
         time1 = time.time()
         wait1 = self.Dim.wait_pivot
-        func1 = self.reverse_before_soft_left
+        func1 = self.forwards_before_reverse_l
+        #func1 = self.reverse_before_soft_left
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.output.append(self.action_dict['L'])        
         self.clock_list.append(tuple1)
         return 1
     
+    def forwards_before_reverse_l(self):
+        time1 = time.time()
+        wait1 = self.Dim.wait_forward_reject
+        func1 = self.reverse_before_soft_left
+        tuple1 = (time1,wait1,func1)
+        self.clock_list.append(tuple1)
+        self.output.append(self.action_dict['f'])
+    
     def reverse_before_soft_left(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = self.Dim.wait_init_st
+        wait1 = self.Dim.wait_init_st + self.Dim.wait_forward_reject #remove second wait if not going forward
         func1 = self.soft_left
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -287,6 +312,7 @@ class Navigate(Task):
         #start,wait,func
         time1 = time.time()
         wait1 = self.Dim.wait_pivot
+        #func1 = self.forwards_before_reverse_r
         func1 = self.reverse_before_soft_right
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -294,10 +320,18 @@ class Navigate(Task):
         self.clock_list.append(tuple1)
         return 1
     
+    def forwards_before_reverse_r(self):
+        time1 = time.time()
+        wait1 = self.Dim.wait_forward_reject
+        func1 = self.reverse_before_soft_right
+        tuple1 = (time1,wait1,func1)
+        self.clock_list.append(tuple1)
+        self.output.append(self.action_dict['f'])
+    
     def reverse_before_soft_right(self):
         #start,wait,func
         time1 = time.time()
-        wait1 = self.Dim.wait_init_st
+        wait1 = self.Dim.wait_init_st #+ self.Dim.wait_forward_reject #remove if not going forwards
         func1 = self.soft_right
         tuple1 = (time1,wait1,func1)
         print(tuple1)
@@ -323,8 +357,12 @@ class Navigate(Task):
         func1 = self.to_state_3
         tuple1 = (time1,wait1,func1)
         print(tuple1)
+        self.clock_list.append(tuple1)
         self.output.append(self.action_dict['b'])
     
     def to_state_3(self):
         self.change_state(3)
+    
+    def to_state_5(self):
+        self.change_state(5)
     

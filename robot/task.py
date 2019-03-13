@@ -71,6 +71,7 @@ class Task():
         #create the key for the processes dictionary
         key = str(self.state)+str(next_state)
         self.state = next_state
+        print(self.name + ' state changed {}'.format(key))
         #call the relevant processes
         try:
             for function in self.processes[key]:
@@ -82,9 +83,6 @@ class Task():
             func()
         except KeyError:
             pass
-            #print('{} not in process dict'.format(key))
-        print(self.name + ' state changed {}'.format(key))            
-        
         return 1
 
     #start a timer

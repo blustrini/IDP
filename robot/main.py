@@ -50,7 +50,6 @@ Test_Servos.active = 0
 
 Navigate.state = 0
 
-
 #main loop
 while True:
     #get serial input

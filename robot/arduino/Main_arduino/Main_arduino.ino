@@ -10,8 +10,10 @@ Adafruit_DCMotor *myMotorR = AFMS.getMotor(1);
 Adafruit_DCMotor *myMotorL = AFMS.getMotor(2);
 int motorSpeedRightFirst = 153;
 int motorSpeedLeftFirst = 152;
-int motorSpeedConst = 155;
+int motorSpeedConst = 152;
 int motorSpeedVar = 150;
+//int motorSpeedConst = 102;
+//int motorSpeedVar = 100;
 int motorSpeedFast = 255;
 int motorSpeedSlowTurn = 80;
 int motorSpeedSlowStraight = 230;
@@ -42,8 +44,8 @@ int blockReleaseServoPos = 20; //closed 135 open 20
 
 //Servo for block switch
 Servo switchServo;
-int switchServoPosAcc = 135;
-int switchServoPosRej = 90; //need to be calibrated
+int switchServoPosAcc = 130;
+int switchServoPosRej = 75; //need to be calibrated
 int switchServoPosBlock = 40;
 
 //servo delays

@@ -34,7 +34,7 @@ void loop() {
 
 
   delay(500);
-  blockReleaseServo.write(65);
+  blockReleaseServo.write(75);
   delay(500);
 // SERVO 120: ACCEPT, 75: REJECT, 40: CLOSED
 }
