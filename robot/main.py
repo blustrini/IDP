@@ -40,14 +40,14 @@ tasks_dict = {
     'Block_Detect':Block_Detect,
     'Drop_Payload':Drop_Payload
 }
+#Activate correct tasks
 Park.active = 0
 Calibrate_Dist.active = 0
 Navigate.active = 1
-#Block_Pickup.active = 0
 Block_Detect.active = 1
 Drop_Payload.active = 0
 Test_Servos.active = 0
-
+#Initialise tasks in correct state
 Navigate.state = 0
 
 #main loop
@@ -96,9 +96,3 @@ while True:
 
     #reset serial
     serial_in = ''
-
-'''
-Think about timing here, especailly in the write_serial loop. Perhaps some handshaking is required, etc...
-Furthermore, serial_in could be modified to return a list of the most important triggers from the serial since the last reset of the loop
---> this would make the whol ething work regardless of the loop time
-'''

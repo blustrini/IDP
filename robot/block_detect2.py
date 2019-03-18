@@ -1,5 +1,9 @@
 from task import *
 
+'''
+This task operates the magnetic bloc rejection
+'''
+
 class Block_Detect(Task):
     def __init__(self,Dim):
         #initialise superobject
@@ -30,6 +34,7 @@ class Block_Detect(Task):
         }
 
     def timeout_hall(self):
+    	#time before block selection switch chosen
         time1 = time.time()
         wait = self.Dim.wait_hall  #how long robot will wait for hall trigger
         func1 = self.reset
@@ -37,9 +42,11 @@ class Block_Detect(Task):
         self.clock_list.append(list1)
 
     def reset(self):
+    	#reset detection after magnetic block rejection timeout
         self.change_state(0)
 
     def open_switch(self):
+    	#reset switch into accepting mode
         self.output.append(self.action_dict['A'])
 
 

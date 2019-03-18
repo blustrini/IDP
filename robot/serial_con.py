@@ -57,6 +57,7 @@ def read_next_line(board,decode=False,strip=True):
 
 
 def flush_buffer(board):
+	#flushes buffer in case python loop falls behind arduino
     latest = board.readline()
     discarded = [latest]
     i = 0

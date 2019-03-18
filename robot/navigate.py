@@ -8,6 +8,10 @@ Created on Mon Feb 25 12:50:33 2019
 import time
 from task import *
 
+'''
+Task handles entering the field and sweeping
+'''
+
 class Navigate(Task):
     def __init__(self,Dim):
         #initialise super object
@@ -66,6 +70,7 @@ class Navigate(Task):
 
 
     def init_drop_payload(self):
+    	#initialise drop_payload task
         func1 = self.drop_payload
         time1 = time.time()
         #wait1 = 2
@@ -77,14 +82,17 @@ class Navigate(Task):
         self.task_control.append(('Drop_Payload',1,1))
 
     def stop_block_detect(self):
+    	#block detection is stopped during turning to allow for pile-ups to flush out through rejection chute
         self.task_control.append(('Block_Detect',0,1))
 
     def start_block_detect(self):
+    	#reinstate block_detect
         self.task_control.append(('Block_Detect',1,1))
         #self.output.append(self.action_dict['A'])
        
-       #ram into back wall to mae robot straight
+       
     def align_back_wall(self):
+    	#ram into back wall to make robot straight
         print('align back wall')
         time1 = time.time()
         wait1 = self.Dim.wait_align
@@ -112,6 +120,9 @@ class Navigate(Task):
         tuple1 = (time1,wait1,func1)
         print(tuple1)
         self.clock_list.append(tuple1)
+
+       '''
+       deprecated pid code
         
     def start_pid(self):
         if self.sweeps % 2 == 1:
@@ -126,7 +137,9 @@ class Navigate(Task):
     def stop_pid(self):
         self.Dim.pid = False
 
+		'''
     def check_sweeps(self):
+    	#check how many sweeps have been done todetermine turning direction
         print('sweeps = {}'.format(self.sweeps))
         if self.sweeps >= 5:
             '''
@@ -204,6 +217,7 @@ class Navigate(Task):
         return 1
 
     def init_correct(self):
+    	#correct for the first turn when entering the field
         time1 = time.time()
         wait1 = self.Dim.wait_init_correct
         func1 = self.correct_right
@@ -359,7 +373,8 @@ class Navigate(Task):
         print(tuple1)
         self.clock_list.append(tuple1)
         self.output.append(self.action_dict['b'])
-    
+
+    #some functions to call state changes after delays
     def to_state_3(self):
         self.change_state(3)
     

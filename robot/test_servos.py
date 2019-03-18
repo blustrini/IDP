@@ -1,5 +1,9 @@
 from task import *
 
+'''
+Test not used in final version
+'''
+
 class Test_Servos(Task):
     def __init__(self,Dim):
         #initialise superobject

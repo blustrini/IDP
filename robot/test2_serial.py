@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 import time
 import glob
 
+'''
+Wasn't used in final version
+'''
 
 def find_usb_port():
     #gets list of ports

@@ -4,6 +4,8 @@
 Created on Thu Feb 21 10:03:14 2019
 
 @author: ongrayyi
+
+Class that houses all variables to be tuned
 """
 
 class Dim():

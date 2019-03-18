@@ -22,6 +22,7 @@ class Task():
         self.state = 0
         #output
         self.output = []
+        #dictionary of all possible commands to be written tothe arduino
         self.action_dict = {
         'f' : b'\x01',
         'b' : b'\x02',
@@ -44,12 +45,10 @@ class Task():
         'O' : b'\x12' #drop blocks onto plaform
         #'F' : b'\x00'
         }
-        #initialise time saving attributes
-        self.time = 0
-        self.time_list = []
-        #initialise clock_list (init,wait,function)
+
+        #initialise clock_list (start_time,delay,function) used to call functions after adelay
         self.clock_list = []
-        #initialise task_control (task_name,on/off,reset)
+        #initialise task_control (task_name,on/off,reset) used to turn other tasks on and off
         self.task_control = []
 
     #get list of instructions, in the given order
@@ -100,6 +99,7 @@ class Task():
         return 1
 
     def update(self):
+    	#checks if any timers have run out from clock_list
         time1 = time.time()
         for item in self.clock_list:
             if time1-item[0] >= item[1]:
@@ -119,6 +119,7 @@ class Task():
                 self.clock_list.remove(item)  
 
     def activate(self,on,reset=True):
+    	#method toactivate task
         if reset:
             self.state = 0
             self.clock_list = []

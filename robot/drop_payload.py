@@ -1,5 +1,9 @@
 from task import *
 
+'''
+This task handles driving to the depositing station and depositing blocks
+'''
+
 class Drop_Payload(Task):
     def __init__(self,Dim):
         #initialise superobject
@@ -46,12 +50,15 @@ class Drop_Payload(Task):
         }
 
     def turnoff_nav(self):
+    	#turn off navigation task once danger zone has been left
         self.task_control.append(('Navigate',0,0))
 
     def turnoff(self):
+    	#turnoff self once parking has initiated
         self.active = 0
 
     def wait_for_blocks(self):
+    	#delay to allow time for blocs to fall onto collection platform
         time1 = time.time()
         wait1 = self.Dim.wait_drop
         func1 = self.init_statechange_45
@@ -139,6 +146,7 @@ class Drop_Payload(Task):
 
 
     def drive_to_centre(self):
+    	#drives to the centre of the arena based of off previously calibrated speed variable
         time1 = time.time()
         wait1 = (0.5*self.Dim.arena_width-self.Dim.robot_length)/self.Dim.speed
         func1 = self.init_statechange_23

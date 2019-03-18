@@ -1,6 +1,10 @@
 import time
 from task import *
 
+'''
+Task parks teh robot after blocks have been dropeed
+'''
+
 class Park(Task):
     def __init__(self,Dim):
         #initialise super object
